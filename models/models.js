@@ -27,11 +27,29 @@ var userSchema = new mongoose.Schema({
   connections: [{type: mongoose.Schema.Types.ObjectId, ref: 'User'}],
   rating: {
     type: Number
-  }
+  },
   admin: {
     type: Boolean,
     default: false
   },
+},
+{ timestamps: true }
+);
+
+var activitySchema = new mongoose.Schema({
+  //How can we keep track of User Activity?
+  firstName: {
+    type: String,
+    required: true
+  },
+  lastName: {
+    type: String,
+    required: true
+  },
+  description: {
+    type: String,
+    default: ""
+  }
 },
 { timestamps: true }
 );
