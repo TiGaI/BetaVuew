@@ -1,5 +1,5 @@
-export const LOGIN = 'LOGIN';
-export const NAV = "NAV";
-export const NAVTO = "NAVTO";
-export const NAV_TO_POP = "NAV_TO_POP";
-export const CHANGE_NAV_STYLE = "CHANGE_NAV_STYLE";
+export const CHANGE_PAGE = 'CHANGE_PAGE';
+export const CHANGE_CATEGORY = "CHANGE_CATEGORY";
+export const SCROLL_ACTIVITIES = "SCROLL_ACTIVITIES";
+export const SELECT_ACTIVITY = "SELECT_ACTIVITY";
+export const SWIPE_ACTIVITY_INFO = "SWIPE_ACTIVITY_INFO";
