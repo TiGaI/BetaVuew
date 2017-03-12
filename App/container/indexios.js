@@ -1,41 +1,43 @@
-import React, { Component } from 'react';
-import { AppRegistry, StyleSheet, Text, View, TextInput, TouchableOpacity, NavigatorIOS, ListView, Alert, AsyncStorage, Image } from 'react-native';
-import SocketIOClient from 'socket.io-client';
+import React, { Component, PropTypes } from 'react';
+import { View, AsyncStorage } from 'react-native';
+import { createStore, compose, applyMiddleware, combineReducers } from 'redux';
+import { persistStore } from 'redux-persist';
+import thunkMiddleware from 'redux-thunk';
+import { Provider, connect } from 'react-redux';
+import { Router, Scene } from 'react-native-router-flux';
+
+import reducers from '../reducers';
+
+import AuthContainer from './Auth';
+
+const store = compose(applyMiddleware(thunkMiddleware))(createStore)(reducers);
+persistStore(store, { storage: AsyncStorage });
 
 
-import Components from '../components/index';
-
-export default class BetaVuew extends Component {
+export default class Indexios extends Component {
   constructor(props) {
     super(props);
-    this.socket = SocketIOClient('http://localhost:8080', {
-      transports: ['websocket']
-    })
   }
   render() {
     return (
-      <View style={ styles.container }>
-        <Components/>
-      </View>
-      );
+      <Provider store={store}>
+      <View style={styles.container}>
+        <ReduxRouter
+          sceneStyle={{ flex: 1 }}
+          navigationBarStyle={styles.navigationBar}
+          titleStyle={styles.title}
+        >
+          <Scene key="root" hideNavBar={true}>
+                  <Scene
+                    key="auth"
+                    component={AuthContainer}
+                    title="Auth"
+                    initial={true}
+                  />
+                </Scene>
+              </ReduxRouter>
+            </View>
+      </Provider>
+    );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
-});

@@ -14,24 +14,28 @@ const passport = require('passport');
 
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.get('/auth/facebook',
-  passport.authenticate('facebook'));
-
-app.get('/auth/facebook/callback',
-  passport.authenticate('facebook'),
-  function(req, res) {
-    res.redirect('/');
-  });
-
-app.get('/auth/linkedin',
-  passport.authenticate('linkedin'));
-
-app.get('/auth/linkedin/callback',
-  passport.authenticate('linkedin'),
-  function(req, res) {
-    res.redirect('/');
+app.post('/facebook/login', function(req, res){
+  User.findOne({email: req.body.emails[0].value}, function(err, user) {
+          if (err) {
+              return err;
+          }
+          if (!user) {
+              var fullName = req.profile.displayName.split(' ');
+              var firstName = fullName[0];
+              var lastName = fullName[fullName.length - 1];
+              user = new User({
+                  firstName: firstName,
+                  lastName: lastName,
+                  email: req.profile.emails[0].value,
+                  profileImg: req.profile.photos ? req.profile.photos[0].value : 'http://shurl.esy.es/y'
+              });
+              user.save(function(err) {
+                  if (err) console.log(err);
+                  return user;
+              });
+          }
+      });
 });
-
 
 
 var port = process.env.PORT || 8080;
