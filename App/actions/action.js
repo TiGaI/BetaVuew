@@ -1,40 +1,32 @@
 import * as types from './actionTypes';
 
 
-export function login(navProps, res) {
-  console.log(res);
+// export function login(navProps, res) {
+//   console.log(res);
+//   return {
+//     type: types.LOGIN,
+//     nav:navProps,
+//     data: res
+//   };
+// }
+export function changeCategory(currCategory){
   return {
-    type: types.LOGIN,
-    nav:navProps,
-    data: res
-  };
-}
-export function setNav(nav) {
-  console.log(nav)
-  return {
-    type: types.NAV,
-    navigator : nav
-  };
-}
-
-export function changeNav(propz){
-  console.log(propz)
-  return{
-  type: types.CHANGE_NAV_STYLE,
-  prop: propz
+    type: types.CHANGE_CATEGORY,
+    currentCategory: currCategory
   }
 }
 
-export function navToPop(propz){
-  console.log(propz)
-  return{
-  type: types.NAV_TO_POP,
-  name: propz
+export function selectActivity(activity) {
+  return {
+    type: types.SELECT_ACTIVITY,
+    selectedActivity: activity
+
   }
 }
-export function navigate(id){
+
+export function fetchData(){
   return {
-    type: types.NAVTO,
-    props : id
+    types: types.SCROLL_ACTIVITIES,
+
   }
 }
