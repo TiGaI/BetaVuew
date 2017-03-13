@@ -211,7 +211,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   }
 });
-
+// 
+//
+// { (this.setState().nav === "component1")? <Component1/> : null}
+// {{ (this.setState().nav === "component2")? <Component2/> : null}}
 
 
 module.exports = Index;
