@@ -3,9 +3,9 @@ import { AppRegistry, StyleSheet, Text, View, TextInput, TouchableOpacity, Navig
 import SocketIOClient from 'socket.io-client';
 
 
-import Components from '../components/index';
+import BetaVuew from '../components/index';
 
-export default class BetaVuew extends Component {
+export default class BetaVuew1 extends Component {
   constructor(props) {
     super(props);
     this.socket = SocketIOClient('http://localhost:8080', {
@@ -14,9 +14,7 @@ export default class BetaVuew extends Component {
   }
   render() {
     return (
-      <View style={ styles.container }>
-        <Components/>
-      </View>
+        <BetaVuew />
       );
   }
 }

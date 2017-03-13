@@ -1,6 +1,6 @@
 
 import React, { Component, PropTypes } from 'react';
-import { AppRegistry, ScrollView, StyleSheet, Text, View, TextInput, TouchableOpacity, NavigatorIOS, ListView, Alert, AsyncStorage, Image } from 'react-native';
+import { AppRegistry, ScrollView, StyleSheet, Text, View, TextInput, NavigatorIOS, TouchableOpacity, ListView, Alert, AsyncStorage, Image } from 'react-native';
 import Swiper from 'react-native-swiper'
 import randomcolor from 'randomcolor'
 
@@ -44,21 +44,21 @@ var favs = [
 ]
 
 var images = [
-image1,
-image2
-
+  image1,
+  image2
 ]
 
 export default class BetaVuew extends Component {
   render() {
+    console.log('HEREEEEE!');
     return (
       <NavigatorIOS
-      initialRoute={{
-        component: Index,
-        title: 'Index'
-      }}
-      style={{flex: 1}}
-      navigationBarHidden={true}
+        initialRoute={{
+          component: Index,
+          title: 'Index'
+        }}
+        style={{flex: 1}}
+        navigationBarHidden={true}
       />
     )
   }
@@ -79,7 +79,8 @@ var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 
 class Index extends Component {
   constructor(props){
-    super(props)
+    super(props);
+    console.log('props', props);
     this.state = {
       dataviewed:ds.cloneWithRows(viewed),
       datafav:ds.cloneWithRows(favs),
@@ -94,11 +95,12 @@ viewStyle() {
       alignItems: 'center',
     });
   }
-press() {
+press(val) {
   console.log('hey');
   console.log(this.props);
     this.props.navigator.replace({
-        component: Swipe
+        component: Swipe,
+        passProps: val
     });
 }
 endReached(){
@@ -109,29 +111,29 @@ endReached(){
 render() {
     return(
       <View style={{flex:1}}>
-      <View style={{flex:1}}>
-      <ScrollView style={{flex:1}}>
-      <View style={styles.container2}>
-      <Text style={styles.title}>Sports</Text>
-      <ListView
-      dataSource = {this.state.datafav}
-      renderRow={(val) =>
-        <TouchableOpacity onPress={this.press.bind(this,val)}>
-        <Image source={val.image} resizeMode="stretch" style={{width:330, height:220, margin:5,marginBottom:30, justifyContent:'center', alignItems:'center'}}>
-        <Text style={{backgroundColor:'rgba(0,0,0,0)', textAlign:'center', color:'#fff', fontSize:25, fontWeight:'700'}}>{val.name}</Text>
-        <Text style={{backgroundColor:'rgba(0,0,0,0)', color:'#fff',fontSize:13, fontWeight:'600'}}>{val.homes} homes</Text>
-        </Image>
-        </TouchableOpacity>
-      }
-      horizontal = {true}
-      showsHorizontalScrollIndicator = {false}
-      onEndReachedThreshold = {500}
-      onEndReached={this.endReached.bind(this)}
-      />
+        <View style={{flex:1}}>
+        <ScrollView style={{flex:1}}>
+        <View style={styles.container2}>
+        <Text style={styles.title}>Sports</Text>
+        <ListView
+        dataSource = {this.state.datafav}
+        renderRow={(val) =>
+          <TouchableOpacity onPress={this.press.bind(this, val)}>
+          <Image source={val.image} resizeMode="stretch" style={{width:330, height:220, margin:5,marginBottom:30, justifyContent:'center', alignItems:'center'}}>
+          <Text style={{backgroundColor:'rgba(0,0,0,0)', textAlign:'center', color:'#fff', fontSize:25, fontWeight:'700'}}>{val.name}</Text>
+          <Text style={{backgroundColor:'rgba(0,0,0,0)', color:'#fff',fontSize:13, fontWeight:'600'}}>{val.homes} homes</Text>
+          </Image>
+          </TouchableOpacity>
+        }
+        horizontal = {true}
+        showsHorizontalScrollIndicator = {false}
+        onEndReachedThreshold = {500}
+        onEndReached={this.endReached.bind(this)}
+        />
+        </View>
+        </ScrollView>
+        </View>
       </View>
-      </ScrollView>
-      </View>
-    </View>
     )
   }
 }
@@ -142,14 +144,23 @@ class Swipe extends Component{
     super(props)
 
   }
+  viewStyle() {
+    return {
+      flex: 1,
+      backgroundColor: randomcolor(),
+      justifyContent: 'center',
+      alignItems: 'center',
+    }
+  }
   render(){
+    console.log("THIS ONE", this.props)
     return (
       <Swiper
         loop={false}
         showsPagination={false}
         index={1}>
         <View style={this.viewStyle()}>
-          <TitleText label="left" />
+          <TitleText label={this.props.name} />
         </View>
         <Swiper
           horizontal={false}
@@ -157,17 +168,11 @@ class Swipe extends Component{
           showsPagination={false}
           index={1}>
           <View style={this.viewStyle()}>
-            <TitleText label="Top" />
-          </View>
-          <View style={this.viewStyle()}>
-            <TitleText label="Home" />
-          </View>
-          <View style={this.viewStyle()}>
-            <TitleText label="Bottom" />
+            <TitleText label={this.props.image} />
           </View>
         </Swiper>
         <View style={this.viewStyle()}>
-          <TitleText label="Right" />
+          <TitleText label={this.props.homes} />
         </View>
       </Swiper>
 
@@ -204,4 +209,4 @@ const styles = StyleSheet.create({
 // {{ (this.setState().nav === "component2")? <Component2/> : null}}
 
 
-module.exports = Index;
+// module.exports = Index;
