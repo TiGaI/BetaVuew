@@ -1,5 +1,5 @@
 
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { AppRegistry, ScrollView, StyleSheet, Text, View, TextInput, TouchableOpacity, NavigatorIOS, ListView, Alert, AsyncStorage, Image } from 'react-native';
 import Swiper from 'react-native-swiper'
 import randomcolor from 'randomcolor'
@@ -49,7 +49,22 @@ image2
 
 ]
 
-class TitleText extends React.Component {
+export default class BetaVuew extends Component {
+  render() {
+    return (
+      <NavigatorIOS
+      initialRoute={{
+        component: Index,
+        title: 'Index'
+      }}
+      style={{flex: 1}}
+      navigationBarHidden={true}
+      />
+    )
+  }
+}
+
+class TitleText extends Component {
   render() {
     return (
       <Text style={{ fontSize: 48, color: 'white' }}>
@@ -62,7 +77,7 @@ class TitleText extends React.Component {
 
 var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 
-export default class Index extends Component {
+class Index extends Component {
   constructor(props){
     super(props)
     this.state = {
@@ -71,85 +86,43 @@ export default class Index extends Component {
       clicked: true
     }
   }
-
-  favourites(val){
-     return(
-      <TouchableOpacity onPress={this.press.bind(this,val)}>
-      <Image source={val.image} resizeMode="stretch" style={{width:330, height:220, margin:5,marginBottom:30, justifyContent:'center', alignItems:'center'}}>
-      <Text style={{backgroundColor:'rgba(0,0,0,0)', textAlign:'center', color:'#fff', fontSize:25, fontWeight:'700'}}>{val.name}</Text>
-      <Text style={{backgroundColor:'rgba(0,0,0,0)', color:'#fff',fontSize:13, fontWeight:'600'}}>{val.homes} homes</Text>
-      </Image>
-      </TouchableOpacity>
-      )
-  }
-  componentDidMount(){
-}
 viewStyle() {
-    return {
+    return ({
       flex: 1,
       backgroundColor: randomcolor(),
       justifyContent: 'center',
       alignItems: 'center',
-    }
+    });
   }
-press(val) {
-  console.log(val);
-  this.setState({
-    clicked: false
-  });
+press() {
+  console.log('hey');
+  console.log(this.props);
+    this.props.navigator.replace({
+        component: Swipe
+    });
 }
 endReached(){
   console.log('hit end')
   favs = favs.concat(favs);
   this.setState({datafav: ds.cloneWithRows(favs)})//this.state.datafav.concat(favs))})
 }
-  render(){
+render() {
     return(
       <View style={{flex:1}}>
-      {this.state.clicked ?
-      (<View style={{flex:1}}>
+      <View style={{flex:1}}>
       <ScrollView style={{flex:1}}>
       <View style={styles.container2}>
       <Text style={styles.title}>Sports</Text>
       <ListView
       dataSource = {this.state.datafav}
-      renderRow={(rowData) => this.favourites(rowData)}
-      horizontal = {true}
-      showsHorizontalScrollIndicator = {false}
-      onEndReachedThreshold = {500}
-      onEndReached={this.endReached.bind(this)}
-      />
-      <Text style={styles.title}>Art</Text>
-      <ListView
-      dataSource = {this.state.datafav}
-      renderRow={(rowData) => this.favourites(rowData)}
-      horizontal = {true}
-      showsHorizontalScrollIndicator = {false}
-      onEndReachedThreshold = {500}
-      onEndReached={this.endReached.bind(this)}
-      />
-      <Text style={styles.title}>Food</Text>
-      <ListView
-      dataSource = {this.state.datafav}
-      renderRow={(rowData) => this.favourites(rowData)}
-      horizontal = {true}
-      showsHorizontalScrollIndicator = {false}
-      onEndReachedThreshold = {500}
-      onEndReached={this.endReached.bind(this)}
-      />
-      <Text style={styles.title}>Food</Text>
-      <ListView
-      dataSource = {this.state.datafav}
-      renderRow={(rowData) => this.favourites(rowData)}
-      horizontal = {true}
-      showsHorizontalScrollIndicator = {false}
-      onEndReachedThreshold = {500}
-      onEndReached={this.endReached.bind(this)}
-      />
-      <Text style={styles.title}>Food</Text>
-      <ListView
-      dataSource = {this.state.datafav}
-      renderRow={(rowData) => this.favourites(rowData)}
+      renderRow={(val) =>
+        <TouchableOpacity onPress={this.press.bind(this,val)}>
+        <Image source={val.image} resizeMode="stretch" style={{width:330, height:220, margin:5,marginBottom:30, justifyContent:'center', alignItems:'center'}}>
+        <Text style={{backgroundColor:'rgba(0,0,0,0)', textAlign:'center', color:'#fff', fontSize:25, fontWeight:'700'}}>{val.name}</Text>
+        <Text style={{backgroundColor:'rgba(0,0,0,0)', color:'#fff',fontSize:13, fontWeight:'600'}}>{val.homes} homes</Text>
+        </Image>
+        </TouchableOpacity>
+      }
       horizontal = {true}
       showsHorizontalScrollIndicator = {false}
       onEndReachedThreshold = {500}
@@ -157,14 +130,26 @@ endReached(){
       />
       </View>
       </ScrollView>
-      </View>)
-      :
-      (<Swiper
+      </View>
+    </View>
+    )
+  }
+}
+
+
+class Swipe extends Component{
+  constructor(props){
+    super(props)
+
+  }
+  render(){
+    return (
+      <Swiper
         loop={false}
         showsPagination={false}
         index={1}>
         <View style={this.viewStyle()}>
-          <TitleText label="Left" />
+          <TitleText label="left" />
         </View>
         <Swiper
           horizontal={false}
@@ -184,12 +169,14 @@ endReached(){
         <View style={this.viewStyle()}>
           <TitleText label="Right" />
         </View>
-      </Swiper>)
-    }
-    </View>
+      </Swiper>
+
     )
   }
+
 }
+
+
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#ff585b',
@@ -211,7 +198,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   }
 });
-// 
+//
 //
 // { (this.setState().nav === "component1")? <Component1/> : null}
 // {{ (this.setState().nav === "component2")? <Component2/> : null}}
