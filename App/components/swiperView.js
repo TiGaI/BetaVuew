@@ -3,15 +3,38 @@ import { AppRegistry, ScrollView, StyleSheet, Text, View, TextInput, TouchableOp
 import Swiper from 'react-native-swiper'
 import randomcolor from 'randomcolor'
 
-const SwiperView = React.createClass({
+class TitleText extends Component {
+  render() {
+    return (
+      <Text style={{ fontSize: 48, color: 'white' }}>
+        {this.props.label}
+      </Text>
+    )
+  }
+}
+
+class Swipe extends Component{
+  constructor(props){
+    super(props)
+
+  }
+  viewStyle() {
+    return {
+      flex: 1,
+      backgroundColor: randomcolor(),
+      justifyContent: 'center',
+      alignItems: 'center',
+    }
+  }
   render(){
-    return(
+    console.log("THIS ONE", this.props)
+    return (
       <Swiper
         loop={false}
         showsPagination={false}
         index={1}>
         <View style={this.viewStyle()}>
-          <TitleText label="Left" />
+          <TitleText label={this.props.name} />
         </View>
         <Swiper
           horizontal={false}
@@ -19,20 +42,18 @@ const SwiperView = React.createClass({
           showsPagination={false}
           index={1}>
           <View style={this.viewStyle()}>
-            <TitleText label="Top" />
-          </View>
-          <View style={this.viewStyle()}>
-            <TitleText label="Home" />
-          </View>
-          <View style={this.viewStyle()}>
-            <TitleText label="Bottom" />
+            <TitleText label={this.props.image} />
           </View>
         </Swiper>
         <View style={this.viewStyle()}>
-          <TitleText label="Right" />
+          <TitleText label={this.props.homes} />
         </View>
-      </Swiper>)
-    }
-  });
+      </Swiper>
 
-module.exports = SwiperView;
+    )
+  }
+
+}
+
+
+module.exports = Swipe;

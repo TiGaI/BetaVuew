@@ -31,9 +31,7 @@ const styles = StyleSheet.create({
 
 function render(){
   return (
-    <View style={ styles.container }>
       <Components store={store} Actions={Actions} />
-    </View>
     );
 }
 render();

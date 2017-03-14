@@ -1,12 +1,63 @@
 
 import React, { Component } from 'react';
 import { AppRegistry, ScrollView, StyleSheet, Text, View, TextInput, TouchableOpacity, NavigatorIOS, ListView, Alert, AsyncStorage, Image } from 'react-native';
+import { Navigator } from 'react-native';
 import Swiper from 'react-native-swiper'
 import randomcolor from 'randomcolor'
 
 import ActivitiesPage from './activitiesPage'
 import SwiperView from './swiperView'
 
+// import { NavigationExperimental } from 'react-native';
+// import React, { Component } from 'react';
+// import { connect } from 'react-redux';
+// import { actions } from 'react-native-navigation-redux-helpers';
+//
+// const {
+//   popRoute,
+//   pushRoute,
+// } = actions;
+//
+// const {
+//   CardStack: NavigationCardStack
+// } = NavigationExperimental;
+//
+// class GlobalNavigation extends Component {
+//     render() {
+//         return (
+//       <NavigationCardStack
+//         navigationState={this.props.navigation}
+//         renderOverlay={this._renderOverlay}
+//         renderScene={this._renderScene}
+//       />
+//         );
+//     }
+//
+//     onGoBack() {
+//     const { dispatch, navigation } = this.props;
+//     dispatch(popRoute(navigation.key));
+//     }
+//
+//   onGoSomewhere() {
+//     const { dispatch, navigation } = this.props;
+//     dispatch(pushRoute({ key: 'sowhere else' }, navigation.key));
+//   }
+// }
+//
+// function mapDispatchToProps(dispatch) {
+//     return {
+//         dispatch
+//     };
+// }
+//
+// function mapStateToProps(state) {
+//     return {
+//         // XX: assuming you've registered the reducer above under the name 'cardNavigation'
+//         navigation: state.cardNavigation
+//     };
+// }
+//
+// export default connect(mapStateToProps, mapDispatchToProps)(GlobalNavigation);
 
 // var viewed = [{
 //   "id": 1,
@@ -104,16 +155,65 @@ import SwiperView from './swiperView'
 //   favs = favs.concat(favs);
 //   this.setState({datafav: ds.cloneWithRows(favs)})//this.state.datafav.concat(favs))})
 // }
+
+class TitleText extends Component {
+  render() {
+    return (
+      <Text style={{ fontSize: 48, color: 'white' }}>
+        {this.props.label}
+      </Text>
+    )
+  }
+}
+
+
 export default class Index extends Component {
 
+
+
+  // renderScene(route, navigator) {
+  //   var {store,actions} = this.props;
+  //   console.log("STORE", store)
+  //   console.log("navigator", navigator);
+  //   var routeId = store.getState().nav;
+  //   console.log(routeId)
+  //   if (routeId === "ActivitiesPage") {
+  //     console.log("I am here")
+  //     // return<Text>Hello</Text>
+  //     return (<ActivitiesPage store={this.props.store} Actions={this.props.Actions} navigator = {navigator}/>);
+  //   };
+  //   if (routeId === "Activity") {
+  //     return (<SwiperView store={this.props.store} Actions={this.props.Actions} navigator = {navigator} />);
+  //   }
+  // }
+  //
+  // log(log){
+  //   console.log('in log')
+  //   console.log(log)
+  // }
+
   render(){
-    console.log(this.props.store.getState());
-    console.log(this.props.Actions)
-    return(<View style = {{flex:1}}>
-      {(this.props.store.getState().nav === "ActivitiesPage") ? <ActivitiesPage store={this.props.store} Actions={this.props.Actions} /> : null}
-      { (this.props.store.getState().nav === "Activity") ? <SwiperView store={this.props.store} Actions={this.props.Actions} /> : null }
-      </View>)
-  }
+
+    const { store, Actions } = this.props;
+    console.log("RENDER", store.getState());
+    console.log("RENDER", Actions)
+      return (<View style={{flex:1}}><NavigatorIOS
+        style={{flex: 1}}
+        initialRoute={{
+            component: ActivitiesPage,
+            title: 'ActivitiesPage'
+          }}
+          navigationBarHidden={true}></NavigatorIOS></View>
+      )
+    }
+
+    // (<View style={{flex: 1}}><Text>SOMETHING SUPEERERERERERER LONG</Text><Navigator
+    // style={{flex: 1}}
+    // // ref={"NAV"}
+    // // initialRoute={{id: "ActivitiesPage", name: "ActivitiesPage", title: "ActivitiesPage", index: 0}}
+    // renderScene={this.renderScene.bind(this)}>{this.props.renderScene}></Navigator></View>)
+    //   // {(this.props.store.getState().nav === "ActivitiesPage") ? <ActivitiesPage store={this.props.store} Actions={this.props.Actions} /> : null}
+    //   // { (this.props.store.getState().nav === "Activity") ? <SwiperView store={this.props.store} Actions={this.props.Actions} /> : null
 }
 const styles = StyleSheet.create({
   container: {

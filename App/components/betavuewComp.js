@@ -39,9 +39,7 @@ export default class BetaVuew extends Component {
   // }
   render() {
     return (
-      <View style={ styles.container }>
         <Components store={this.props.store} Actions={this.props.Actions} />
-      </View>
       );
   }
 }
