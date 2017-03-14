@@ -1,4 +1,5 @@
-import { AppRegistry } from 'react-native';
-import BetaVuew from './App/container/indexios';
+import React from 'react-native';
+import App from './app/containers/app';
+const { AppRegistry } = React;
 
-AppRegistry.registerComponent('BetaVuew', () => BetaVuew);
+AppRegistry.registerComponent('starterpack', () => App);
