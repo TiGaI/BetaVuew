@@ -1,23 +1,22 @@
+import Main from './container/indexios';
+import React from 'React';
+import { Provider } from 'react-redux';
+import configureStore from './store';
 
-var React = require('react');
-var Actions = require('./actions');
-var reducer = require('./reducers');
+const store = configureStore();
 
-var store = require('redux').createStore(reducer);
+function index() {
+  class Root extends React.Component {
+    render() {
+      return (
+        <Provider store={store}>
+          <Main />
+        </Provider>
+      );
+    }
+  }
 
-function render() {
-  require('react-dom').render(
-
-  );
+  return Root;
 }
 
-render();
-
-// Note: subscribing and rerendering here, at the top level, is using a
-// large hammer for a small nail. It's simple and it works, but it's
-// inefficient. It's better if each component listens just for changes
-// that affect it, individually. react-redux does this for us if we use
-// its connect function. See
-// http://redux.js.org/docs/basics/UsageWithReact.html and
-// https://github.com/reactjs/react-redux for more info.
-store.subscribe(render);
+module.exports = index;

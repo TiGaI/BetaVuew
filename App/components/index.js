@@ -195,15 +195,18 @@ export default class Index extends Component {
   render(){
 
     const { store, Actions } = this.props;
-    console.log("RENDER", store.getState());
-    console.log("RENDER", Actions)
-      return (<View style={{flex:1}}><NavigatorIOS
-        style={{flex: 1}}
-        initialRoute={{
-            component: ActivitiesPage,
-            title: 'ActivitiesPage'
-          }}
-          navigationBarHidden={true}></NavigatorIOS></View>
+
+      return (
+        <View style={{flex:1}}>
+          <NavigatorIOS
+          style={{flex: 1}}
+          initialRoute={{
+              component: ActivitiesPage,
+              title: 'ActivitiesPage'
+            }}
+            navigationBarHidden={true}>
+          </NavigatorIOS>
+        </View>
       )
     }
 
@@ -215,6 +218,7 @@ export default class Index extends Component {
     //   // {(this.props.store.getState().nav === "ActivitiesPage") ? <ActivitiesPage store={this.props.store} Actions={this.props.Actions} /> : null}
     //   // { (this.props.store.getState().nav === "Activity") ? <SwiperView store={this.props.store} Actions={this.props.Actions} /> : null
 }
+
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#ff585b',
@@ -236,7 +240,5 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   }
 });
-
-
 
 module.exports = Index;
