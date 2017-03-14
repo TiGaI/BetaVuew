@@ -83,27 +83,61 @@ export default class ActivitiesPage extends Component {
   }
   render() {
     return(
-      <View style={{flex:1, backgroundColor: 'red'}}>
-      <ScrollView >
-      <View style={styles.container2}>
-      <Text style={styles.title}>Sports</Text>
-      <ListView
-      dataSource = {this.state.datafav}
-      renderRow={(val) =>
-        <TouchableOpacity onPress={this.press.bind(this, val)}>
-        <Image source={val.image} resizeMode="stretch" style={{width:330, height:220, margin:5,marginBottom:30, justifyContent:'center', alignItems:'center'}}>
-        <Text style={{backgroundColor:'rgba(0,0,0,0)', textAlign:'center', color:'#fff', fontSize:25, fontWeight:'700'}}>{val.name}</Text>
-        <Text style={{backgroundColor:'rgba(0,0,0,0)', color:'#fff',fontSize:13, fontWeight:'600'}}>{val.homes} homes</Text>
-        </Image>
-        </TouchableOpacity>
-      }
-      horizontal = {true}
-      showsHorizontalScrollIndicator = {false}
-      onEndReachedThreshold = {500}
-      onEndReached={this.endReached.bind(this)}
-      />
-      </View>
-      </ScrollView>
+      <View style={{flex:1, padding: 10}}>
+        <View style={{flex:1}}>
+        <ScrollView style={{flex:1}}>
+        <View style={styles.container2}>
+        <Text style={{fontWeight: '200', fontSize: 20}}>Sports</Text>
+        <ListView
+        dataSource = {this.state.datafav}
+        renderRow={(val) =>
+          <TouchableOpacity onPress={this.press.bind(this, val)}>
+          <Image source={val.image} resizeMode="stretch" style={{width:330, height:220, margin:5,marginBottom:30, justifyContent:'center', alignItems:'center'}}>
+          <Text style={{backgroundColor:'rgba(0,0,0,0)', textAlign:'center', color:'#fff', fontSize:25, fontWeight:'700'}}>{val.name}</Text>
+          <Text style={{backgroundColor:'rgba(0,0,0,0)', color:'#fff',fontSize:13, fontWeight:'600'}}>{val.homes} homes</Text>
+          </Image>
+          </TouchableOpacity>
+        }
+        horizontal = {true}
+        showsHorizontalScrollIndicator = {false}
+        onEndReachedThreshold = {500}
+        onEndReached={this.endReached.bind(this)}
+        />
+        <Text style={{fontWeight: '200', fontSize: 20}}>Art</Text>
+        <ListView
+        dataSource = {this.state.datafav}
+        renderRow={(val) =>
+          <TouchableOpacity onPress={this.press.bind(this, val)}>
+          <Image source={val.image} resizeMode="stretch" style={{width:330, height:220, margin:5,marginBottom:30, justifyContent:'center', alignItems:'center'}}>
+          <Text style={{backgroundColor:'rgba(0,0,0,0)', textAlign:'center', color:'#fff', fontSize:25, fontWeight:'700'}}>{val.name}</Text>
+          <Text style={{backgroundColor:'rgba(0,0,0,0)', color:'#fff',fontSize:13, fontWeight:'600'}}>{val.homes} homes</Text>
+          </Image>
+          </TouchableOpacity>
+        }
+        horizontal = {true}
+        showsHorizontalScrollIndicator = {false}
+        onEndReachedThreshold = {500}
+        onEndReached={this.endReached.bind(this)}
+        />
+        <Text style={{fontWeight: '200', fontSize: 20}}>Food</Text>
+        <ListView
+        dataSource = {this.state.datafav}
+        renderRow={(val) =>
+          <TouchableOpacity onPress={this.press.bind(this, val)}>
+          <Image source={val.image} resizeMode="stretch" style={{width:330, height:220, margin:5,marginBottom:30, justifyContent:'center', alignItems:'center'}}>
+          <Text style={{backgroundColor:'rgba(0,0,0,0)', textAlign:'center', color:'#fff', fontSize:25, fontWeight:'700'}}>{val.name}</Text>
+          <Text style={{backgroundColor:'rgba(0,0,0,0)', color:'#fff',fontSize:13, fontWeight:'600'}}>{val.homes} homes</Text>
+          </Image>
+          </TouchableOpacity>
+        }
+        horizontal = {true}
+        showsHorizontalScrollIndicator = {false}
+        onEndReachedThreshold = {500}
+        onEndReached={this.endReached.bind(this)}
+        />
+        </View>
+        </ScrollView>
+        </View>
       </View>
     )
   }
