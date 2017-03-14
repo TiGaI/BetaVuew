@@ -49,7 +49,6 @@ class Swipe extends Component{
           <TitleText label={this.props.homes} />
         </View>
       </Swiper>
-
     )
   }
 
