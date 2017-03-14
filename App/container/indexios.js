@@ -19,4 +19,5 @@ class BetaVuew extends Component {
   }
 }
 
+// exporting
 export default BetaVuew
