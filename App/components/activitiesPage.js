@@ -84,7 +84,6 @@ export default class ActivitiesPage extends Component {
   render() {
     return(
       <View style={{flex:1, backgroundColor: 'red'}}>
-      <View style>
       <ScrollView >
       <View style={styles.container2}>
       <Text style={styles.title}>Sports</Text>
@@ -105,7 +104,6 @@ export default class ActivitiesPage extends Component {
       />
       </View>
       </ScrollView>
-      </View>
       </View>
     )
   }
