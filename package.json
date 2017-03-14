@@ -7,6 +7,7 @@
     "test": "jest"
   },
   "dependencies": {
+    "native-base": "^2.0.12",
     "passport-facebook": "^2.1.1",
     "passport-linkedin": "^1.0.0",
     "randomcolor": "^0.4.4",
