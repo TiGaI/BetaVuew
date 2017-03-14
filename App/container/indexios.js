@@ -3,7 +3,7 @@ import { AppRegistry, StyleSheet, Text, View, TextInput, TouchableOpacity, Navig
 import SocketIOClient from 'socket.io-client';
 
 
-import BetaVuew from '../components/index';
+import BetaVuew from '../components/Tabbar';
 
 export default class BetaVuew1 extends Component {
   constructor(props) {
