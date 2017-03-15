@@ -4,6 +4,8 @@ import { Container, Content, Left, Body, Right, Text, ListItem, Thumbnail, Card,
 import Swiper from 'react-native-swiper'
 import randomcolor from 'randomcolor'
 import styles from './styles'
+import Carousel from 'react-native-snap-carousel';
+import { sliderWidth, itemWidth } from './styles';
 
 
 class TitleText extends Component {
@@ -31,6 +33,7 @@ class Swipe extends Component{
   }
   render(){
     console.log("THIS ONE", this.props)
+
     return (
 
       <Swiper
@@ -53,37 +56,48 @@ class Swipe extends Component{
                     <View style={[styles.circle, {backgroundColor: '#54A78B'}]}>
                       <Text style={styles.textInCicle, {color: 'white'}}>600</Text>
                     </View>
-                    <Text style={{textAlign: 'center', color: "#FDFCFA", fontWeight: '300', fontSize: 10, marginBottom: 10, paddingRight: 10 }}>Followers</Text>
+                    <Text style={{textAlign: 'center', color: "#FDFCFA", fontWeight: '300', fontSize: 10, paddingRight: 10 }}>Followers</Text>
                   </View>
                   <View style={[styles.innerbox,  {alignItems: "center"}]}>
                     <View style={[styles.circle, {backgroundColor: '#5B6AAB'}]}>
                       <Text style={styles.textInCicle, {color: 'white'}}>27</Text>
                     </View>
-                    <Text style={{textAlign: 'center', color: "#FDFCFA", fontWeight: '300', fontSize: 10, marginBottom: 10}}>Activities</Text>
+                    <Text style={{textAlign: 'center', color: "#FDFCFA", fontWeight: '300', fontSize: 10}}>Activities</Text>
                   </View>
                   <View style={[styles.innerbox,  {alignItems: "flex-start"}]}>
                     <View style={[styles.circle, {backgroundColor: '#579BAB'}]}>
                       <Text style={styles.textInCicle, {color: 'white'}}>8.7 K</Text>
                     </View>
-                      <Text style={{textAlign: 'center', color: "#FDFCFA", fontWeight: '300', fontSize: 10, marginBottom: 10, paddingLeft: 2 }}>savage level</Text>
+                      <Text style={{textAlign: 'center', color: "#FDFCFA", fontWeight: '300', fontSize: 10, paddingLeft: 2 }}>savage level</Text>
                   </View>
                 </View>
               </View>
 
-              <View style={styles.profilecontainer}>
-                </View>
+                <Carousel
+                  ref={'carousel'}
+                  sliderWidth={sliderWidth}
+                  itemWidth={itemWidth}
+                  containerCustomStyle={{position: "relative", top: -70, paddingBottom: 270}}>
+                  <View style={styles.bottomProfileContainer}>
+                        <View style={styles.slide1top}>
+                          <View style={styles.slidepicture}></View>
+                          <View style={styles.slidepicture}></View>
+                        </View>
 
-
-
-                <View style={{flex: 1, backgroundColor: "red", borderStyle: 'solid'}}>
-                  <Text style={{fontSize: 18, fontWeight: '500', color: '#4E4E4E', marginTop: 10}}>Event Name {this.props.name}</Text>
-                  <Text style={{fontSize: 13, fontWeight: '200', marginTop: 20}}>Retro venmo seitan, la croix before they sold out cronut hell of paleo lomo
-                  post-ironic organic readymade chillwave salvia try-hard. Mlkshk meditation chambray,
-                   celiac pop-up letterpress art party sartorial put a bird on it meh prism crucifix disrupt kickstarter. </Text>
-
-
-                </View>
-
+                        <View style={styles.slide1bottom}>
+                          <View style={styles.slidepicture}></View>
+                          <View style={styles.slidepicture}></View>
+                        </View>
+                  </View>
+                  <View style={styles.bottomProfileContainer, {paddingLeft: 100}}>
+                    <View style={styles.slide2top}>
+                      <Text style={{fontSize: 18, fontWeight: '500', color: '#4E4E4E', marginTop: 10}}>Event Name</Text>
+                    </View>
+                    <View style={styles.slide2bottom}>
+                      <Text style={{fontSize: 18, fontWeight: '500', color: '#4E4E4E', marginTop: 10}}>Event Name</Text>
+                    </View>
+                  </View>
+                </Carousel>
 
             </Content>
           </Container>

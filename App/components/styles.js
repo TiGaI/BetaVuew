@@ -1,4 +1,20 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Dimensions, Platform } from 'react-native';
+
+const { width: viewportWidth, height: viewportHeight } = Dimensions.get('window');
+
+function wp (percentage) {
+    const value = (percentage * viewportWidth) / 100;
+    return Math.round(value);
+}
+
+const slideHeight = viewportHeight;
+const slideWidth = wp(75);
+
+export const sliderWidth = viewportWidth;
+export const itemHorizontalMargin = wp(4);
+export const itemWidth = slideWidth + itemHorizontalMargin;
+
+const entryBorderRadius = 8;
 
 export default StyleSheet.create({
 	tabContent: {
@@ -15,15 +31,17 @@ export default StyleSheet.create({
 	},
 	profileBox: {
 		backgroundColor: "blue",
-		flex: 2,
+		flex: 1,
 		borderStyle: 'solid',
 		alignItems: 'center',
 		justifyContent: 'center'
 	},
 	socialStatus: {
-		flex: 3,
+		flex: 1,
 		flexDirection: 'row',
-		marginTop: 10
+		marginTop: 10,
+		marginBottom: 0,
+	  height: 0
 	},
 	innerbox: {
 		flex: 1,
@@ -39,17 +57,17 @@ export default StyleSheet.create({
 		color: 'white',
 		backgroundColor: "transparent",
 	},
-	profilecontainer: {
-		flex: 1,
-		width: 300,
-		flexDirection: 'row'
+	bottomProfileContainer: {
+		flex: 1, backgroundColor: "red", borderStyle: 'solid', flexDirection: 'row'
 	},
-	profilePic: {
-		flexDirection: 'row',
-		alignItems: 'center',
-		justifyContent: 'center',
-		// position: "relative",
-		// bottom: 50,
-		// marginBottom: -50
+	slide1top: {
+		flex: 1, backgroundColor: "red", borderStyle: 'solid', flexDirection: 'column', justifyContent: 'center'
+	},
+	slide1bottom: {
+		flex: 2, backgroundColor: "red", borderStyle: 'solid', flexDirection: 'column', justifyContent: 'flex-end'
+	},
+	slidepicture: {
+	 backgroundColor: "purple", flexDirection: 'column', height: 90, width: 145, margin: 5
 	}
+
 });
