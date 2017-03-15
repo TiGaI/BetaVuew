@@ -7,31 +7,55 @@ const http = require('http').Server(app);
 const io = require('socket.io')(http);
 const mongoose = require('mongoose');
 
-//login and authentication token
-const Authentication = require('./services/authentication');
-const passportService = require('./services/passport');
-const passport = require('passport');
-
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.get('/auth/facebook',
-  passport.authenticate('facebook'));
+// TODO: get events for each category.
+//Get all Events for the index page.
+app.get('/IndexEvents', function(req, res) {
 
-app.get('/auth/facebook/callback',
-  passport.authenticate('facebook'),
-  function(req, res) {
-    res.redirect('/');
-  });
-
-app.get('/auth/linkedin',
-  passport.authenticate('linkedin'));
-
-app.get('/auth/linkedin/callback',
-  passport.authenticate('linkedin'),
-  function(req, res) {
-    res.redirect('/');
 });
 
+
+// TODO: Get specific event
+//Get specific event.
+app.get('/event', function(req, res) {
+    // req.body.id
+
+
+});
+
+// TODO: create event
+//create events
+app.post('/Conversation', function(req, res) {
+    // req.body.id
+
+
+});
+
+
+// TODO: get user connection
+//Get User Connection.
+app.get('/userConnection', function(req, res) {
+    // req.body.id
+
+
+});
+
+// TODO: message
+//Get User get the conversation of each connection.
+app.get('/Conversation', function(req, res) {
+    // req.body.id
+
+
+});
+
+// TODO: message
+//Get User get the conversation of each connection.
+app.get('/Conversation', function(req, res) {
+    // req.body.id
+
+
+});
 
 
 var port = process.env.PORT || 8080;
