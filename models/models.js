@@ -10,7 +10,11 @@ var userSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  description: {
+  bio: {
+    type: String,
+    default: ""
+  },
+  gender: {
     type: String,
     default: ""
   },
@@ -21,9 +25,9 @@ var userSchema = new mongoose.Schema({
   profileImg: {
     type: String
   },
-  hobbies: [],
-  images: [String],
-  video: [String],
+  interestTags: [],
+  profileImages: [String],
+  profileVideo: [String],
   connections: [{type: mongoose.Schema.Types.ObjectId, ref: 'User'}],
   rating: {
     type: Number
@@ -32,23 +36,54 @@ var userSchema = new mongoose.Schema({
     type: Boolean,
     default: false
   },
+  Activities: {
+    [{type: mongoose.Schema.Types.ObjectId, ref: 'Activity'}]
+  },
+  // attachment: {
+  //   type: String
+  // } don't know what this means
 },
 { timestamps: true }
 );
 
 var activitySchema = new mongoose.Schema({
   //How can we keep track of User Activity?
-  firstName: {
+  activityCreator: [{type: mongoose.Schema.Types.ObjectId, ref: 'User'}],
+  activityTitle: {
     type: String,
     required: true
   },
-  lastName: {
+  activityVideo: {
+    type: String
+  },
+  activityImages: [String],
+  activityDescription: {
+    type: String,
+    default: "",
+    required: true
+  },
+  activityLocation: {
     type: String,
     required: true
   },
-  description: {
+  timeStart: {
+
+  },
+  timeEnd: {
     type: String,
-    default: ""
+    required: true
+  },
+  interestUser: {
+    type: String,
+    required: true
+  },
+  typeofRoom: {
+    type: String,
+    required: true
+  },
+  activityCapacity: {
+    type: Number,
+    require: true
   }
 },
 { timestamps: true }
@@ -75,14 +110,51 @@ var messageSchema = new mongoose.Schema({
   }
 });
 
-userSchema.methods.isConnected = function(idToCheck, callback){
-  var connection = this.connections.includes(idTOCheck)
-  callback(null, connection)
-};
+var FriendRequestSchema = new mongoose.Schema({
+  toUser: {
+    type: mongoose.Schema.Types.ObjectId,
+    required: true,
+    ref: 'User'
+  },
+  fromUser: {
+    type: mongoose.Schema.Types.ObjectId,
+    required: true,
+    ref: 'User'
+  },
+  accepted :{
+    type: Boolean,
+    required: true
+  },
+  { timestamps: true }
+);
+
+var activityActionSchema = new mongoose.Schema({
+  toUser: {
+    type: mongoose.Schema.Types.ObjectId,
+    required: true,
+    ref: 'User'
+  },
+  activity: {
+    type: mongoose.Schema.Types.ObjectId,
+    required: true,
+    ref: 'Activity'
+  },
+  accepted :{
+    type: Boolean,
+    required: true
+  },
+  { timestamps: true }
+);
 
 var User = mongoose.model("User", userSchema);
+var Activity = mongoose.model("Message", activitySchema);
 var Message = mongoose.model("Message", messageSchema);
+var FriendRequest = mongoose.model("FriendRequest", friendRequestSchema);
+var ActivityAction = mongoose.model("ActivityAction", activityActionSchema);
+
 module.exports = {
   User: User,
+  Activity: Activity,
   Message: Message
+
 };
