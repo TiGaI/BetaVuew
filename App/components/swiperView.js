@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import { AppRegistry, ScrollView, StyleSheet, View, TextInput, TouchableOpacity, NavigatorIOS, ListView, Alert, AsyncStorage, Image } from 'react-native';
-import { Container, Content, Left, Body, Right, Text, ListItem, Thumbnail, Card, CardItem, Button } from 'native-base';
+import { Container, Content, Left, Body, Right, Text, ListItem, Thumbnail, Card, CardItem, Button, Icon } from 'native-base';
 import Swiper from 'react-native-swiper'
-import randomcolor from 'randomcolor'
 import styles from './styles'
 import Carousel from 'react-native-snap-carousel';
 import { sliderWidth, itemWidth } from './styles';
+import MapView from 'react-native-maps';
+import randomcolor from 'randomcolor';
 
 
 class TitleText extends Component {
@@ -109,28 +110,102 @@ class Swipe extends Component{
           showsPagination={false}
           index={1}>
           <View style={{flex: 1, backgroundColor: 'transparent'}}>
-            <Image source={require("../../assets/images/cyclist.jpg")}
-              resizeMode = "stretch"
-              style={{flex:3, alignItems:'center', width:null, height:null, justifyContent:'center'}}>
-            </Image>
-            <View style={{flex: 1, padding: 20}}>
-              <Text style={{flex: 1, fontSize: 25, fontWeight: '600', color: '#4E4E4E'}}>Cycling Mt.Awesome {this.props.homes}</Text>
-              <Text style={{flex: 1, fontSize: 18, fontWeight: '500', color: '#4E4E4E'}}>About the event</Text>
-              <Text style={{fontSize: 15, fontWeight: '400', color: '#656565'}}>Retro venmo seitan, la croix before they sold out cronut hell of paleo lomo
-              post-ironic organic readymade chillwave salvia try-hard. Mlkshk meditation chambray,
-               celiac pop-up letterpress art party </Text>
+            <View style={{flex: 2}}>
+              <View style={{flex: 1, flexDirection: 'row'}}>
+              <Image source={require("../../assets/images/cyclist.jpg")}
+                resizeMode = "stretch"
+                style={{flex:1, alignItems:'center', width:null, height:null, justifyContent:'center', marginRight: 5}}>
+              </Image>
+              <Image source={require("../../assets/images/climb.jpg")}
+                resizeMode = "stretch"
+                style={{flex:1, alignItems:'center', width:null, height:null, justifyContent:'center'}}>
+              </Image>
+              </View>
+              <View style={{flex: 1, flexDirection: 'row'}}>
+              <Image source={require("../../assets/images/runner.jpg")}
+                resizeMode = "stretch"
+                style={{flex:1, alignItems:'center', width:null, height:null, justifyContent:'center', marginRight: 5, marginTop: 5}}>
+              </Image>
+              <Image source={require("../../assets/images/cyclist.jpg")}
+                resizeMode = "stretch"
+                style={{flex:1, alignItems:'center', width:null, height:null, justifyContent:'center', marginTop: 5}}>
+              </Image>
+              </View>
+            </View>
+
+            <View style={{flex: 1, padding: 20, margin: 0}}>
+            <ScrollView style={{flex: 1}}>
+              <View style={{flex: 1}}>
+                <Text style={{fontSize: 25, fontWeight: '700', color: '#323232'}}>Cycling San Francisco {this.props.homes}</Text>
+              </View>
+              <View style={{flex: 1, marginTop: 10}}>
+              <Text numberOfLines={3} style={{fontSize: 15, fontWeight: '300', color: '#4E4E4E' }}>Narwhal occupy banh mi, skateboard locavore semiotics vape vexillologist XOXO.
+               Pop-up seitan selvage unicorn fanny pack, art party fam celiac fixie flannel vegan vinyl trust fund intelligentsia. Squid skateboard cardigan,
+               lyft occupy portland fap fashion axe hoodie kinfolk blog four dollar toast yuccie. </Text>
+              </View>
+              <View style={{flex: 1, marginTop: 10}}>
+                <Button full success>
+                    <Text style={{color: 'white', fontSize: 20, fontWeight: '500'}}>Join Activity</Text>
+                </Button>
+              </View>
+            </ScrollView>
             </View>
           </View>
         </Swiper>
-        <View style={this.viewStyle()}>
-          <Text style={{ fontSize: 25, fontWeight: '600', color: '#4E4E4E'}}>Event Name {this.props.image}</Text>
-          <Image source={require("../../assets/images/cyclist.jpg")}
-            resizeMode = "stretch"
-            style={{flex:1, alignItems:'center', width:null, height:null, justifyContent:'center'}}>
-          </Image>
-          <View style={{flex: 1, padding: 20}}>
-            <Text style={{flex: 1, fontSize: 25, fontWeight: '600', color: '#4E4E4E'}}>Cycling Mt.Awesome {this.props.homes}</Text>
-          </View>
+        <View style={{flex: 1}}>
+          <ScrollView style={{flex:1}}>
+            <View style={{flex: 1, padding: 10}}>
+              <View style={{flex:1}}>
+                <Text style={{fontSize: 25, fontWeight: '700', color: '#323232', marginTop: 20}}>Activity Description</Text>
+                <Text numberOfLines={3} style={{fontSize: 15, fontWeight: '300', color: '#4E4E4E' , marginTop: 20, textAlign: 'justify'}}>Take a run to the beautiful twin peaks of San Francisco.
+                The run is 5 miles in distance and will usually take around 1 hour to complete.</Text>
+              </View>
+              <View style={{flex:1, flexDirection: 'row', borderStyle: 'solid', borderColor:'grey', padding: 20,
+               borderBottomWidth: 1, borderTopWidth: 1, marginTop: 20}}>
+                <View style={{flex: 1}}>
+                  <Text style={{fontSize: 15, fontWeight: '400', color: '#323232', textAlign: 'center'}}>Start: 5:00 PM EST</Text>
+                </View>
+                <View style={{flex: 1}}>
+                  <Text style={{fontSize: 15, fontWeight: '400', color: '#323232',  textAlign: 'center'}}>End: 7:00 PM EST</Text>
+                </View>
+              </View>
+              <View style={{flex:1, borderStyle: 'solid', borderColor:'grey',
+               borderBottomWidth: 1}}>
+                <Text style={{fontSize: 20, fontWeight: '500', color: '#323232', marginTop: 20, textAlign: 'justify'}}>Location</Text>
+                <Text numberOfLines={3} style={{fontSize: 15, fontWeight: '300', color: '#4E4E4E' , marginTop: 20}}>We will meet the top of Twin Peaks.
+                 The address is 501 Twin Peaks Blvd, San Francisco, CA 94114</Text>
+                <MapView
+                  style={{height: 200, width: 350, marginTop: 20, marginBottom: 20}}
+                  initialRegion={{
+                    latitude: 37.78825,
+                    longitude: -122.4324,
+                    latitudeDelta: 0.0922,
+                    longitudeDelta: 0.0421,
+                  }}
+                />
+              </View>
+              <Text style={{fontSize: 20, fontWeight: '500', color: '#323232', marginTop: 20, textAlign: 'justify'}}>General Information</Text>
+              <View style={{flex:1, flexDirection: 'row', marginTop: 20}}>
+                <View style={{flex:1, backgroundColor: '#00A699', height: 50, justifyContent: 'center', alignItems: 'center',
+                borderColor: 'transparent', borderStyle: 'solid', borderWidth: 1, borderRadius: 3, marginRight: 5}}>
+                <Text style={{fontSize: 15, fontWeight: '500', color: 'white'}}>Group Size</Text>
+                <Text style={{fontSize: 15, fontWeight: '500', color: 'white'}}>5</Text>
+                </View>
+                <View style={{flex:1, backgroundColor: '#00A699', height: 50, justifyContent: 'center', alignItems: 'center',
+              borderColor: 'transparent', borderStyle: 'solid', borderWidth: 1, borderRadius: 3}}>
+                <Text style={{fontSize: 15, fontWeight: '500', color: 'white'}}>Ages</Text>
+                <Text style={{fontSize: 15, fontWeight: '500', color: 'white'}}>20-25</Text>
+                </View>
+              </View>
+              <View style={{flex:1, marginTop: 20}}>
+                <View style={{flex:1, backgroundColor: 'white', height: 100, justifyContent: 'center'}}>
+                <Text style={{fontSize: 20, fontWeight: '500', color: '#323232', marginTop: 20}}>Notes</Text>
+                <Text numberOfLines={3} style={{fontSize: 15, fontWeight: '300', color: '#323232' , marginTop: 20,textAlign: 'justify'}}>We invite only athletes with experience
+                 running 3 miles of more averaging an 8 minute mile pace.</Text>
+                </View>
+            </View>
+            </View>
+          </ScrollView>
         </View>
       </Swiper>
     )
