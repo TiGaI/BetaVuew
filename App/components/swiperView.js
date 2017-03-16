@@ -22,7 +22,9 @@ class TitleText extends Component {
 class Swipe extends Component{
   constructor(props){
     super(props)
+    this.state = {
 
+    }
   }
   viewStyle() {
     return {
@@ -32,6 +34,7 @@ class Swipe extends Component{
       alignItems: 'center',
     }
   }
+  
   render(){
     console.log("THIS ONE", this.props)
 

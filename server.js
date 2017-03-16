@@ -6,20 +6,45 @@ const app = express();
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
 const mongoose = require('mongoose');
+// All Models
+import models from '/models/models';
+const Activity = models.Activity;
 
 app.use(express.static(path.join(__dirname, 'public')));
 
 // TODO: get events for each category.
 //Get all Events for the index page.
 app.get('/IndexEvents', function(req, res) {
-
+  Activity.find(function(err,activity){
+    if(err){
+      res.json({
+        success: false,
+        error: err
+      })
+    } else {
+      res.json({
+        success: true
+      })
+    }
+  })
 });
 
 
 // TODO: Get specific event
 //Get specific event.
 app.get('/event', function(req, res) {
-    // req.body.id
+    Activity.findById(activityCreator, function(err,activity){
+      if(err){
+        res.json({
+          success: false,
+          error: err
+        })
+      } else {
+        res.json({
+          success: true
+        })
+      }
+    })
 
 
 });

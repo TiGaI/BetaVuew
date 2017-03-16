@@ -57,8 +57,33 @@ export default class ActivitiesPage extends Component {
     this.state = {
       dataviewed:ds.cloneWithRows(viewed),
       datafav:ds.cloneWithRows(favs),
-      clicked: true
+      clicked: true,
+      activityTitle: ""
+
     }
+  }
+  componentDidMount(){
+    fetch('http://localhost:8080/IndexEvents', {
+      method: 'GET',
+      headers: {
+        'Content-type': 'application/json'
+      },
+      body: JSON.stringify({
+        activityTitle: this.state.activityTitle
+
+      })
+    })
+    .then((response) => response.json())
+    .then((responseJson) => {
+        if(responseJson.success){
+          this.setState({
+            activityTitle: responseJson.activityTitle
+          })
+        }
+    })
+    .catch((err) => {
+      alert(err);
+    })
   }
   viewStyle() {
     return ({
