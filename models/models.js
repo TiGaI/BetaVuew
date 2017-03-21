@@ -36,12 +36,7 @@ var userSchema = new mongoose.Schema({
     type: Boolean,
     default: false
   },
-  Activities: {
-    [{type: mongoose.Schema.Types.ObjectId, ref: 'Activity'}]
-  },
-  // attachment: {
-  //   type: String
-  // } don't know what this means
+  activities: [{type: mongoose.Schema.Types.ObjectId, ref: 'Activity'}]
 },
 { timestamps: true }
 );
@@ -66,8 +61,13 @@ var activitySchema = new mongoose.Schema({
     type: String,
     required: true
   },
+  activityCategory:{
+    type: String,
+    required: true
+  },
   timeStart: {
-
+    type: String,
+    required: true
   },
   timeEnd: {
     type: String,
@@ -110,7 +110,7 @@ var messageSchema = new mongoose.Schema({
   }
 });
 
-var FriendRequestSchema = new mongoose.Schema({
+var friendRequestSchema = new mongoose.Schema({
   toUser: {
     type: mongoose.Schema.Types.ObjectId,
     required: true,
@@ -124,7 +124,8 @@ var FriendRequestSchema = new mongoose.Schema({
   accepted :{
     type: Boolean,
     required: true
-  },
+  }
+},
   { timestamps: true }
 );
 
@@ -142,12 +143,13 @@ var activityActionSchema = new mongoose.Schema({
   accepted :{
     type: Boolean,
     required: true
+  }
   },
   { timestamps: true }
 );
 
 var User = mongoose.model("User", userSchema);
-var Activity = mongoose.model("Message", activitySchema);
+var Activity = mongoose.model("Activity", activitySchema);
 var Message = mongoose.model("Message", messageSchema);
 var FriendRequest = mongoose.model("FriendRequest", friendRequestSchema);
 var ActivityAction = mongoose.model("ActivityAction", activityActionSchema);
@@ -155,6 +157,7 @@ var ActivityAction = mongoose.model("ActivityAction", activityActionSchema);
 module.exports = {
   User: User,
   Activity: Activity,
-  Message: Message
-
+  Message: Message,
+  FriendRequest: FriendRequest,
+  ActivityAction: ActivityAction
 };

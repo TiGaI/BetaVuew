@@ -10,7 +10,7 @@ function index() {
     render() {
       return (
         <Provider store={store}>
-          <Main />
+           <Main />
         </Provider>
       );
     }
