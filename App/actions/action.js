@@ -24,9 +24,29 @@ export function selectActivity(activity) {
   }
 }
 
-export function fetchData(){
-  return {
-    types: types.SCROLL_ACTIVITIES,
-
+export function populateActivities(activities) {
+  if(activities) {
+    return {
+      type: SCROLL_ACTIVITIES_SUCCESS,
+      newActivities: activities
+    }
+  } else {
+    return {
+      type: SCROLL_ACTIVITIES_FAILURE,
+      newActivities: activities
+    }
   }
+
+}
+
+export function fetchData(){
+  return dispatch =>
+    fetch('http://localhost8080/populateActivities', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+    }).then(response => response.json())
+      .then(json =>
+        dispatch(populateActivities(json))
 }

@@ -112,23 +112,9 @@ class Swipe extends Component{
           <View style={{flex: 1, backgroundColor: 'transparent'}}>
             <View style={{flex: 2}}>
               <View style={{flex: 1, flexDirection: 'row'}}>
-              <Image source={require("../../assets/images/cyclist.jpg")}
-                resizeMode = "stretch"
-                style={{flex:1, alignItems:'center', width:null, height:null, justifyContent:'center', marginRight: 5}}>
-              </Image>
               <Image source={require("../../assets/images/climb.jpg")}
                 resizeMode = "stretch"
                 style={{flex:1, alignItems:'center', width:null, height:null, justifyContent:'center'}}>
-              </Image>
-              </View>
-              <View style={{flex: 1, flexDirection: 'row'}}>
-              <Image source={require("../../assets/images/runner.jpg")}
-                resizeMode = "stretch"
-                style={{flex:1, alignItems:'center', width:null, height:null, justifyContent:'center', marginRight: 5, marginTop: 5}}>
-              </Image>
-              <Image source={require("../../assets/images/cyclist.jpg")}
-                resizeMode = "stretch"
-                style={{flex:1, alignItems:'center', width:null, height:null, justifyContent:'center', marginTop: 5}}>
               </Image>
               </View>
             </View>
