@@ -7,6 +7,8 @@ import Carousel from 'react-native-snap-carousel';
 import { sliderWidth, itemWidth } from './styles';
 import MapView from 'react-native-maps';
 import randomcolor from 'randomcolor';
+import SocketIOClient from 'socket.io-client';
+import ActivitiesPage from './activitiesPage';
 
 
 class TitleText extends Component {
@@ -22,7 +24,7 @@ class TitleText extends Component {
 class Swipe extends Component{
   constructor(props){
     super(props)
-
+    console.log('Thebest', this.props)
   }
   viewStyle() {
     return {
@@ -31,6 +33,12 @@ class Swipe extends Component{
       justifyContent: 'center',
       alignItems: 'center',
     }
+  }
+  chat(){
+    console.log('Chat',this.props)
+    this.props.navigator.replace({
+      component: Chat
+    })
   }
   render(){
     console.log("THIS ONE", this.props)
@@ -130,8 +138,8 @@ class Swipe extends Component{
                lyft occupy portland fap fashion axe hoodie kinfolk blog four dollar toast yuccie. </Text>
               </View>
               <View style={{flex: 1, marginTop: 10}}>
-                <Button full success>
-                    <Text style={{color: 'white', fontSize: 20, fontWeight: '500'}}>Join Activity</Text>
+                <Button full success onPress={this.chat.bind(this)}>
+                    <Text style={{color: 'white', fontSize: 20, fontWeight: '500'}}>Message Admin</Text>
                 </Button>
               </View>
             </ScrollView>
@@ -157,6 +165,19 @@ class Swipe extends Component{
               </View>
               <View style={{flex:1, borderStyle: 'solid', borderColor:'grey',
                borderBottomWidth: 1}}>
+                <Text style={{fontSize: 20, fontWeight: '500', color: '#323232', marginTop: 20, textAlign: 'justify'}}>General Information</Text>
+                <View style={{flex:1, flexDirection: 'row', marginTop: 20}}>
+                  <View style={{flex:1, backgroundColor: '#00A699', height: 50, justifyContent: 'center', alignItems: 'center',
+                  borderColor: 'transparent', borderStyle: 'solid', borderWidth: 1, borderRadius: 3, marginRight: 5}}>
+                  <Text style={{fontSize: 15, fontWeight: '500', color: 'white'}}>Group Size</Text>
+                  <Text style={{fontSize: 15, fontWeight: '500', color: 'white'}}>5</Text>
+                  </View>
+                  <View style={{flex:1, backgroundColor: '#00A699', height: 50, justifyContent: 'center', alignItems: 'center',
+                borderColor: 'transparent', borderStyle: 'solid', borderWidth: 1, borderRadius: 3}}>
+                  <Text style={{fontSize: 15, fontWeight: '500', color: 'white'}}>Ages</Text>
+                  <Text style={{fontSize: 15, fontWeight: '500', color: 'white'}}>20-25</Text>
+                  </View>
+                </View>
                 <Text style={{fontSize: 20, fontWeight: '500', color: '#323232', marginTop: 20, textAlign: 'justify'}}>Location</Text>
                 <Text numberOfLines={3} style={{fontSize: 15, fontWeight: '300', color: '#4E4E4E' , marginTop: 20}}>We will meet the top of Twin Peaks.
                  The address is 501 Twin Peaks Blvd, San Francisco, CA 94114</Text>
@@ -169,19 +190,6 @@ class Swipe extends Component{
                     longitudeDelta: 0.0421,
                   }}
                 />
-              </View>
-              <Text style={{fontSize: 20, fontWeight: '500', color: '#323232', marginTop: 20, textAlign: 'justify'}}>General Information</Text>
-              <View style={{flex:1, flexDirection: 'row', marginTop: 20}}>
-                <View style={{flex:1, backgroundColor: '#00A699', height: 50, justifyContent: 'center', alignItems: 'center',
-                borderColor: 'transparent', borderStyle: 'solid', borderWidth: 1, borderRadius: 3, marginRight: 5}}>
-                <Text style={{fontSize: 15, fontWeight: '500', color: 'white'}}>Group Size</Text>
-                <Text style={{fontSize: 15, fontWeight: '500', color: 'white'}}>5</Text>
-                </View>
-                <View style={{flex:1, backgroundColor: '#00A699', height: 50, justifyContent: 'center', alignItems: 'center',
-              borderColor: 'transparent', borderStyle: 'solid', borderWidth: 1, borderRadius: 3}}>
-                <Text style={{fontSize: 15, fontWeight: '500', color: 'white'}}>Ages</Text>
-                <Text style={{fontSize: 15, fontWeight: '500', color: 'white'}}>20-25</Text>
-                </View>
               </View>
               <View style={{flex:1, marginTop: 20}}>
                 <View style={{flex:1, backgroundColor: 'white', height: 100, justifyContent: 'center'}}>
@@ -197,6 +205,19 @@ class Swipe extends Component{
     )
   }
 
+}
+
+class Chat extends Component {
+  constructor(props){
+    super(props)
+  }
+  render() {
+    return (
+      <Text style={{ fontSize: 48, color: 'white' }}>
+        Hello
+      </Text>
+    )
+  }
 }
 
 

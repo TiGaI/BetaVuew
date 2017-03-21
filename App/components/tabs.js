@@ -1,10 +1,12 @@
-import { View, Text, TabBarIOS } from 'react-native';
+import { View, Text, TabBarIOS, TouchableOpacity } from 'react-native';
+import { Container, Content, Left, Body, Right, ListItem, Thumbnail } from 'native-base';
 import React, { Component } from 'react';
 import styles from './styles';
 import { connect } from 'react-redux';
 import { actions as navigationActions } from 'react-native-navigation-redux-helpers';
 const { jumpTo } = navigationActions;
 import IndexPage from './index';
+import SocketIOClient from 'socket.io-client';
 
 class ApplicationTabs extends Component {
 	_renderTabContent(tab) {
@@ -16,13 +18,26 @@ class ApplicationTabs extends Component {
 
 		if (tab.key === 'notifications') {
 			return (
-				<View style={[styles.tabContent, {backgroundColor: 'green'}]} />
+				<View style={[styles.tabContent, {backgroundColor: 'green'}]} >
+					<TouchableOpacity><Text>Chat</Text></TouchableOpacity>
+				</View>
 			);
 		}
 
 		if (tab.key === 'chat') {
 			return (
-				<View style={[styles.tabContent, {backgroundColor: 'pink'}]} />
+				<ListItem avatar style={{marginTop: 20}}>
+											<Left>
+													<Thumbnail source={require('../../assets/images/cyclist.jpg')} />
+											</Left>
+											<Body>
+													<Text>Kumar Pratik</Text>
+													<Text note>Doing what you like will always keep you happy . .</Text>
+											</Body>
+											<Right>
+													<Text note>3:43 pm</Text>
+											</Right>
+									</ListItem>
 			);
 		}
 

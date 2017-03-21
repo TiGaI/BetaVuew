@@ -53,7 +53,6 @@ export default class ActivitiesPage extends Component {
 
   constructor(props){
     super(props);
-    console.log('props', props);
     var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
     this.state = {
       dataviewed:ds.cloneWithRows(viewed),
@@ -70,8 +69,6 @@ export default class ActivitiesPage extends Component {
     });
   }
   press(val) {
-    console.log('hey');
-    console.log(this.props);
     this.props.navigator.replace({
       component: Swipe,
       passProps: val
@@ -104,7 +101,7 @@ export default class ActivitiesPage extends Component {
 
         <ScrollView style={{flex:1}}>
         <View style={styles.container}>
-        <Text style={{fontWeight: '500', fontSize: 18, marginLeft: 5}}>Sports</Text>
+        <Text style={{fontWeight: '500', fontSize: 20, marginLeft: 5, color: '#323232'}}>Sports</Text>
         <ListView
         dataSource = {this.state.datafav}
         renderRow={(val) =>
@@ -120,7 +117,7 @@ export default class ActivitiesPage extends Component {
         onEndReachedThreshold = {500}
         onEndReached={this.endReached.bind(this)}
         />
-        <Text style={{fontWeight: '500', fontSize: 18, marginLeft: 5}}>Art</Text>
+        <Text style={{fontWeight: '500', fontSize: 20, marginLeft: 5, color: '#323232'}}>Art</Text>
         <ListView
         dataSource = {this.state.datafav}
         renderRow={(val) =>
@@ -136,7 +133,7 @@ export default class ActivitiesPage extends Component {
         onEndReachedThreshold = {500}
         onEndReached={this.endReached.bind(this)}
         />
-        <Text style={{fontWeight: '500', fontSize: 18, marginLeft: 5}}>Food</Text>
+        <Text style={{fontWeight: '500', fontSize: 20, marginLeft: 5, color: '#323232'}}>Food</Text>
         <ListView
         dataSource = {this.state.datafav}
         renderRow={(val) =>
