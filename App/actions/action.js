@@ -32,8 +32,7 @@ export function populateNewActivities(activities) {
     }
   } else {
     return {
-      type: SCROLL_ACTIVITIES_FAILURE,
-      newActivities: activities
+      type: SCROLL_ACTIVITIES_FAILURE
     }
   }
 
