@@ -6,7 +6,7 @@ import Swiper from 'react-native-swiper'
 import randomcolor from 'randomcolor'
 
 import ActivitiesPage from './activitiesPage'
-import SwiperView from './swiperView'
+import Swipe from './swiperView'
 
 // import { NavigationExperimental } from 'react-native';
 // import React, { Component } from 'react';
