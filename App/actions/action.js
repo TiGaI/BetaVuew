@@ -24,7 +24,7 @@ export function selectActivity(activity) {
   }
 }
 
-export function populateNewActivities(activities) {
+export function populateActivities(activities) {
   if(activities) {
     return {
       type: SCROLL_ACTIVITIES_SUCCESS,
@@ -41,12 +41,12 @@ export function populateNewActivities(activities) {
 
 export function fetchData(){
   return dispatch =>
-    fetch('http://localhost8080/fetchData', {
+    fetch('http://localhost8080/populateActivities', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json'
       },
     }).then(response => response.json())
       .then(json =>
-        dispatch(populateNewActivities(json))
+        dispatch(populateActivities(json))
 }
