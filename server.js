@@ -5,14 +5,31 @@ const path = require('path');
 const app = express();
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
-const mongoose = require('mongoose');
+const bodyParser = require('body-parser')
 
-//login and authentication token
-const Authentication = require('./services/authentication');
-const passportService = require('./services/passport');
-const passport = require('passport');
+const mongoose = require('mongoose');
+var connect = process.env.MONGODB_URI;
+
+mongoose.connect(connect);
+
+var compression = require('compression');
+//linking file
+
+var authRoute = require('./services/authRoute');
+var activityRoute = require('./services/activityRoute');
+var messageRoute = require('./services/messageRoute');
+var actionRoute = require('./services/actionRoute');
+
 
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(bodyParser.urlencoded({ extended: false}));
+
+app.use(bodyParser.json());
+
+app.use('/', authRoute);
+app.use('/', activityRoute);
+app.use('/', messageRoute);
+app.use('/', actionRoute);
 
 app.get('/auth/facebook',
   passport.authenticate('facebook'));
@@ -31,6 +48,15 @@ app.get('/auth/linkedin/callback',
   function(req, res) {
     res.redirect('/');
 });
+
+app.post('createEvent', function(req, res){
+  var activityObject = req.body.activity;
+  var activity = new Activity(activityObject);
+  activity.save(function (err) {
+    if (err) return handleError(err);
+    console.log('saved')
+  })
+})
 
 
 

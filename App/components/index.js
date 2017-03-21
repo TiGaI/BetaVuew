@@ -7,6 +7,7 @@ import randomcolor from 'randomcolor'
 
 import ActivitiesPage from './activitiesPage'
 import SwiperView from './swiperView'
+import createEvent from './createEvent'
 
 // import { NavigationExperimental } from 'react-native';
 // import React, { Component } from 'react';
@@ -202,7 +203,7 @@ export default class Index extends Component {
           style={{flex: 1}}
           initialRoute={{
               component: ActivitiesPage,
-              title: 'ActivitiesPage'
+              title: 'activitiesPage'
             }}
             navigationBarHidden={true}>
           </NavigatorIOS>

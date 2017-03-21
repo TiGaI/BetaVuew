@@ -6,9 +6,9 @@ import Tabs from '../components/tabs';
 class BetaVuew extends Component {
   constructor(props) {
     super(props);
-    this.socket = SocketIOClient('http://localhost:8080', {
-      transports: ['websocket']
-    })
+    // this.socket = SocketIOClient('http://localhost:8080', {
+    //   transports: ['websocket']
+    // })
   }
   render() {
     return (
