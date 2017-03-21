@@ -1,11 +1,15 @@
-import { createStore, compose } from 'redux';
+import { createStore, applyMiddleware, compose } from 'redux';
 import { fromJS } from 'immutable';
-import createReducer from './reducers/combineReducer';
+import thunk from 'redux-thunk';
+// import createReducer from './reducers/combineReducer';
+import createReducer  from './reducers/combineReducer';
 import devTools from 'remote-redux-devtools';
-
-function configureStore(initialState = fromJS({ })) {
-	const createStoreWithMiddleware = compose(devTools())(createStore);
+// = fromJS({ })
+function configureStore(initialState) {
+	const createStoreWithMiddleware = compose(applyMiddleware(thunk), devTools())(createStore);
 	return createStoreWithMiddleware(createReducer(), initialState);
+	// return createStore(createReducer(), compose(applyMiddleware(thunk), devTools()))
+
 }
 
 module.exports = configureStore;

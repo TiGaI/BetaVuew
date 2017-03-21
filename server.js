@@ -5,28 +5,37 @@ const path = require('path');
 const app = express();
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
+const bodyParser = require('body-parser')
+
 const mongoose = require('mongoose');
+var connect = process.env.MONGODB_URI;
+
+mongoose.connect(connect);
+
+var compression = require('compression');
+//linking file
+
+var authRoute = require('./services/authRoute');
+var activityRoute = require('./services/activityRoute');
+var messageRoute = require('./services/messageRoute');
+var actionRoute = require('./services/actionRoute');
+
 
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(bodyParser.urlencoded({ extended: false}));
 
-// TODO: get events for each category.
-//Get all Events for the index page.
-app.get('/IndexEvents', function(req, res) {
+app.use(bodyParser.json());
 
-});
-
-
-// TODO: Get specific event
-//Get specific event.
-app.get('/event', function(req, res) {
-    // req.body.id
+app.use('/', authRoute);
+app.use('/', activityRoute);
+app.use('/', messageRoute);
+app.use('/', actionRoute);
 
 
-});
 
 // TODO: create event
 //create events
-app.post('/Conversation', function(req, res) {
+app.post('/conversation', function(req, res) {
     // req.body.id
 
 
@@ -49,13 +58,7 @@ app.get('/Conversation', function(req, res) {
 
 });
 
-// TODO: message
-//Get User get the conversation of each connection.
-app.get('/Conversation', function(req, res) {
-    // req.body.id
 
-
-});
 
 
 var port = process.env.PORT || 8080;

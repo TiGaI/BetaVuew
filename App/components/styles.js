@@ -21,6 +21,9 @@ export default StyleSheet.create({
 		flex: 1,
 		alignItems: 'center'
 	},
+  text: {
+    flex: .2
+  },
 	tabText: {
 		color: 'white',
 		margin: 50,

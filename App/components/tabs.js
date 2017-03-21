@@ -1,16 +1,23 @@
-import { View, Text, TabBarIOS } from 'react-native';
-import React, { Component } from 'react';
+import { View, Text, TabBarIOS, TouchableOpacity } from 'react-native';
+import React, { Component, PropTypes } from 'react';
 import styles from './styles';
 import { connect } from 'react-redux';
 import { actions as navigationActions } from 'react-native-navigation-redux-helpers';
 const { jumpTo } = navigationActions;
 import IndexPage from './index';
+import Swipe from './swiperView';
 
 class ApplicationTabs extends Component {
 	_renderTabContent(tab) {
 		if (tab.key === 'search') {
 			return (
-				<IndexPage />
+				<View>
+					<IndexPage />
+					<Text style={styles.text}>{this.props.profile.name}</Text>
+					<TouchableOpacity onPress={this.props.onPress}>
+	                        <Text>logout</Text>
+	        </TouchableOpacity>
+				</View>
 			);
 		}
 
@@ -28,7 +35,10 @@ class ApplicationTabs extends Component {
 
 		if (tab.key === 'profile') {
 			return (
-				<View style={[styles.tabContent, {backgroundColor: 'red'}]} />
+				<View style={[styles.tabContent, {backgroundColor: 'red'}]} >
+					<Swipe/>
+				</View>
+
 			);
 		}
 
@@ -59,6 +69,11 @@ class ApplicationTabs extends Component {
 		);
 	}
 }
+
+ApplicationTabs.propTypes = {
+    onPress: PropTypes.func.isRequired,
+    profile: PropTypes.object.isRequired
+};
 
 function mapDispatchToProps(dispatch) {
 	return {
