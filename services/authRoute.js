@@ -10,7 +10,7 @@ router.post('/facebookAuth', function(req, res) {
     // req.body.id
     console.log('EMAIL', req.body.result)
     var profile = req.body.result
-    User.findOne({email: profile.email[0].value}, function(err, user) {
+    User.findOne({email: profile.email}, function(err, user) {
             if (err) {
                 return {err, user}
             }
@@ -29,8 +29,8 @@ router.post('/facebookAuth', function(req, res) {
                     return {err, user}
                 });
             } else {
-                //found user. Return
-                res.send(user)
+              res.send(user)
+              return user
             }
         });
 });
@@ -42,9 +42,18 @@ router.post('/linkedinAuth', function(req, res) {
 });
 
 // TODO: return Current user
-router.get('/getUser', function(req, res) {
-    // req.body.id
-
+router.get('/getCurrentUser', function(req, res) {
+    User.findOne({_id: req.body.userID}, function(err, user) {
+            if (err) {
+                return {err, user}
+            }
+            if (user) {
+                return user
+            } else {
+              console.log("cannot find user");
+              return null
+            }
+        });
 });
 
 module.exports = router;

@@ -52,18 +52,25 @@ router.post('/sendFriendRequest', function(req, res){
 
 
 router.get('/getNotification', function(req, res){
-
-      FriendRequest.find({toUser: req.body.userID}, function(err, friendRequest) {
+    FriendRequest.find({toUser: req.body.userID})
+     .sort({ createAt: -1})
+     .populate('fromUser')
+     .select('fromUser').exec( function(err, friendRequests) {
         if (err) {
-            return {err, friendRequest}
+            return {err, friendRequests}
         }
 
-      if(friendRequest){
-          
+      if(friendRequests){
 
+          console.log('hoping this is a array: ', friendRequests)
+
+          var userName = friendRequests.map(function(friend){
+            let object = {_id: friend._id, firstName: friend.firstName, lastName: friend.lastName, profileImg: friend.profileImg}
+             return object
+          })
       }else{
+        return null
         console.log('No Friend Request notification')
-
       }
     })
   });
@@ -118,6 +125,22 @@ router.post('/acceptFriendRequest', function(req, res){
       console.log('you have not send a friend request him yet.')
     }
   })
+});
+
+router.get('/getActivityOwner', function(req, res){
+
+  User.findOne({_id: req.body.userID}, function(err, user) {
+          if (err) {
+              return {err, user}
+          }
+          if (user) {
+              return user
+          } else {
+            console.log("cannot find activity owner");
+            return null
+          }
+    });
+
 });
 
 module.exports = router;

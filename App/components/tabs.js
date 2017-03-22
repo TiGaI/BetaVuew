@@ -57,6 +57,7 @@ class ApplicationTabs extends Component {
 				</TabBarIOS.Item>
 			);
 		});
+			console.log(this.props.profile)
 		return (
 			<TabBarIOS
 				unselectedTintColor='black'
@@ -82,7 +83,8 @@ function mapDispatchToProps(dispatch) {
 
 function mapStateToProps(state) {
 	return {
-		navigation: state.get('tabs')
+		navigation: state.get('tabs'),
+		indexPage: state.get('indexPage')
 	};
 }
 export default connect(mapStateToProps, mapDispatchToProps)(ApplicationTabs);

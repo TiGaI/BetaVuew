@@ -58,9 +58,7 @@ export function login() {
         dispatch(attempt());
 
         facebookLogin().then((result) => {
-
-          console.log("i AM here because of this: " + result)
-
+          var mongooseId = '';
           fetch('http://localhost:8080/facebookAuth', {
               method: 'POST',
               headers: {
@@ -72,15 +70,15 @@ export function login() {
             })
             .then((response) => response.json())
             .then((responseJson) => {
-              
+                // console.log("user information from facebook: ", responseJson._id)
+                mongooseId = responseJson._id
+                dispatch(loggedin());
+                dispatch(addUser(mongooseId, result.name, result.email, result.picture.data.url, result.picture.data.width, result.picture.data.height));
             })
             .catch((err) => {
-              console.log('error12331231231', err)
+              console.log('error: ', err)
             });
 
-
-            dispatch(loggedin());
-            dispatch(addUser(result.id, result.name, result.email, result.picture.data.url, result.picture.data.width, result.picture.data.height));
         }).catch((err) => {
             dispatch(errors(err));
       });
