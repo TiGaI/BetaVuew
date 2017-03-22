@@ -30,7 +30,7 @@ export default StyleSheet.create({
 		height: 56,
 	},
 	profileBox: {
-		backgroundColor: "blue",
+		backgroundColor: "white",
 		flex: 1,
 		borderStyle: 'solid',
 		alignItems: 'center',

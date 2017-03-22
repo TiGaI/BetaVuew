@@ -1,14 +1,13 @@
 import React, { Component } from 'react';
 import { AppRegistry, ScrollView, StyleSheet, View, TextInput, TouchableOpacity, NavigatorIOS, ListView, Alert, AsyncStorage, Image } from 'react-native';
-import { Container, Content, Left, Body, Right, Text, ListItem, Thumbnail, Card, CardItem, Button, Icon } from 'native-base';
+import { Container, Content, Left, Body, Right, Text, ListItem, Thumbnail, Card, CardItem, Button } from 'native-base';
+import Icon from 'react-native-vector-icons/Ionicons';
 import Swiper from 'react-native-swiper'
 import styles from './styles'
 import Carousel from 'react-native-snap-carousel';
 import { sliderWidth, itemWidth } from './styles';
 import MapView from 'react-native-maps';
 import randomcolor from 'randomcolor';
-import SocketIOClient from 'socket.io-client';
-import ActivitiesPage from './activitiesPage';
 
 
 class TitleText extends Component {
@@ -24,21 +23,18 @@ class TitleText extends Component {
 class Swipe extends Component{
   constructor(props){
     super(props)
-    console.log('Thebest', this.props)
+    this.state = {
+      message: "",
+      friendsList: []
+
   }
+}
   viewStyle() {
     return {
       flex: 2,
       backgroundColor: 'white',
-      justifyContent: 'center',
-      alignItems: 'center',
+      justifyContent: 'center'
     }
-  }
-  chat(){
-    console.log('Chat',this.props)
-    this.props.navigator.replace({
-      component: Chat
-    })
   }
   render(){
     console.log("THIS ONE", this.props)
@@ -49,102 +45,95 @@ class Swipe extends Component{
         loop={false}
         showsPagination={false}
         index={1}>
-        <View style={this.viewStyle()}>
+        <View style={{flex: 1, backgroundColor: 'transparent'}}>
+          <View style={{flex: 2}}>
+            <View style={{flex: 1}}>
+            <Image source={require("../../assets/images/cyclist.jpg")}
+              resizeMode = "stretch"
+              style={{flex:1, alignItems:'center', width:null, height:null, justifyContent:'center'}}>
+            </Image>
+            </View>
+          </View>
 
-          <Container>
-
-            <Content>
-              <View style={styles.profileBox}>
-                <Thumbnail style={{marginTop: 50, height: 80, width: 80, borderRadius: 40}} source={require("../../assets/images/cyclist.jpg")} />
-                <Text style={{textAlign: 'center', fontWeight: '300', fontSize: 25, marginTop: 10}}>Junjie Jiang</Text>
-                <Text style={{textAlign: 'center', fontWeight: '300', fontSize: 10, marginBottom: 10}}>Jupiter, Florida</Text>
-                <Text note style={{textAlign: 'center', fontWeight: '100', fontSize: 12, marginBottom: 10}}>You either end other career, or end your career</Text>
-
-                <View style={styles.socialStatus}>
-                  <View style={[styles.innerbox,  {alignItems: "flex-end"}]}>
-                    <View style={[styles.circle, {backgroundColor: '#54A78B'}]}>
-                      <Text style={styles.textInCicle, {color: 'white'}}>600</Text>
-                    </View>
-                    <Text style={{textAlign: 'center', color: "#FDFCFA", fontWeight: '300', fontSize: 10, paddingRight: 10 }}>Followers</Text>
-                  </View>
-                  <View style={[styles.innerbox,  {alignItems: "center"}]}>
-                    <View style={[styles.circle, {backgroundColor: '#5B6AAB'}]}>
-                      <Text style={styles.textInCicle, {color: 'white'}}>27</Text>
-                    </View>
-                    <Text style={{textAlign: 'center', color: "#FDFCFA", fontWeight: '300', fontSize: 10}}>Activities</Text>
-                  </View>
-                  <View style={[styles.innerbox,  {alignItems: "flex-start"}]}>
-                    <View style={[styles.circle, {backgroundColor: '#579BAB'}]}>
-                      <Text style={styles.textInCicle, {color: 'white'}}>8.7 K</Text>
-                    </View>
-                      <Text style={{textAlign: 'center', color: "#FDFCFA", fontWeight: '300', fontSize: 10, paddingLeft: 2 }}>savage level</Text>
-                  </View>
-                </View>
-              </View>
-
-                <Carousel
-                  ref={'carousel'}
-                  sliderWidth={sliderWidth}
-                  itemWidth={itemWidth}
-                  containerCustomStyle={{position: "relative", top: -70, paddingBottom: 270}}>
-                  <View style={styles.bottomProfileContainer}>
-                        <View style={styles.slide1top}>
-                          <View style={styles.slidepicture}></View>
-                          <View style={styles.slidepicture}></View>
-                        </View>
-
-                        <View style={styles.slide1bottom}>
-                          <View style={styles.slidepicture}></View>
-                          <View style={styles.slidepicture}></View>
-                        </View>
-                  </View>
-                  <View style={styles.bottomProfileContainer, {paddingLeft: 100}}>
-                    <View style={styles.slide2top}>
-                      <Text style={{fontSize: 18, fontWeight: '500', color: '#4E4E4E', marginTop: 10}}>Event Name</Text>
-                    </View>
-                    <View style={styles.slide2bottom}>
-                      <Text style={{fontSize: 18, fontWeight: '500', color: '#4E4E4E', marginTop: 10}}>Event Name</Text>
-                    </View>
-                  </View>
-                </Carousel>
-
-            </Content>
-          </Container>
+          <View style={{flex: 1, padding: 20, margin: 0}}>
+          <ScrollView style={{flex: 1}}>
+            <View style={{flex: 1}}>
+              <Text style={{fontSize: 25, fontWeight: '700', color: '#323232'}}>Cycling San Francisco {this.props.homes}</Text>
+            </View>
+            <View style={{flex: 1, marginTop: 10}}>
+            <Text numberOfLines={3} style={{fontSize: 15, fontWeight: '300', color: '#4E4E4E' }}>Narwhal occupy banh mi, skateboard locavore semiotics vape vexillologist XOXO.
+             Pop-up seitan selvage unicorn fanny pack, art party fam celiac fixie flannel vegan vinyl trust fund intelligentsia. Squid skateboard cardigan,
+             lyft occupy portland fap fashion axe hoodie kinfolk blog four dollar toast yuccie. </Text>
+            </View>
+            <View style={{flex: 1, marginTop: 10}}>
+              <Button full success>
+                  <Text style={{color: 'white', fontSize: 20, fontWeight: '500'}}>Join Activity</Text>
+              </Button>
+            </View>
+          </ScrollView>
+          </View>
         </View>
+
 
         <Swiper
           horizontal={false}
           loop={false}
           showsPagination={false}
           index={1}>
-          <View style={{flex: 1, backgroundColor: 'transparent'}}>
-            <View style={{flex: 2}}>
-              <View style={{flex: 1, flexDirection: 'row'}}>
-              <Image source={require("../../assets/images/climb.jpg")}
-                resizeMode = "stretch"
-                style={{flex:1, alignItems:'center', width:null, height:null, justifyContent:'center'}}>
-              </Image>
-              </View>
-            </View>
 
-            <View style={{flex: 1, padding: 20, margin: 0}}>
-            <ScrollView style={{flex: 1}}>
-              <View style={{flex: 1}}>
-                <Text style={{fontSize: 25, fontWeight: '700', color: '#323232'}}>Cycling San Francisco {this.props.homes}</Text>
+          <View style={this.viewStyle()}>
+            <Container>
+              <Content>
+              <View style={{flex: 1, flexDirection: 'row' }}>
+              <View style={{flex: 1, textAlign: 'left', marginTop: 20, marginLeft: 20}}>
+              <TouchableOpacity>
+              <Icon style={{fontSize: 40, color: '#1D79C1'}} name='ios-chatbubbles' />
+              </TouchableOpacity>
               </View>
-              <View style={{flex: 1, marginTop: 10}}>
-              <Text numberOfLines={3} style={{fontSize: 15, fontWeight: '300', color: '#4E4E4E' }}>Narwhal occupy banh mi, skateboard locavore semiotics vape vexillologist XOXO.
-               Pop-up seitan selvage unicorn fanny pack, art party fam celiac fixie flannel vegan vinyl trust fund intelligentsia. Squid skateboard cardigan,
-               lyft occupy portland fap fashion axe hoodie kinfolk blog four dollar toast yuccie. </Text>
+              <View style={{flex: 1, alignItems: 'flex-end', marginTop: 20, marginRight: 20}}>
+              <TouchableOpacity>
+              <Icon style={{fontSize: 40, color: '#1D79C1'}} name='md-person-add' />
+              </TouchableOpacity>
               </View>
-              <View style={{flex: 1, marginTop: 10}}>
-                <Button full success onPress={this.chat.bind(this)}>
-                    <Text style={{color: 'white', fontSize: 20, fontWeight: '500'}}>Message Admin</Text>
-                </Button>
               </View>
-            </ScrollView>
-            </View>
+                <View style={styles.profileBox}>
+                  <Thumbnail style={{marginTop: 0, height: 120, width: 120, borderRadius: 60}} source={require("../../assets/images/cyclist.jpg")} />
+                  <Text style={{textAlign: 'center', fontWeight: '300', fontSize: 25, marginTop: 5}}>Junjie Jiang</Text>
+                  <Text style={{textAlign: 'center', fontWeight: '300', fontSize: 10, marginBottom: 5}}>Jupiter, Florida</Text>
+                  <Text note style={{textAlign: 'center', fontWeight: '100', fontSize: 12, marginBottom: 5, color: '#323232'}}>You either end other career, or end your career</Text>
+
+                  <View style={styles.socialStatus}>
+                    <View style={[styles.innerbox,  {alignItems: "flex-end"}]}>
+                      <View style={[styles.circle, {backgroundColor: '#54A78B'}]}>
+                        <Text style={styles.textInCicle, {color: '#323232'}}>600</Text>
+                      </View>
+                      <Text style={{textAlign: 'center', color: "#323232", fontWeight: '300', fontSize: 10, paddingRight: 10, marginTop: 5 }}>Followers</Text>
+                    </View>
+                    <View style={[styles.innerbox,  {alignItems: "center"}]}>
+                      <View style={[styles.circle, {backgroundColor: '#5B6AAB'}]}>
+                        <Text style={styles.textInCicle, {color: '#323232'}}>27</Text>
+                      </View>
+                      <Text style={{textAlign: 'center', color: "#323232", fontWeight: '300', fontSize: 10, marginTop: 5}}>Activities</Text>
+                    </View>
+                    <View style={[styles.innerbox,  {alignItems: "flex-start"}]}>
+                      <View style={[styles.circle, {backgroundColor: '#579BAB'}]}>
+                        <Text style={styles.textInCicle, {color: '#323232'}}>8.7 K</Text>
+                      </View>
+                        <Text style={{textAlign: 'center', color: "#323232", fontWeight: '300', fontSize: 10, paddingLeft: 2, marginTop: 5 }}>Savage level</Text>
+                    </View>
+                  </View>
+                </View>
+
+                <View style={{backgroundColor: '#1DC16A', flex: 1, height: 300, marginTop: 80}}>
+                </View>
+
+              </Content>
+            </Container>
+
           </View>
+
+
+
         </Swiper>
         <View style={{flex: 1}}>
           <ScrollView style={{flex:1}}>
@@ -165,19 +154,6 @@ class Swipe extends Component{
               </View>
               <View style={{flex:1, borderStyle: 'solid', borderColor:'grey',
                borderBottomWidth: 1}}>
-                <Text style={{fontSize: 20, fontWeight: '500', color: '#323232', marginTop: 20, textAlign: 'justify'}}>General Information</Text>
-                <View style={{flex:1, flexDirection: 'row', marginTop: 20}}>
-                  <View style={{flex:1, backgroundColor: '#00A699', height: 50, justifyContent: 'center', alignItems: 'center',
-                  borderColor: 'transparent', borderStyle: 'solid', borderWidth: 1, borderRadius: 3, marginRight: 5}}>
-                  <Text style={{fontSize: 15, fontWeight: '500', color: 'white'}}>Group Size</Text>
-                  <Text style={{fontSize: 15, fontWeight: '500', color: 'white'}}>5</Text>
-                  </View>
-                  <View style={{flex:1, backgroundColor: '#00A699', height: 50, justifyContent: 'center', alignItems: 'center',
-                borderColor: 'transparent', borderStyle: 'solid', borderWidth: 1, borderRadius: 3}}>
-                  <Text style={{fontSize: 15, fontWeight: '500', color: 'white'}}>Ages</Text>
-                  <Text style={{fontSize: 15, fontWeight: '500', color: 'white'}}>20-25</Text>
-                  </View>
-                </View>
                 <Text style={{fontSize: 20, fontWeight: '500', color: '#323232', marginTop: 20, textAlign: 'justify'}}>Location</Text>
                 <Text numberOfLines={3} style={{fontSize: 15, fontWeight: '300', color: '#4E4E4E' , marginTop: 20}}>We will meet the top of Twin Peaks.
                  The address is 501 Twin Peaks Blvd, San Francisco, CA 94114</Text>
@@ -190,6 +166,19 @@ class Swipe extends Component{
                     longitudeDelta: 0.0421,
                   }}
                 />
+              </View>
+              <Text style={{fontSize: 20, fontWeight: '500', color: '#323232', marginTop: 20, textAlign: 'justify'}}>General Information</Text>
+              <View style={{flex:1, flexDirection: 'row', marginTop: 20}}>
+                <View style={{flex:1, backgroundColor: '#00A699', height: 50, justifyContent: 'center', alignItems: 'center',
+                borderColor: 'transparent', borderStyle: 'solid', borderWidth: 1, borderRadius: 3, marginRight: 5}}>
+                <Text style={{fontSize: 15, fontWeight: '500', color: 'white'}}>Group Size</Text>
+                <Text style={{fontSize: 15, fontWeight: '500', color: 'white'}}>5</Text>
+                </View>
+                <View style={{flex:1, backgroundColor: '#00A699', height: 50, justifyContent: 'center', alignItems: 'center',
+              borderColor: 'transparent', borderStyle: 'solid', borderWidth: 1, borderRadius: 3}}>
+                <Text style={{fontSize: 15, fontWeight: '500', color: 'white'}}>Ages</Text>
+                <Text style={{fontSize: 15, fontWeight: '500', color: 'white'}}>20-25</Text>
+                </View>
               </View>
               <View style={{flex:1, marginTop: 20}}>
                 <View style={{flex:1, backgroundColor: 'white', height: 100, justifyContent: 'center'}}>
@@ -205,19 +194,6 @@ class Swipe extends Component{
     )
   }
 
-}
-
-class Chat extends Component {
-  constructor(props){
-    super(props)
-  }
-  render() {
-    return (
-      <Text style={{ fontSize: 48, color: 'white' }}>
-        Hello
-      </Text>
-    )
-  }
 }
 
 

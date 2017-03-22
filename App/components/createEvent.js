@@ -9,7 +9,7 @@ import { Form,
 import Swiper from 'react-native-swiper'
 import randomcolor from 'randomcolor'
 
-var Activity = require('../../models/models').Activity;
+
 
 // var mongoose = require('mongoose');
 // mongoose.connect(require('../../models/connect'))
@@ -47,11 +47,11 @@ export default class CreateEvent extends Component {
   }
   submit(){
     console.log('FORM STATE', this.state);
-    var activity = new Activity({
+    var activity = ({
       ...this.state
     });
-
-    fetch("localhost:8080/createEvent", {
+    console.log('activity', activity);
+    fetch("http://localhost:8080/createEvent", {
       method: 'POST',
       headers: {
         "Content-Type": "application/json"
@@ -59,7 +59,17 @@ export default class CreateEvent extends Component {
       body: JSON.stringify({
         activity: activity
       })
-    })
+    }).then(
+
+      this.setState({
+      title: "",
+      description: "",
+      startTime: new Date(),
+      endTime: "",
+      privacy: "Public",
+      othersCanJoin: false
+    }))
+    alert('Succcceeeesss')
   }
 
   render() {
@@ -131,5 +141,3 @@ export default class CreateEvent extends Component {
   }
 
 }
-
-module.exports = CreateEvent;

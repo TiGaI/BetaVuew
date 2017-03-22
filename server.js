@@ -5,28 +5,38 @@ const path = require('path');
 const app = express();
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
+const bodyParser = require('body-parser');
+const Activity = require('./models/models').Activity
+
 const mongoose = require('mongoose');
+var connect = process.env.MONGODB_URI;
+mongoose.Promise = global.Promise;
+mongoose.connect(connect);
+
+var compression = require('compression');
+//linking file
+
+// var authRoute = require('./services/authRoute');
+// var activityRoute = require('./services/activityRoute');
+// var messageRoute = require('./services/messageRoute');
+// var actionRoute = require('./services/actionRoute');
+
 
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(bodyParser.urlencoded({ extended: false}));
 
-// TODO: get events for each category.
-//Get all Events for the index page.
-app.get('/IndexEvents', function(req, res) {
+app.use(bodyParser.json());
 
-});
-
-
-// TODO: Get specific event
-//Get specific event.
-app.get('/event', function(req, res) {
-    // req.body.id
+// app.use('/', authRoute);
+// app.use('/', activityRoute);
+// app.use('/', messageRoute);
+// app.use('/', actionRoute);
 
 
-});
 
 // TODO: create event
 //create events
-app.post('/Conversation', function(req, res) {
+app.post('/conversation', function(req, res) {
     // req.body.id
 
 
@@ -49,22 +59,7 @@ app.get('/Conversation', function(req, res) {
 
 });
 
-// TODO: message
-//Get User get the conversation of each connection.
-app.get('/Conversation', function(req, res) {
-    // req.body.id
 
-
-});
-
-
-app.post('createEvent', function(req, res){
-  var activity = req.body.activity;
-  activity.save(function (err) {
-    if (err) return handleError(err);
-    console.log('saved')
-  }
-});
 
 
 var port = process.env.PORT || 8080;
@@ -73,27 +68,31 @@ http.listen(port, function() {
 });
 
 
+app.post('/createEvent', function(req, res){
+  console.log('faknflnalanflaneljngalnelanna');
+  var activityObject = req.body.activity;
+  console.log('body',req.body)
+  var activity = new Activity(activityObject);
+  activity.save(function(err) {
+  if (err) throw err;
+  console.log('User created!');
+});
+})
+
+app.get('fetchData', function(req, res){
+  Activity.find().sort({startTime: 1}).skip(0).limit(10).exec(function(err, activities){
+    if (err) {
+      console.log(err)
+    } else {
+      res.json({
+        activities: activities
+      })
+    }
+  })
+})
+
+
+
 io.on('connection', (socket) => {
   console.log('A client just joined on');
 });
-
-// io.on('connection', function(socket) {
-//   console.log('connected');
-//   var interactions = interactionsConstructor(socket, game);
-//   var socketUser; //the user who sent whatever event is being handled in here //TODO refactor to use
-//
-//   socket.on('username', function(username) {
-//     console.log(username)
-//     try {
-//       var id = game.addPlayer(username);
-//       console.log("after add " + username + " game is", game.players);
-//       socket.playerId = id;
-//       socketUser = username;
-//       socket.broadcast.emit('newUser', username);
-//     } catch ( e ) {
-//       socket.emit('username', false);
-//       console.error(e);
-//       socket.emit("errorMessage", e);
-//     }
-//   });
-// });

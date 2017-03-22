@@ -7,6 +7,8 @@ import { actions as navigationActions } from 'react-native-navigation-redux-help
 const { jumpTo } = navigationActions;
 import IndexPage from './index';
 import SocketIOClient from 'socket.io-client';
+import CreateEvent from './createEvent';
+
 
 class ApplicationTabs extends Component {
 	_renderTabContent(tab) {
@@ -43,7 +45,7 @@ class ApplicationTabs extends Component {
 
 		if (tab.key === 'profile') {
 			return (
-				<View style={[styles.tabContent, {backgroundColor: 'red'}]} />
+				<CreateEvent />
 			);
 		}
 

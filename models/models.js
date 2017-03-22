@@ -36,12 +36,8 @@ var userSchema = new mongoose.Schema({
     type: Boolean,
     default: false
   },
-  Activities: {
+  Activities:
     [{type: mongoose.Schema.Types.ObjectId, ref: 'Activity'}]
-  },
-  // attachment: {
-  //   type: String
-  // } don't know what this means
 },
 { timestamps: true }
 );
@@ -124,7 +120,8 @@ var FriendRequestSchema = new mongoose.Schema({
   accepted :{
     type: Boolean,
     required: true
-  },
+  }
+},
   { timestamps: true }
 );
 
@@ -142,19 +139,20 @@ var activityActionSchema = new mongoose.Schema({
   accepted :{
     type: Boolean,
     required: true
-  },
+  }
+},
   { timestamps: true }
 );
 
 var User = mongoose.model("User", userSchema);
 var Activity = mongoose.model("Message", activitySchema);
-var Message = mongoose.model("Message", messageSchema);
-var FriendRequest = mongoose.model("FriendRequest", friendRequestSchema);
+// var Message = mongoose.model("Message", messageSchema);
+// var FriendRequest = mongoose.model("FriendRequest", friendRequestSchema);
 var ActivityAction = mongoose.model("ActivityAction", activityActionSchema);
 
 module.exports = {
   User: User,
   Activity: Activity,
-  Message: Message
+  // Message: Message
 
 };
