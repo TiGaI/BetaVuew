@@ -14,9 +14,7 @@ class ApplicationTabs extends Component {
 				<View>
 					<IndexPage />
 					<Text style={styles.text}>{this.props.profile.name}</Text>
-					<TouchableOpacity onPress={this.props.onPress}>
-	                        <Text>logout</Text>
-	        </TouchableOpacity>
+
 				</View>
 			);
 		}
@@ -29,7 +27,8 @@ class ApplicationTabs extends Component {
 
 		if (tab.key === 'chat') {
 			return (
-				<View style={[styles.tabContent, {backgroundColor: 'pink'}]} />
+				<View style={[styles.tabContent, {backgroundColor: 'pink'}]}>
+				</View>
 			);
 		}
 

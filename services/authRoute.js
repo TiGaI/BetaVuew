@@ -10,9 +10,6 @@ router.post('/facebookAuth', function(req, res) {
     // req.body.id
     console.log('EMAIL', req.body.result)
     var profile = req.body.result
-    console.log('name1, ', profile.name)
-    console.log('name2, ', profile.email)
-    console.log('name3, ', profile.name.toString())
     User.findOne({email: profile.email[0].value}, function(err, user) {
             if (err) {
                 return {err, user}

@@ -35,8 +35,6 @@ router.use('/', function(req, res, next){
   }
 });
 
-// TODO: Get specific event
-//Get specific event.
 router.post('/createActivity', upload.fields([{name: 'file', maxCount: 4},
   { name: 'video', maxCount: 1}]), function(req, res){
     // console.log(req.files['file'][0].location)
@@ -44,45 +42,65 @@ router.post('/createActivity', upload.fields([{name: 'file', maxCount: 4},
       {activityCreator: req.body.activityCreator._id}]}, function(err, activity) {
       if (err) {
                 return {err, user}
-            }
-    var activity = new Activity({
-      activityCreator: req.body.activityCreator._id,
-      activityTitle: req.body.activityTitle,
-      activityDescription: req.body.activityDescription,
-      typeofRoom: req.body.typeofRoom,
-      activityCategory: req.body.activityCategory,
-      timeStart: req.body.timeStart,
-      timeEnd: req.body.timeEnd,
-      activityImages: req.files['file'][0].location,
-      activityVideo: req.files['video'][0].location,
-      activityLocation: req.body.activityLocation,
-      interestUser: [],
-      activityCapacity: req.body.activityCapacity
-    })
-    activity.save(function(err){
-      if (err) {
-        res.send(err)
-      } else {
-        res.redirect('/')
       }
-    })
+
+    if(!activity){
+      var newActivity = new Activity({
+        activityCreator: req.body.activityCreator._id,
+        activityTitle: req.body.activityTitle,
+        activityDescription: req.body.activityDescription,
+        typeofRoom: req.body.typeofRoom,
+        activityCategory: req.body.activityCategory,
+        timeStart: req.body.timeStart,
+        timeEnd: req.body.timeEnd,
+        activityImages: req.files['file'] ? req.files['file'][0].location : '',
+        activityVideo: req.files['video'] ? req.files['video'][0].location : '',
+        activityLocation: req.body.activityLocation,
+        interestUser: [],
+        activityCapacity: req.body.activityCapacity
+      })
+
+      newActivity.save(function(err){
+        if (err) {
+          res.send(err)
+        } else {
+          console.log('Nice, you created a file')
+        }
+      })
+    }else{
+      console.log('activity already exist!')
+    }
+
   })
 });
 
-
-// TODO: get events for each category.
-//Get all Events for the index page.
-router.get('/indexActivities', function(req, res) {
-
+//populate activities by category
+router.get('/populateActivities', function(req, res) {
+  Activity.find({activityCategory: req.body.category}).populate({
+    path:'Articles',
+    options: {
+        limit: req.body.length,
+        sort: { created: -1},
+    }
+  }).exec(function (err, articles) {
+      if (err) console.log('error is good');
+      console.log("articles is ", articles)
+      return articles;
+  });
 });
 
 
-// TODO: Get specific event
-//Get specific event.
-router.get('/activity', function(req, res) {
+// TODO: Edit an activity
+router.post('/editActivity', function(req, res) {
     // req.body.id
 
+});
+
+// TODO: Get owner profile of the acitivity
+router.get('/getActivityOwner', function(req, res) {
+    // req.body.id
 
 });
+
 
 module.exports = router;
