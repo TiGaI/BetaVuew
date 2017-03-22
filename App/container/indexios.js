@@ -36,6 +36,7 @@ class BetaVuew extends Component {
             // loginComponent = <ActivityIndicatorIOS size="large" color="#3b5998" />;
             // tabsComponent = <ActivityIndicatorIOS size="large" color="#3b5998" />;
         }
+
         return (
             <View style={{flex: 1}}>
             { login.loggedIn ? tabsComponent : loginComponent }

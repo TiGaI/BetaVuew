@@ -74,8 +74,7 @@ var activitySchema = new mongoose.Schema({
     required: true
   },
   interestUser: {
-    type: String,
-    required: true
+    type: String
   },
   typeofRoom: {
     type: String,

@@ -33,7 +33,8 @@
     "redux-thunk": "^2.2.0",
     "reselect": "^2.4.0",
     "socket.io": "^1.7.3",
-    "socket.io-client": "^1.7.3"
+    "socket.io-client": "^1.7.3",
+    "tcomb-form-native": "^0.6.7"
   },
   "devDependencies": {
     "babel-jest": "19.0.0",

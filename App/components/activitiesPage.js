@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
-import { AppRegistry, ScrollView, StyleSheet, Text, View, TextInput, TouchableOpacity, NavigatorIOS, ListView, Alert, AsyncStorage, Image } from 'react-native';
+import { AppRegistry, ScrollView, StyleSheet, Text, View,
+  TextInput, TouchableOpacity, NavigatorIOS, ListView, Alert, AsyncStorage, Image } from 'react-native';
 import Swiper from 'react-native-swiper'
 import randomcolor from 'randomcolor'
 
 import Swipe from './swiperView'
+import actions from '../actions/action'
 
 var viewed = [{
   "id": 1,
@@ -52,6 +54,7 @@ export default class ActivitiesPage extends Component {
 
   constructor(props){
     super(props);
+    // console.log('props', props);
     var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
     this.state = {
       dataviewed:ds.cloneWithRows(viewed),
@@ -59,6 +62,11 @@ export default class ActivitiesPage extends Component {
       clicked: true
     }
   }
+  // componentWillMount(){
+  //   actions.fetchData();
+  //   actions.getCurrentUser();
+  //   actions.getNotifications();
+  // }
   viewStyle() {
     return ({
       flex: 1,
@@ -68,17 +76,16 @@ export default class ActivitiesPage extends Component {
     });
   }
   press(val) {
-    // console.log('hey');
-    // console.log(this.props);
+    console.log('hey');
+    console.log(this.props);
     this.props.navigator.replace({
       component: Swipe,
       passProps: val
     });
   }
   endReached(){
-    // console.log('hit end')
-    favs = favs.concat(favs);
-    this.setState({datafav: ds.cloneWithRows(favs)})//this.state.datafav.concat(favs))})
+    console.log('hit end')
+    actions.fetchData();
   }
   render() {
     return(

@@ -26,43 +26,38 @@ var upload = multer({
   })
 });
 
-// Require login past this point.
-router.use('/', function(req, res, next){
-  if (!req.user) {
-    res.redirect('/');
-  } else {
-    return next();
-  }
-});
 
 router.post('/createActivity', upload.fields([{name: 'file', maxCount: 4},
   { name: 'video', maxCount: 1}]), function(req, res){
-    // console.log(req.files['file'][0].location)
+
+    var activity = req.body.activity;
+    console.log("this is the body: ", activity)
     Activity.findOne({$and: [{activityTitle: req.body.activityTitle},
-      {activityCreator: req.body.activityCreator._id}]}, function(err, activity) {
+      {activityCreator: activity.activityCreator}]}, function(err, activityfind) {
       if (err) {
                 return {err, user}
       }
 
-    if(!activity){
+    if(!activityfind){
+      console.log("Creating an activity")
       var newActivity = new Activity({
-        activityCreator: req.body.activityCreator._id,
-        activityTitle: req.body.activityTitle,
-        activityDescription: req.body.activityDescription,
-        typeofRoom: req.body.typeofRoom,
-        activityCategory: req.body.activityCategory,
-        timeStart: req.body.timeStart,
-        timeEnd: req.body.timeEnd,
-        activityImages: req.files['file'] ? req.files['file'][0].location : '',
-        activityVideo: req.files['video'] ? req.files['video'][0].location : '',
-        activityLocation: req.body.activityLocation,
+        activityCreator: activity.activityCreator,
+        activityTitle: activity.activityTitle,
+        activityDescription: activity.activityDescription,
+        typeofRoom: activity.typeofRoom,
+        activityCategory: activity.activityCategory,
+        timeStart: activity.timeStart,
+        timeEnd: activity.timeEnd,
+        // activityImages: req.files['file'] ? req.files['file'][0].location : '',
+        // activityVideo: req.files['video'] ? req.files['video'][0].location : '',
+        activityLocation: activity.activityLocation,
         interestUser: [],
-        activityCapacity: req.body.activityCapacity
+        activityCapacity: activity.activityCapacity
       })
 
       newActivity.save(function(err){
         if (err) {
-          res.send(err)
+          console.log('error has occur: ',  err)
         } else {
           console.log('Nice, you created a file')
         }
@@ -93,12 +88,26 @@ router.get('/populateActivities', function(req, res) {
 // TODO: Edit an activity
 router.post('/editActivity', function(req, res) {
     // req.body.id
+    Activity.findOneAndUpdate({_id: req.body.id}, req.body.data, function(err, doc){
+    if (err) return res.send(500, { error: err });
+    return res.send("succesfully saved");
+    });
 
 });
 
-// TODO: Get owner profile of the acitivity
-router.get('/getActivityOwner', function(req, res) {
-    // req.body.id
+router.get('/getActivityOwner', function(req, res){
+
+  User.findOne({_id: req.body.userID}, function(err, user) {
+          if (err) {
+              return {err, user}
+          }
+          if (user) {
+              return user
+          } else {
+            console.log("cannot find activity owner");
+            return null
+          }
+    });
 
 });
 

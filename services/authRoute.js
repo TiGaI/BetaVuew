@@ -56,6 +56,16 @@ router.get('/getCurrentUser', function(req, res) {
         });
 });
 
+// TODO: Edit an user
+router.post('/editUser', function(req, res) {
+    // req.body.id
+    User.findOneAndUpdate({_id: req.body.id}, req.body.data, function(err, doc){
+    if (err) return res.send(500, { error: err });
+    return res.send("succesfully saved");
+    });
+
+});
+
 module.exports = router;
 //Facebook Login
 // passport.use(new FacebookStrategy({

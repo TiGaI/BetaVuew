@@ -6,22 +6,19 @@ import { actions as navigationActions } from 'react-native-navigation-redux-help
 const { jumpTo } = navigationActions;
 import IndexPage from './index';
 import Swipe from './swiperView';
+import CreateEvent from './createEvent';
 
 class ApplicationTabs extends Component {
 	_renderTabContent(tab) {
 		if (tab.key === 'search') {
 			return (
-				<View>
 					<IndexPage />
-					<Text style={styles.text}>{this.props.profile.name}</Text>
-
-				</View>
 			);
 		}
 
 		if (tab.key === 'notifications') {
 			return (
-				<View style={[styles.tabContent, {backgroundColor: 'green'}]} />
+				<CreateEvent />
 			);
 		}
 
@@ -45,7 +42,7 @@ class ApplicationTabs extends Component {
 	}
 
 	render() {
-		const { dispatch, navigation } = this.props;
+		const { dispatch, navigation, indexPage } = this.props;
 		const children = navigation.routes.map( (tab, i) => {
 			return (
 				<TabBarIOS.Item key={tab.key}

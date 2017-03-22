@@ -127,20 +127,5 @@ router.post('/acceptFriendRequest', function(req, res){
   })
 });
 
-router.get('/getActivityOwner', function(req, res){
-
-  User.findOne({_id: req.body.userID}, function(err, user) {
-          if (err) {
-              return {err, user}
-          }
-          if (user) {
-              return user
-          } else {
-            console.log("cannot find activity owner");
-            return null
-          }
-    });
-
-});
 
 module.exports = router;
