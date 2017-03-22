@@ -131,7 +131,7 @@ export function getCurrentUser(){
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          email: profile.id
+          userID: profile.id
         })
     }).then(response => response.json())
       .then(json =>
