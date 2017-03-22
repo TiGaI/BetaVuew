@@ -17,9 +17,12 @@ Array.prototype.next = function(item) {
 
 const initialState = {
   nav: "ActivitiesPage",
+  currentUser: null,
+  fetchingData: false,
   populatedActivities: [],
   category: categories.next(),
-  selectedActivity: null
+  selectedActivity: null,
+  notifications: []
 }
 
 function betavuew(state = initialState, action = {}) {
@@ -30,12 +33,43 @@ function betavuew(state = initialState, action = {}) {
       catigory: action.currentCategory
     }
 
-  case types.SELECT_ACTIVITY:
+  case types.SELECT_ACTIVITY_:
     return {
       ...state,
       selectedActivity: action.selectedActivity,
       nav: "Activity"
     }
+
+  case types.SELECT_ACTVITIES_FETCH:
+    return {
+      ...state,
+      fetchingData: true
+    }
+
+  case types.SCROLL_ACTIVITIES_SUCCESS:
+    popAct = state.populatedActivities
+    newAct = popAct.concat(action.newActivities)
+    return {
+      ...state,
+      populatedActivities: newAct,
+      fetchingData: false
+    }
+
+    case types.UPDATE_NOTIFICATIONS:
+      var notificationAdded = [].concat([...state.notifications, ...action.notification])
+      return {
+        ...state,
+        notifications: notificationAdded
+      }
+
+      case types.GET_NOTIFICATIONS:
+        return {
+          ...state,
+          notifications: notifications
+        }
+
+
+
   case "TEST":
     console.log('in reducer Bitch!')
     return state;
