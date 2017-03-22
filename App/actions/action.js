@@ -47,8 +47,8 @@ export function fetchData(){
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        category: store.getState().category,
-        length: store.getState().populatedActivities.length
+        category: indexPage.category,
+        length: indexPage.populatedActivities.length
       })
     }).then(response => response.json())
       .then(json =>
@@ -69,7 +69,7 @@ export function sendFriendRequest(friendToAdd){
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        fromUserID: store.getState().currentUser,
+        fromUserID: indexPage.currentUser,
         toUserID: friendToAdd
       })
     }).then(response => response.json())
@@ -108,17 +108,54 @@ export function getNotifications(){
       header: {
         'Content-Type': 'application/json'
       },
-      userID: store.getState().currentUser
+      body: JSON.stringify({
+        userID: indexPage.currentUser
+      })
     }).then(response => response.json())
       .then(json =>
         dispatch(populateNotifications(json)))
   })
 }
 
+export function populateCurrentUser(user){
+  return {
+    type: types.GET_CURRENT_USER,
+    currentUser: user
+  }
+}
 export function getCurrentUser(){
+  return dispatch =>
+    fetch('http://localhost8080/getCurrentUser', {
+        method 'GET',
+        header: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          email: profile.id
+        })
+    }).then(response => response.json())
+      .then(json =>
+        dispatch(populatecurrentUser(json)))
+}
 
+export function populateActivityOwner(activityOwner){
+  return {
+    type: types.GET_ACTIVITY_OWNER
+    selectedActivityOwner: activityOwner
+  }
 }
 
 export function getActivityOwner(){
-
+  return dispatch =>
+    fetch('http://localhost8080/getActivityOwner', {
+      method: 'GET',
+      header: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        activityOwner: indexPage.selectedActivity.activityCreator
+      })
+    }).then(response => response.json())
+      .then(json =>
+        dispatch(populateActivityOwner(json)))
 }

@@ -4,6 +4,7 @@ import Swiper from 'react-native-swiper'
 import randomcolor from 'randomcolor'
 
 import Swipe from './swiperView'
+import actions from '../actions/action'
 
 var viewed = [{
   "id": 1,
@@ -60,6 +61,11 @@ export default class ActivitiesPage extends Component {
       clicked: true
     }
   }
+  componentWillMount(){
+    actions.fetchData();
+    actions.getCurrentUser();
+    actions.getNotifications();
+  }
   viewStyle() {
     return ({
       flex: 1,
@@ -78,8 +84,7 @@ export default class ActivitiesPage extends Component {
   }
   endReached(){
     console.log('hit end')
-    favs = favs.concat(favs);
-    this.setState({datafav: ds.cloneWithRows(favs)})//this.state.datafav.concat(favs))})
+    actions.fetchData();
   }
   render() {
     return(

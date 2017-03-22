@@ -22,6 +22,7 @@ const initialState = {
   populatedActivities: [],
   category: categories.next(),
   selectedActivity: null,
+  selectedActivityOwner: null,
   notifications: []
 }
 
@@ -55,18 +56,30 @@ function betavuew(state = initialState, action = {}) {
       fetchingData: false
     }
 
-    case types.UPDATE_NOTIFICATIONS:
-      var notificationAdded = [].concat([...state.notifications, ...action.notification])
+  case types.UPDATE_NOTIFICATIONS:
+    var notificationAdded = [].concat([...state.notifications, ...action.notification])
+    return {
+      ...state,
+      notifications: notificationAdded
+    }
+
+    case types.GET_NOTIFICATIONS:
       return {
         ...state,
-        notifications: notificationAdded
+        notifications: notifications
       }
 
-      case types.GET_NOTIFICATIONS:
-        return {
-          ...state,
-          notifications: notifications
-        }
+    case types.GET_CURRENT_USER:
+      return {
+        ...state,
+        currentUser: action.currentUser
+      }
+
+    case types.GET_ACTIVITY_OWNER:
+      return {
+        ...state,
+        selectedActivityOwner: action.selectedActivityOwner
+      }
 
 
 
