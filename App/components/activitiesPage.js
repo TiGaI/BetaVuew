@@ -1,47 +1,34 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { AppRegistry, ScrollView, StyleSheet, Text, View,
   TextInput, TouchableOpacity, NavigatorIOS, ListView, Alert, AsyncStorage, Image } from 'react-native';
+import { Item, Input, Tab, Tabs } from 'native-base';
 import Swiper from 'react-native-swiper'
 import randomcolor from 'randomcolor'
 
-import Swipe from './swiperView'
-import actions from '../actions/action'
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import * as actionCreators from '../actions/initialAction';
 
-var viewed = [{
-  "id": 1,
-  "price": "$22.17",
-  "name": "dui vel sem sed",
-  "reviews": 52
-}, {
-  "id": 2,
-  "price": "$39.55",
-  "name": "nec sem duis aliquam",
-  "reviews": 78
-}, {
-  "id": 3,
-  "price": "$39.84",
-  "name": "accumsan tellus nisi",
-  "reviews": 89
-}]
 
-var image1 = require("../../assets/images/cyclist.jpg")
-var image2 = require("../../assets/images/runner.jpg")
-var image3 = require("../../assets/images/cyclist.jpg")
-var image4 = require("../../assets/images/cyclist.jpg")
-var image5 = require("../../assets/images/cyclist.jpg")
-var image5 = require("../../assets/images/cyclist.jpg")
+
+var image5 = {uri: 'http://www.thisiscolossal.com/wp-content/uploads/2016/03/finger-4.jpg'}
+var image4 = {uri: 'http://cdn.playbuzz.com/cdn/b19cddd2-1b79-4679-b6d3-1bf8d7235b89/93794aec-3f17-47a4-8801-a2716a9c4598_560_420.jpg'}
+var image3 = {uri: 'https://iso.500px.com/wp-content/uploads/2016/04/STROHL__ST_1204-Edit-1500x1000.jpg'}
+var image2 = {uri: 'http://31k0b1oxydr2takxt23n5fe18p5.wpengine.netdna-cdn.com/wp-content/uploads/2015/04/musician.png'}
+var image1 = {uri: 'https://upload.wikimedia.org/wikipedia/commons/3/38/Two_dancers.jpg'}
+
 
 var favs = [
-  {name:"It Yourts So Good", homes : 18, image: image1},
-  {name:"Underground Homes", homes : 4, image: image1},
-  {name:"Geodesic Domes", homes : 5, image: image1},
-  {name:"Smells Like Eames Spirit", homes : 22, image: image1},
-  {name:"Best of Bali", homes : 18, image: image1},
-  {name:"Family Fun around the World", homes : 26, image: image1},
-  {name:"Castles", homes : 26, image: image1},
-  {name:"Around The World in 15 Listings", homes : 15, image: image1},
-  {name:"Milano Design", homes : 20, image: image1},
-  {name:"Oui, Oui Paris", homes : 25, image: image2},
+  {name:"Paint your pets", homes : 18, image: image1},
+  {name:"Artists in your area", homes : 4, image: image2},
+  {name:"Exploring the outdoors", homes : 5, image: image3},
+  {name:"Music is everthing", homes : 18, image: image4},
+  {name:"Story through dance", homes : 4, image: image5},
+  {name:"Paint your pets", homes : 18, image: image1},
+  {name:"Artists in your area", homes : 4, image: image2},
+  {name:"Exploring the outdoors", homes : 5, image: image3},
+  {name:"Music is everthing", homes : 18, image: image4},
+  {name:"Story through dance", homes : 4, image: image5},
 ]
 
 var images = [
@@ -50,27 +37,24 @@ var images = [
 
 ]
 
-export default class ActivitiesPage extends Component {
+var events = [{name: 'Art' },{name: 'Food' },{name: 'Sports' }]
+
+class ActivitiesPage extends Component {
 
   constructor(props){
     super(props);
     // console.log('props', props);
     var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
     this.state = {
-      dataviewed:ds.cloneWithRows(viewed),
       datafav:ds.cloneWithRows(favs),
-      clicked: true
+      clicked: true,
+      events: events
     }
   }
-  // componentWillMount(){
-  //   actions.fetchData();
-  //   actions.getCurrentUser();
-  //   actions.getNotifications();
-  // }
   viewStyle() {
     return ({
       flex: 1,
-      backgroundColor: randomcolor(),
+      backgroundColor: 'white',
       justifyContent: 'center',
       alignItems: 'center',
     });
@@ -81,69 +65,80 @@ export default class ActivitiesPage extends Component {
     this.props.navigator.replace({
       component: Swipe,
       passProps: val
+
     });
   }
   endReached(){
     console.log('hit end')
-    actions.fetchData();
+    console.log('ACTIVITIES PAGE >>>>>>', this.props.activitiesPageState.populatedActivities.length)
+    var length = this.props.activitiesPageState.populatedActivities.length + 10
+    this.props.actions.populatedActivities(this.props.activitiesPageState.category, length );
+  }
+  // componentDidMount(){
+    // this.props.actions.populatedActivities("Sports", 10);
+  // }
+  _onMomentumScrollEnd(evt, state, context){
+    var category = events[context.state.index].name
+    var length = this.props.activitiesPageState.populatedActivities.length + 10
+    console.log("THIS IS THE PROPS >>>", this.props.actions)
+    this.props.actions.populatedActivities(category, length)
+
+
   }
   render() {
     return(
-      <View style={{flex:1, padding: 10}}>
+      <View>
+      {true ? (
         <View style={{flex:1}}>
-        <ScrollView style={{flex:1}}>
-        <View style={styles.container2}>
-        <Text style={{fontWeight: '200', fontSize: 20}}>Sports</Text>
-        <ListView
-        dataSource = {this.state.datafav}
-        renderRow={(val) =>
-          <TouchableOpacity onPress={this.press.bind(this, val)}>
-          <Image source={val.image} resizeMode="stretch" style={{width:330, height:220, margin:5,marginBottom:30, justifyContent:'center', alignItems:'center'}}>
-          <Text style={{backgroundColor:'rgba(0,0,0,0)', textAlign:'center', color:'#fff', fontSize:25, fontWeight:'700'}}>{val.name}</Text>
-          <Text style={{backgroundColor:'rgba(0,0,0,0)', color:'#fff',fontSize:13, fontWeight:'600'}}>{val.homes} homes</Text>
-          </Image>
-          </TouchableOpacity>
-        }
-        horizontal = {true}
-        showsHorizontalScrollIndicator = {false}
-        onEndReachedThreshold = {500}
-        onEndReached={this.endReached.bind(this)}
-        />
-        <Text style={{fontWeight: '200', fontSize: 20}}>Art</Text>
-        <ListView
-        dataSource = {this.state.datafav}
-        renderRow={(val) =>
-          <TouchableOpacity onPress={this.press.bind(this, val)}>
-          <Image source={val.image} resizeMode="stretch" style={{width:330, height:220, margin:5,marginBottom:30, justifyContent:'center', alignItems:'center'}}>
-          <Text style={{backgroundColor:'rgba(0,0,0,0)', textAlign:'center', color:'#fff', fontSize:25, fontWeight:'700'}}>{val.name}</Text>
-          <Text style={{backgroundColor:'rgba(0,0,0,0)', color:'#fff',fontSize:13, fontWeight:'600'}}>{val.homes} homes</Text>
-          </Image>
-          </TouchableOpacity>
-        }
-        horizontal = {true}
-        showsHorizontalScrollIndicator = {false}
-        onEndReachedThreshold = {500}
-        onEndReached={this.endReached.bind(this)}
-        />
-        <Text style={{fontWeight: '200', fontSize: 20}}>Food</Text>
-        <ListView
-        dataSource = {this.state.datafav}
-        renderRow={(val) =>
-          <TouchableOpacity onPress={this.press.bind(this, val)}>
-          <Image source={val.image} resizeMode="stretch" style={{width:330, height:220, margin:5,marginBottom:30, justifyContent:'center', alignItems:'center'}}>
-          <Text style={{backgroundColor:'rgba(0,0,0,0)', textAlign:'center', color:'#fff', fontSize:25, fontWeight:'700'}}>{val.name}</Text>
-          <Text style={{backgroundColor:'rgba(0,0,0,0)', color:'#fff',fontSize:13, fontWeight:'600'}}>{val.homes} homes</Text>
-          </Image>
-          </TouchableOpacity>
-        }
-        horizontal = {true}
-        showsHorizontalScrollIndicator = {false}
-        onEndReachedThreshold = {500}
-        onEndReached={this.endReached.bind(this)}
-        />
+          <View style={{flex:1}}>
+          <ScrollView style={{flex:1}}>
+          <View style={styles.container2}>
+
+          </View>
+          </ScrollView>
+          </View>
+          <Swiper
+          loop={false}
+          showsPagination={false}
+          index={1}>
+          <Swiper
+            horizontal={false}
+            loop={true}
+            showsPagination={false}
+            index={0}
+            onMomentumScrollEnd={this._onMomentumScrollEnd.bind(this)}
+            >
+            {this.state.events.map((x) =>
+            <View style={this.viewStyle()}>
+                <View style={{flex: 2, justifyContent: 'center', padding: 0}}>
+                  <ListView
+                  dataSource = {this.state.datafav}
+                  renderRow={(val) =>
+                    <TouchableOpacity onPress={this.press.bind(this, val)}>
+                    <Image source={val.image} resizeMode="stretch" style={{width:350, height:400, marginRight: 10, justifyContent:'flex-end', alignItems:'flex-start', padding: 15}}>
+                    <Text style={{backgroundColor:'rgba(0,0,0,0)', textAlign:'center', color:'#fff', fontSize:25, fontWeight:'700'}}>{val.name}</Text>
+                    <Text style={{backgroundColor:'rgba(0,0,0,0)', color:'#fff',fontSize:13, fontWeight:'600'}}>{val.homes} homes</Text>
+                    </Image>
+                    </TouchableOpacity>
+                  }
+                  horizontal = {true}
+                  showsHorizontalScrollIndicator = {false}
+                  onEndReachedThreshold = {500}
+                  onEndReached={this.endReached.bind(this)}
+                  />
+                </View>
+                  <View style={{flex: 1, justifyContent: 'flex-start', padding: 30, backgroundColor: '#5F4F7E'}}>
+                  <Text style={{fontWeight: '500', fontSize: 25, color: 'white'}}>{x.name}</Text>
+                      <Text numberOfLines={5} style={{fontSize: 15, fontWeight: '400', color: 'white' , marginTop: 10, textAlign: 'justify'}}>Go grab a workout with a new friend,
+                      pickup a new sport, or just go outside and get some sun. There are people around you that want to be active, go out there and be adventurous.
+                      </Text>
+                      </View>
+                </View>
+              )}
+          </Swiper>
+        </Swiper>
         </View>
-        </ScrollView>
-        </View>
+      ) : null}
       </View>
     )
   }
@@ -168,4 +163,20 @@ const styles = StyleSheet.create({
   },
 });
 
-module.exports = ActivitiesPage;
+
+function mapStateToProps(state) {
+    return {
+        login: state.get('login'),
+        profile: state.get('profile'),
+        activitiesPageState: state.get('activityPageState')
+
+    };
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        actions: bindActionCreators(actionCreators, dispatch)
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ActivitiesPage);

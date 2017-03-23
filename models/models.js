@@ -22,6 +22,10 @@ var userSchema = new mongoose.Schema({
     type: String,
     required: true
   },
+  age: {
+    type: String,
+    required: true
+  },
   profileImg: {
     type: String
   },

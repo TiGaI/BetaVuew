@@ -2,7 +2,7 @@ import { LoginManager, AccessToken, GraphRequest, GraphRequestManager } from 're
 import {
   AsyncStorage
 } from 'react-native'
-const facebookParams = 'id,name,email,picture.width(100).height(100)';
+const facebookParams = 'id,name,email,picture.width(100).height(100), gender, age_range, about';
 
 function getInfo() {
     return new Promise((resolve, reject) => {
@@ -32,7 +32,7 @@ function getInfo() {
 
 function facebookLogin() {
   return new Promise((resolve, reject) => {
-    LoginManager.logInWithReadPermissions(['public_profile', 'email', 'user_friends'])
+    LoginManager.logInWithReadPermissions(['public_profile', 'email', 'user_friends', 'user_about_me'])
     .then(function(result) {
         if (result.isCancelled) {
           alert('Login cancelled');
@@ -70,10 +70,16 @@ export function login() {
             })
             .then((response) => response.json())
             .then((responseJson) => {
-                // console.log("user information from facebook: ", responseJson._id)
+
                 mongooseId = responseJson._id
+                var userObject = Object.assign({}, responseJson);
+                userObject["picture.width"] = result.picture.data.width;
+                userObject["picture.height"] = result.picture.data.height;
+
+                console.log("user information from facebook: ", userObject)
+
                 dispatch(loggedin());
-                dispatch(addUser(mongooseId, result.name, result.email, result.picture.data.url, result.picture.data.width, result.picture.data.height));
+                dispatch(addUser(userObject));
             })
             .catch((err) => {
               console.log('error: ', err)
@@ -127,14 +133,9 @@ export function loggedout() {
     };
 }
 
-export function addUser(id, email, name, profileImg, profileWidth, profileHeight) {
+export function addUser(userObject) {
     return {
         type: 'ADD_USER',
-        id,
-        name,
-        email,
-        profileImg,
-        profileWidth,
-        profileHeight
+        userObject
     };
 }

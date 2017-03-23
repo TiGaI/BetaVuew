@@ -1,5 +1,5 @@
 import tabs from './tabReducer';
-import indexPage from './reducersIndex';
+import {populatedActivities} from './initialReducer';
 import {loginReducer, profileReducer} from './loginReducer';
 import { combineReducers } from 'redux-immutable';
 
@@ -7,7 +7,7 @@ const applicationReducers = {
 	login: loginReducer,
 	profile: profileReducer,
 	tabs,
-	indexPage
+	activityPageState: populatedActivities
 };
 
 export default function createReducer() {

@@ -94,6 +94,7 @@ var CreateEvent = React.createClass({
     const { profile } = this.props;
     return(
       <View style={styles.container}>
+      <Text style={{fontSize: 25, fontWeight: '700', color: '#323232', marginTop: 20}}>Create An Activity </Text>
         <ScrollView keyboardShouldPersistTaps="always" style={{paddingLeft:10,paddingRight:10, height:500}}>
           <Form
             ref="form"

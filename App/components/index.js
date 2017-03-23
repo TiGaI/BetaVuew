@@ -194,7 +194,7 @@ export default class Index extends Component {
 
   render(){
 
-    const { store, Actions } = this.props;
+    const {actions } = this.props;
 
       return (
         <View style={{flex:1}}>

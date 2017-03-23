@@ -60,6 +60,17 @@ router.post('/createActivity', upload.fields([{name: 'file', maxCount: 4},
           console.log('error has occur: ',  err)
         } else {
           console.log('Nice, you created a file')
+          User.findById(activityCreator, function(err, user){
+            user.activities = [...user.activities, ...[activityCreator]]
+            user.save(function(err){
+              if (err) {
+                console.log('error has occur: ',  err)
+              } else {
+                console.log('Nice, activity added in the user model')
+              }
+            })
+          })
+
         }
       })
     }else{
@@ -70,9 +81,11 @@ router.post('/createActivity', upload.fields([{name: 'file', maxCount: 4},
 });
 
 //populate activities by category
-router.get('/populateActivities', function(req, res) {
+router.post('/populateActivities', function(req, res) {
+  console.log("INSIDE POPULATE ACTIVITIES")
+  console.log("CATEGORY", req.body.category)
   Activity.find({activityCategory: req.body.category}).populate({
-    path:'Articles',
+    path:'activityCreator',
     options: {
         limit: req.body.length,
         sort: { created: -1},
@@ -80,6 +93,7 @@ router.get('/populateActivities', function(req, res) {
   }).exec(function (err, articles) {
       if (err) console.log('error is good');
       console.log("articles is ", articles)
+      console.log("NEW ACTIVITIES", articles)
       return articles;
   });
 });
@@ -95,7 +109,7 @@ router.post('/editActivity', function(req, res) {
 
 });
 
-router.get('/getActivityOwner', function(req, res){
+router.post('/getActivityOwner', function(req, res){
 
   User.findOne({_id: req.body.userID}, function(err, user) {
           if (err) {

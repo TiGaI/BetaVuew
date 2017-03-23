@@ -12,7 +12,7 @@ class ApplicationTabs extends Component {
 	_renderTabContent(tab) {
 		if (tab.key === 'search') {
 			return (
-					<IndexPage />
+				<IndexPage />
 			);
 		}
 
@@ -54,7 +54,7 @@ class ApplicationTabs extends Component {
 				</TabBarIOS.Item>
 			);
 		});
-			console.log(this.props.profile)
+
 		return (
 			<TabBarIOS
 				unselectedTintColor='black'

@@ -4,7 +4,7 @@ const express = require('express');
 const path = require('path');
 const app = express();
 const http = require('http').Server(app);
-const io = require('socket.io')(http);
+// const io = require('socket.io')(http);
 const bodyParser = require('body-parser')
 
 const mongoose = require('mongoose');
@@ -30,36 +30,6 @@ app.use('/', authRoute);
 app.use('/', activityRoute);
 app.use('/', messageRoute);
 app.use('/', actionRoute);
-
-
-
-// TODO: create event
-//create events
-app.post('/conversation', function(req, res) {
-    // req.body.id
-
-
-});
-
-
-// TODO: get user connection
-//Get User Connection.
-app.get('/userConnection', function(req, res) {
-    // req.body.id
-
-
-});
-
-// TODO: message
-//Get User get the conversation of each connection.
-app.get('/Conversation', function(req, res) {
-    // req.body.id
-
-
-});
-
-
-
 
 var port = process.env.PORT || 8080;
 http.listen(port, function() {

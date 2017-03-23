@@ -3,7 +3,7 @@ import { View, ActivityIndicatorIOS, AsyncStorage, Text } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as actionCreators from '../actions/loginAction';
-import SocketIOClient from 'socket.io-client';
+// import SocketIOClient from 'socket.io-client';
 import Tabs from '../components/tabs';
 import Login from '../components/login'
 
@@ -13,6 +13,8 @@ class BetaVuew extends Component {
 
       AsyncStorage.getItem('user')
           .then(result => {
+            console.log('PROPS', this.props);
+            console.log('NAV', navigator);
             var parsedResult = JSON.parse(result);
             var token = parsedResult.token;
             if (token) {
@@ -56,6 +58,7 @@ function mapStateToProps(state) {
     return {
         login: state.get('login'),
         profile: state.get('profile')
+
     };
 }
 

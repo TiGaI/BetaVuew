@@ -22,6 +22,9 @@ router.post('/facebookAuth', function(req, res) {
                     firstName: firstName,
                     lastName: lastName,
                     email: profile.email,
+                    age: profile.age_range.min,
+                    gender: profile.gender,
+                    bio: profile.about,
                     profileImg: profile.picture ? profile.picture.data.url : 'http://shurl.esy.es/y'
                 });
                 newUser.save(function(err) {
@@ -43,6 +46,7 @@ router.post('/linkedinAuth', function(req, res) {
 
 // TODO: return Current user
 router.get('/getCurrentUser', function(req, res) {
+  console.log('FINDING CURRENT USER')
     User.findOne({_id: req.body.userID}, function(err, user) {
             if (err) {
                 return {err, user}
