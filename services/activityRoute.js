@@ -94,6 +94,8 @@ router.post('/populateActivities', function(req, res) {
       if (err) console.log('error is good');
       console.log("articles is ", articles)
       console.log("NEW ACTIVITIES", articles)
+      var activities = Object.values(articles)
+      res.send(activities)
       return articles;
   });
 });

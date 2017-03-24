@@ -29,6 +29,7 @@ router.post('/facebookAuth', function(req, res) {
                 });
                 newUser.save(function(err) {
                     if (err) console.log(err);
+                    res.send(user)
                     return {err, user}
                 });
             } else {

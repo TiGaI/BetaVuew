@@ -198,13 +198,8 @@ class Swipe extends Component{
         </View>
     )
   }
-
 }
 
-// Swipe.propTypes = {
-//     profile: PropTypes.object.isRequired,
-//
-// };
 function mapStateToProps(state) {
 	return {
 		navigation: state.get('tabs'),

@@ -8,8 +8,6 @@ import devTools from 'remote-redux-devtools';
 function configureStore(initialState) {
 	const createStoreWithMiddleware = compose(applyMiddleware(thunk), devTools())(createStore);
 	return createStoreWithMiddleware(createReducer(), initialState);
-	// return createStore(createReducer(), compose(applyMiddleware(thunk), devTools()))
-
 }
 
 module.exports = configureStore;

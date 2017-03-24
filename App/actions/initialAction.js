@@ -16,9 +16,8 @@ export function populatedActivities(category, populatedActivities) {
             })
             .then((response) => response.json())
             .then((responseJson) => {
-
-                var userObject = Object.assign({}, responseJson);
-
+                var userObject = [...responseJson];
+                console.log("this is userObject inside of initialAction: ", userObject)
                 dispatch(getActivities(userObject));
                 dispatch(doneFetching())
             })

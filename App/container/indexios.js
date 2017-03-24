@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { View, ActivityIndicatorIOS, AsyncStorage, Text } from 'react-native';
+import { View, ActivityIndicator, AsyncStorage, StyleSheet, Text } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as actionCreators from '../actions/loginAction';
@@ -7,6 +7,16 @@ import * as actionCreators from '../actions/loginAction';
 import Tabs from '../components/tabs';
 import Login from '../components/login'
 
+const styles = StyleSheet.create({
+  wrapper: {
+      marginTop: 20,
+      flex: 1
+  },
+  text: {
+      fontSize: 20,
+      color: '#01579B'
+  }
+})
 
 class BetaVuew extends Component {
   componentDidMount() {
@@ -35,12 +45,12 @@ class BetaVuew extends Component {
         }
 
         if(login.loading) {
-            // loginComponent = <ActivityIndicatorIOS size="large" color="#3b5998" />;
-            // tabsComponent = <ActivityIndicatorIOS size="large" color="#3b5998" />;
+          loginComponent = <ActivityIndicator size="large" color="#3b5998" />;
+          profileComponent = <ActivityIndicator size="large" color="#3b5998" />;
         }
 
         return (
-            <View style={{flex: 1}}>
+            <View style={styles.wrapper}>
             { login.loggedIn ? tabsComponent : loginComponent }
             </View>
         );
