@@ -14,17 +14,8 @@ import { bindActionCreators } from 'redux';
 import * as actionCreators from '../actions/initialAction';
 import { connect } from 'react-redux';
 
-class TitleText extends Component {
-  render() {
-    return (
-      <Text style={{ fontSize: 48, color: 'white' }}>
-        {this.props.label}
-      </Text>
-    )
-  }
-}
 
-class Swipe extends Component{
+class ProfilePage extends Component{
   viewStyle() {
     return {
       flex: 2,
@@ -43,7 +34,7 @@ class Swipe extends Component{
 
     return (
         <View>
-        { userObject ? (  <Swiper
+        { userObject !== null ? (  <Swiper
             loop={false}
             showsPagination={false}
             index={1}>
@@ -126,15 +117,11 @@ class Swipe extends Component{
                         </View>
                       </View>
                     </View>
-
                     <View style={{backgroundColor: '#1DC16A', flex: 1, height: 300, marginTop: 80}}>
                     </View>
-
                   </Content>
                 </Container>
-
               </View>
-
 
 
             </Swiper>
@@ -214,4 +201,4 @@ function mapDispatchToProps(dispatch) {
 	};
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Swipe);
+export default connect(mapStateToProps, mapDispatchToProps)(ProfilePage);

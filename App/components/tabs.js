@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { actions as navigationActions } from 'react-native-navigation-redux-helpers';
 const { jumpTo } = navigationActions;
 import IndexPage from './index';
-import Swipe from './swiperView';
+import ProfilePage from './myProfilePage';
 import CreateEvent from './createEvent';
 
 class ApplicationTabs extends Component {
@@ -31,10 +31,7 @@ class ApplicationTabs extends Component {
 
 		if (tab.key === 'profile') {
 			return (
-				<View style={[styles.tabContent, {backgroundColor: 'red'}]} >
-					<Swipe/>
-				</View>
-
+					<ProfilePage />
 			);
 		}
 

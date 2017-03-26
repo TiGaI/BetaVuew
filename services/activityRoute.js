@@ -55,13 +55,15 @@ router.post('/createActivity', upload.fields([{name: 'file', maxCount: 4},
         activityCapacity: activity.activityCapacity
       })
 
-      newActivity.save(function(err){
+      newActivity.save(function(err, activityNew){
         if (err) {
           console.log('error has occur: ',  err)
         } else {
           console.log('Nice, you created a file')
-          User.findById(activityCreator, function(err, user){
-            user.activities = [...user.activities, ...[activityCreator]]
+          console.log(activityNew);
+          User.findById(activityNew.activityCreator, function(err, user){
+            console.log(user)
+            user.activities = [...user.activities, ...[activityNew._id]]
             user.save(function(err){
               if (err) {
                 console.log('error has occur: ',  err)
@@ -98,6 +100,39 @@ router.post('/populateActivities', function(req, res) {
       res.send(activities)
       return articles;
   });
+});
+
+router.post('/sendFriendRequest', function(req, res){
+
+    FriendRequest.find({$and: [{toUser: req.body.toUserID},
+      {fromUser: req.body.fromUserID}]}, function(err, friendRequest) {
+      if (err) {
+          return {err, friendRequest}
+      }
+    if(!friendRequest){
+      User.find({toUser: req.body.toUserID}, function(err, user){
+        if(user){
+            console('adding a new friend')
+            var newFriend = new FriendRequest({
+              toUser: req.body.toUserID,
+              fromUser: req.body.fromUserID,
+              accepted: false
+            })
+            newFriend.save(function(err){
+              if (err) {
+                res.send(err)
+              } else {
+                console.log('Nice, you send a friend request.')
+              }
+            })
+        }else{
+          console.log("this user does not exist!");
+        }
+      });
+    }else{
+      console.log('you already send request to this friend exist!')
+    }
+  })
 });
 
 

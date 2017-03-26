@@ -71,6 +71,13 @@ export default StyleSheet.create({
 	},
 	slidepicture: {
 	 backgroundColor: "purple", flexDirection: 'column', height: 90, width: 145, margin: 5
-	}
+ },
+
+
+  detaileventbox: {
+    flex: 2,
+    backgroundColor: 'white',
+    justifyContent: 'center'
+  }
 
 });

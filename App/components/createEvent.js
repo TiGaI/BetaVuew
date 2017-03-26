@@ -65,16 +65,12 @@ var CreateEvent = React.createClass({
     this.setState({value});
    },
    onPress: function (){
-   // call getValue() to get the values of the form
-
-  //  console.log(this.refs.form.getValue())
 
    var value = this.refs.form.getValue();
-
    if (value) {
      var copy = Object.assign({}, value);
-     copy["activityCreator"] = this.props.profile.id
-     console.log("this is copy: ", copy)
+     copy["activityCreator"] = this.props.profile.userObject._id
+
       fetch("http://localhost:8080/createActivity", {
         method: 'POST',
         headers: {
