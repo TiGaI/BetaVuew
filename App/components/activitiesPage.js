@@ -65,9 +65,10 @@ class ActivitiesPage extends Component {
 
   constructor(props){
     super(props);
-    var prevCategory = events.prev("Sport").name;
-    var nextCategory = events.next("Sport").name;
-    this.props.actions.populatedActivities("Sport", prevCategory, nextCategory, 10 )
+    // var prevCategory = events.prev("Sport").name;
+    // var nextCategory = events.next("Sport").name;
+    this.props.actions.populatedActivities("Sport",  10 )
+    // this.props.actions.populatedActivities("Sport", prevCategory, nextCategory, 10 )
   }
   viewStyle() {
     return ({

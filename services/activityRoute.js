@@ -102,55 +102,75 @@ router.post('/createActivity', upload.fields([{name: 'file', maxCount: 4},
 
 //populate activities by category
 router.post('/populateActivities', function(req, res) {
-  var prevCategory = req.body.prevCategory;
-  console.log("FIRST: ", prevCategory)
-  var nextCategory = req.body.nextCategory;
-  var currActivities;
-  var prevActivities;
-  var nextActivities;
-  Activity.find({activityCategory: req.body.category}).populate({
+  console.log("INSIDE POPULATE ACTIVITIES")
+  console.log("CATEGORY", req.body.category)
+  Activity.find({activityCategory: req.body.category}).sort('-createdAt').populate({
     path:'activityCreator',
     options: {
         limit: req.body.length,
-        sort: { created: -1},
+        sort: { created: 1},
     }
-  }).exec(function (err, currArticles) {
+  }).exec(function (err, articles) {
       if (err) console.log('error is good');
-      console.log("NEW ACTIVITIES", currArticles)
-      currActivities = Object.values(currArticles)
-      Activity.find({activityCategory: prevCategory}).populate({
-        path:'activityCreator',
-        options: {
-            limit: req.body.length,
-            sort: { created: -1},
-        }
-      }).exec(function (err, prevArticles) {
-        console.log("NEXT CAT", nextCategory)
-          if (err) console.log('error is good');
-          console.log(prevCategory)
-          console.log("prevArticles is ", prevArticles)
-          console.log("NEW PREVIOUSACTIVITIES", prevArticles)
-          prevActivities = Object.values(prevArticles)
-          Activity.find({activityCategory: nextCategory}).populate({
-            path:'activityCreator',
-            options: {
-                limit: req.body.length,
-                sort: { created: -1},
-            }
-          }).exec(function (err, nextArticles) {
-              if (err) console.log('error is good');
-              console.log("nextarticles is ", nextArticles)
-              console.log("NEW NEXTACTIVITIES", nextArticles)
-              var nextActivities = Object.values(nextArticles)
-            })
-        })
-      res.send({
-        currCategory: currActivities,
-        prevCategory:prevActivities,
-        nextCategory:nextActivities
-      })
-  })
+      console.log("articles is ", articles)
+      console.log("NEW ACTIVITIES", articles)
+      var activities = Object.values(articles)
+      res.send(activities)
+      return articles;
+  });
 });
+
+//populate activities by category
+// router.post('/populateActivities', function(req, res) {
+//   var prevCategory = req.body.prevCategory;
+//   console.log("FIRST: ", prevCategory)
+//   var nextCategory = req.body.nextCategory;
+//   var currActivities;
+//   var prevActivities;
+//   var nextActivities;
+//   Activity.find({activityCategory: req.body.category}).populate({
+//     path:'activityCreator',
+//     options: {
+//         limit: req.body.length,
+//         sort: { created: -1},
+//     }
+//   }).exec(function (err, currArticles) {
+//       if (err) console.log('error is good');
+//       console.log("NEW ACTIVITIES", currArticles)
+//       currActivities = Object.values(currArticles)
+//       Activity.find({activityCategory: prevCategory}).populate({
+//         path:'activityCreator',
+//         options: {
+//             limit: req.body.length,
+//             sort: { created: -1},
+//         }
+//       }).exec(function (err, prevArticles) {
+//         console.log("NEXT CAT", nextCategory)
+//           if (err) console.log('error is good');
+//           console.log(prevCategory)
+//           console.log("prevArticles is ", prevArticles)
+//           console.log("NEW PREVIOUSACTIVITIES", prevArticles)
+//           prevActivities = Object.values(prevArticles)
+//           Activity.find({activityCategory: nextCategory}).populate({
+//             path:'activityCreator',
+//             options: {
+//                 limit: req.body.length,
+//                 sort: { created: -1},
+//             }
+//           }).exec(function (err, nextArticles) {
+//               if (err) console.log('error is good');
+//               console.log("nextarticles is ", nextArticles)
+//               console.log("NEW NEXTACTIVITIES", nextArticles)
+//               var nextActivities = Object.values(nextArticles)
+//             })
+//         })
+//       res.send({
+//         currCategory: currActivities,
+//         prevCategory:prevActivities,
+//         nextCategory:nextActivities
+//       })
+//   })
+// });
 
 
 router.post('/sendFriendRequest', function(req, res){

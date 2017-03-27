@@ -11,14 +11,15 @@ export function populatedActivities(category, prevCategory, nextCategory, popula
               },
               body: JSON.stringify({
                 category: category,
-                prevCategory: prevCategory,
-                nextCategory: nextCategory,
+                // prevCategory: prevCategory,
+                // nextCategory: nextCategory,
                 length: populatedActivities
               })
             })
             .then((response) => response.json())
             .then((responseJson) => {
-                var activitiesObject = Object.assign({}, responseJson);
+              var activitiesObject = [...responseJson];
+                // var activitiesObject = Object.assign({}, responseJson);
                 console.log("this is activitiesArray inside of initialAction: ", activitiesObject)
                 dispatch(getActivities(activitiesObject, category));
                 dispatch(doneFetching())
