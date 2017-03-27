@@ -29,8 +29,6 @@ var favs = [
 {name:"ART", homes : 18, image: image5}
 ]
 
-
-
 class ProfilePage extends Component{
   viewStyle() {
     return {

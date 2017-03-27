@@ -36,7 +36,6 @@ class DetailEvent extends Component{
       //      activity: copy
       //    })
       //  })
-
   }
   addFriend() {
 
@@ -54,11 +53,11 @@ class DetailEvent extends Component{
   }
   render(){
     console.log("this is at detailEventProfile.js and this is this.prop: ", this.props)
-    const {userObject} = this.props.activityCreator[0]
+    var userObject = this.props.activityCreator[0]
 
-    const activityObject = this.props
+    var activityObject = this.props
 
-    if(userObject){
+    if(userObject.length > 0){
       const profileImg = userObject.profileImg
       console.log('this is looking for the profile image', profileImg)
       var alreadyFriend = false

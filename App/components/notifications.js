@@ -4,11 +4,6 @@ import {
   ListView, Alert, Image } from 'react-native';
 import { Container, Content, Left, Body, Right, ListItem, Thumbnail, Text } from 'native-base';
 import Icon from 'react-native-vector-icons/Ionicons';
-import Swiper from 'react-native-swiper'
-import styles from './styles'
-
-import MapView from 'react-native-maps';
-import randomcolor from 'randomcolor';
 
 import { bindActionCreators } from 'redux';
 import * as actionCreators from '../actions/initialAction';
@@ -23,7 +18,23 @@ class Notifications extends Component{
     if(notifications){
       var notification = notifications.map(function(x){
         return(
-
+          <ListItem thumbnail>
+              <Left>
+                
+              </Left>
+              <Body>
+                  <Text>Sankhadeep</Text>
+                  <Text note>Its time to build a difference . .</Text>
+              </Body>
+              <Right>
+                  <Button transparent>
+                      <Text>Accept</Text>
+                  </Button>
+                  <Button transparent>
+                      <Text>Decline</Text>
+                  </Button>
+              </Right>
+          </ListItem>
         )
       });
 
@@ -31,14 +42,20 @@ class Notifications extends Component{
 
 
     return (
-        <View>
-        { notifications !== null ? (
+        <View style={{flex: 1}}>
+        { notifications.length > 0 ? (
           <Container>
               <Content>
-
+                  {notification}
               </Content>
           </Container>
-          ) : null}
+        ) : (
+          <Container>
+              <Content>
+                <Text>You do not have any notifications</Text>
+              </Content>
+          </Container>
+        )}
         </View>
     )
   }

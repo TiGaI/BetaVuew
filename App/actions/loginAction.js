@@ -21,7 +21,6 @@ export function getMyActivitiesInfor(userID) {
             .then((response) => response.json())
             .then((responseJson) => {
 
-                mongooseId = responseJson._id
                 var userObject = Object.assign({}, responseJson);
                 userObject["picture.width"] = result.picture.data.width;
                 userObject["picture.height"] = result.picture.data.height;
