@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import {
   AppRegistry, ScrollView, StyleSheet, View, TextInput, TouchableOpacity, NavigatorIOS,
   ListView, Alert, Image } from 'react-native';
-import { Container, Content, Left, Body, Right, Text, ListItem, Thumbnail, Card, CardItem, Button } from 'native-base';
+import { Container, Content, Left, Body, Right, Text, ListItem, Thumbnail, Card, CardItem, Button, Tabs, Tab } from 'native-base';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Swiper from 'react-native-swiper'
 import styles from './styles'
@@ -15,6 +15,22 @@ import * as actionCreators from '../actions/initialAction';
 import { connect } from 'react-redux';
 
 
+var image5 = {uri: 'https://www.thisiscolossal.com/wp-content/uploads/2016/03/finger-4.jpg'}
+var image4 = {uri: 'https://cdn.playbuzz.com/cdn/b19cddd2-1b79-4679-b6d3-1bf8d7235b89/93794aec-3f17-47a4-8801-a2716a9c4598_560_420.jpg'}
+var image3 = {uri: 'https://iso.500px.com/wp-content/uploads/2016/04/STROHL__ST_1204-Edit-1500x1000.jpg'}
+var image2 = {uri: 'https://static.pexels.com/photos/2855/landscape-mountains-nature-lake.jpg'}
+var image1 = {uri: 'https://upload.wikimedia.org/wikipedia/commons/3/38/Two_dancers.jpg'}
+
+var favs = [
+{name:"DANCE", homes : 18, image: image1},
+{name:"OUTDOORS", homes : 4, image: image2},
+{name:"TRAVEL", homes : 5, image: image3},
+{name:"ART", homes : 22, image: image4},
+{name:"ART", homes : 18, image: image5}
+]
+
+
+
 class ProfilePage extends Component{
   viewStyle() {
     return {
@@ -25,10 +41,12 @@ class ProfilePage extends Component{
   }
   render(){
     console.log("this is at swiperView.js and this is this.prop: ", this.props)
-    const {userObject} = this.props.profile
+    const {userObject} = this.props.profile;
+    const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+    const dataFavs = ds.cloneWithRows(favs);
 
     if(userObject){
-      const profileImg = userObject.profileImg
+      const profileImg = userObject.profileImg;
       console.log('this is looking for the profile image',profileImg)
     }
 
@@ -81,43 +99,71 @@ class ProfilePage extends Component{
                   <View style={{flex: 1, flexDirection: 'row' }}>
                   <View style={{flex: 1, alignItems: 'flex-start', marginTop: 20, marginLeft: 20}}>
                   <TouchableOpacity>
-                  <Icon style={{fontSize: 40, color: '#1D79C1'}} name='ios-chatbubbles' />
+                  <Icon style={{fontSize: 40, color: '#883AAA'}} name='ios-chatbubbles' />
                   </TouchableOpacity>
                   </View>
                   <View style={{flex: 1, alignItems: 'flex-end', marginTop: 20, marginRight: 20}}>
                   <TouchableOpacity onPress={alert.bind(null,'pressed')}>
-                  <Icon style={{fontSize: 40, color: '#1D79C1'}} name='md-person-add' />
+                  <Icon style={{fontSize: 40, color: '#883AAA'}} name='md-person-add' />
                   </TouchableOpacity>
                   </View>
                   </View>
                     <View style={styles.profileBox}>
-                      <Thumbnail style={{marginTop: 0, height: 120, width: 120, borderRadius: 60}} source={{uri: userObject.profileImg }} />
-                      <Text style={{textAlign: 'center', fontWeight: '300', fontSize: 25, marginTop: 5}}>{userObject.firstName + " " + userObject.lastName}</Text>
+                      <Thumbnail style={{marginTop: 0, height: 100, width: 100, borderRadius: 50}} source={{uri: userObject.profileImg }} />
+                      <Text style={{textAlign: 'center', fontWeight: '400', fontSize: 25, marginTop: 5}}>{userObject.firstName + " " + userObject.lastName}</Text>
                       <Text style={{textAlign: 'center', fontWeight: '300', fontSize: 10, marginBottom: 5}}>Age: {userObject.age}</Text>
                       <Text note style={{textAlign: 'center', fontWeight: '100', fontSize: 12, marginBottom: 5, color: '#323232'}}>Bio: {userObject.bio}</Text>
-
-                      <View style={styles.socialStatus}>
-                        <View style={[styles.innerbox,  {alignItems: "flex-end"}]}>
-                          <View style={[styles.circle, {backgroundColor: '#54A78B'}]}>
-                            <Text style={styles.textInCicle, {color: '#323232'}}>600</Text>
-                          </View>
-                          <Text style={{textAlign: 'center', color: "#323232", fontWeight: '300', fontSize: 10, paddingRight: 10, marginTop: 5 }}>Followers</Text>
+                      <View style={{flex: 1, flexDirection: 'row'}}>
+                        <View style={{flex: 1, backgroundColor: '#883AAA', alignItems: 'center', padding: 15,
+                         margin: 20, borderRadius: 35}}><Text style={{color: 'white', fontWeight: '500', letterSpacing: 1}}>FOLLOW</Text></View>
+                        <View style={{flex: 1, backgroundColor: 'white', alignItems: 'center', padding: 15,
+                      borderColor: '#883AAA', borderStyle: 'solid', borderWidth: 2, margin: 20,  borderRadius: 35, marginLeft: -5}}><Text style={{color: '#883AAA',
+                      fontWeight: '500', letterSpacing: 1}}>MESSAGE</Text></View>
+                      </View>
+                      <View style={{flex:1, flexDirection: 'row'}}>
+                        <View style={{flex: 1, backgroundColor: 'white', alignItems: 'center', padding: 10,
+                      borderColor: 'lightgrey', borderStyle: 'solid', borderWidth: 1, borderLeftWidth: 0, borderRightWidth: 0,marginLeft: 10}}>
+                          <Text>236</Text>
+                          <Text style={{fontSize: 12, color: 'grey'}}>FOLLOWERS</Text>
                         </View>
-                        <View style={[styles.innerbox,  {alignItems: "center"}]}>
-                          <View style={[styles.circle, {backgroundColor: '#5B6AAB'}]}>
-                            <Text style={styles.textInCicle, {color: '#323232'}}>27</Text>
-                          </View>
-                          <Text style={{textAlign: 'center', color: "#323232", fontWeight: '300', fontSize: 10, marginTop: 5}}>Activities</Text>
+                        <View style={{flex: 1, backgroundColor: 'white', alignItems: 'center', padding: 10,
+                      borderColor: 'lightgrey', borderStyle: 'solid', borderWidth: 1}}>
+                          <Text>23.6k</Text>
+                          <Text style={{fontSize: 12, color: 'grey'}}>EVENTS</Text>
                         </View>
-                        <View style={[styles.innerbox,  {alignItems: "flex-start"}]}>
-                          <View style={[styles.circle, {backgroundColor: '#579BAB'}]}>
-                            <Text style={styles.textInCicle, {color: '#323232'}}>8.7 K</Text>
-                          </View>
-                            <Text style={{textAlign: 'center', color: "#323232", fontWeight: '300', fontSize: 10, paddingLeft: 2, marginTop: 5 }}>Savage level</Text>
+                        <View style={{flex: 1, backgroundColor: 'white', alignItems: 'center', padding: 10,
+                      borderColor: 'lightgrey', borderStyle: 'solid', borderWidth: 1, borderRightWidth: 0, borderLeftWidth: 0, marginRight: 10}}>
+                          <Text>2.8k</Text>
+                          <Text style={{fontSize: 12, color: 'grey'}}>FOLLOWING</Text>
                         </View>
                       </View>
                     </View>
-                    <View style={{backgroundColor: '#1DC16A', flex: 1, height: 300, marginTop: 80}}>
+                    <View style={{flex: 1, flexDirection: 'row'}}>
+                      <TouchableOpacity style={{flex: 1}} onPress={this.border}>
+                        <View style={{flex: 1, margin: 10, marginTop: 20}}><Text style={{fontSize: 12, color: 'grey', textAlign: 'center'}}>MY EVENTS</Text></View>
+                      </TouchableOpacity>
+                      <TouchableOpacity style={{flex: 1}} onPress={this.border}>
+                        <View style={{flex: 1, margin: 10, marginTop: 20}}><Text style={{fontSize: 12, color: 'grey', textAlign: 'center'}}>VIDEOS</Text></View>
+                      </TouchableOpacity>
+                      <TouchableOpacity style={{flex: 1}} onPress={this.border}>
+                        <View style={{flex: 1, margin: 10, marginTop: 20}}><Text style={{fontSize: 12, color: 'grey', textAlign: 'center'}}>IMAGES</Text></View>
+                      </TouchableOpacity>
+                    </View>
+                    <View style={{flex:1, padding: 20, marginTop:-10}}>
+                      <ListView
+                      dataSource = {dataFavs}
+                      renderRow={(rowData) =>
+                        <TouchableOpacity >
+                        <Image source={rowData.image} resizeMode="stretch" style={{width:150, height:150, marginRight: 10, justifyContent:'flex-end', alignItems:'center', padding: 15}}>
+                        <Text style={{backgroundColor:'rgba(0,0,0,0)', textAlign:'center', color:'white', fontSize:20, fontWeight:'700'}}>{rowData.name}</Text>
+                        <Text style={{backgroundColor:'rgba(0,0,0,0)', color:'#fff',fontSize:10, fontWeight:'600'}}>{rowData.activityDescription}</Text>
+                        </Image>
+                        </TouchableOpacity>
+                      }
+                      horizontal = {true}
+                      showsHorizontalScrollIndicator = {false}
+                      onEndReachedThreshold = {500}
+                      />
                     </View>
                   </Content>
                 </Container>

@@ -27,60 +27,77 @@ var upload = multer({
 });
 
 
-router.post('/createActivity', upload.fields([{name: 'file', maxCount: 4},
-  { name: 'video', maxCount: 1}]), function(req, res){
-
-    var activity = req.body.activity;
-    console.log("this is the body: ", activity)
-    Activity.findOne({$and: [{activityTitle: req.body.activityTitle},
-      {activityCreator: activity.activityCreator}]}, function(err, activityfind) {
-      if (err) {
+router.post('/getMyActivitiesInfo', function(req, res) {
+    var profile = req.body.userID
+    User.findOne({email: profile.email})
+    .populate('activities', 'activityTitle', 'activityImages', 'timeStart', 'timeEnd'), function(err, user) {
+            if (err) {
                 return {err, user}
-      }
-
-    if(!activityfind){
-      console.log("Creating an activity")
-      var newActivity = new Activity({
-        activityCreator: activity.activityCreator,
-        activityTitle: activity.activityTitle,
-        activityDescription: activity.activityDescription,
-        typeofRoom: activity.typeofRoom,
-        activityCategory: activity.activityCategory,
-        timeStart: activity.timeStart,
-        timeEnd: activity.timeEnd,
-        // activityImages: req.files['file'] ? req.files['file'][0].location : '',
-        // activityVideo: req.files['video'] ? req.files['video'][0].location : '',
-        activityLocation: activity.activityLocation,
-        interestUser: [],
-        activityCapacity: activity.activityCapacity
-      })
-
-      newActivity.save(function(err, activityNew){
-        if (err) {
-          console.log('error has occur: ',  err)
-        } else {
-          console.log('Nice, you created a file')
-          console.log(activityNew);
-          User.findById(activityNew.activityCreator, function(err, user){
-            console.log(user)
-            user.activities = [...user.activities, ...[activityNew._id]]
-            user.save(function(err){
-              if (err) {
-                console.log('error has occur: ',  err)
-              } else {
-                console.log('Nice, activity added in the user model')
-              }
-            })
-          })
-
-        }
-      })
-    }else{
-      console.log('activity already exist!')
-    }
-
-  })
+            }
+            if (user) {
+              res.send(user)
+              return user
+            } else {
+              console.log('fail in getMyActivitiesInfo! no user')
+            }
+        };
 });
+
+
+router.post('/createActivity', upload.fields([{name: 'file', maxCount: 4},
+ { name: 'video', maxCount: 1}]), function(req, res){
+
+   var activity = req.body.activity;
+   var activityCreator = req.body.activityCreator;
+   console.log("this is the body: ", activity)
+   Activity.findOne({$and: [{activityTitle: activity.activityTitle},
+     {activityCreator: activityCreator}]}, function(err, activityfind) {
+     if (err) {
+               return {err, user}
+     }
+
+   if(!activityfind){
+     console.log("Creating an activity")
+     var newActivity = new Activity({
+       activityCreator: activityCreator,
+       activityTitle: activity.activityTitle,
+       activityDescription: activity.activityDescription,
+       typeofRoom: activity.typeofRoom,
+       activityCategory: activity.activityCategory,
+       timeStart: activity.timeStart,
+       timeEnd: activity.timeEnd,
+       // activityImages: req.files['file'] ? req.files['file'][0].location : '',
+       // activityVideo: req.files['video'] ? req.files['video'][0].location : '',
+       activityLocation: activity.activityLocation,
+       interestUser: [],
+       activityCapacity: activity.activityCapacity
+     })
+     console.log("New Activity: >>>>", newActivity)
+     newActivity.save(function(err){
+       if (err) {
+         console.log('error has occur: ',  err)
+       } else {
+         console.log('Nice, you created a file')
+         User.findById(activityCreator, function(err, user){
+           user.activities = [...user.activities, ...[activityCreator]]
+           user.save(function(err){
+             if (err) {
+               console.log('error has occur: ',  err)
+             } else {
+               console.log('Nice, activity added in the user model')
+             }
+           })
+         })
+
+       }
+     })
+   }else{
+     console.log('activity already exist!')
+   }
+
+ })
+});
+
 
 //populate activities by category
 router.post('/populateActivities', function(req, res) {

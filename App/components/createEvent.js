@@ -77,7 +77,8 @@ var CreateEvent = React.createClass({
           "Content-Type": "application/json"
         },
         body: JSON.stringify({
-          activity: copy
+          activity: copy,
+          category: this.props.activitiesPageState.category
         })
       })
    }

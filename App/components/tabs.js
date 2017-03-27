@@ -6,6 +6,7 @@ import { actions as navigationActions } from 'react-native-navigation-redux-help
 const { jumpTo } = navigationActions;
 import IndexPage from './index';
 import ProfilePage from './myProfilePage';
+import NotificationsPage from './notifications';
 import CreateEvent from './createEvent';
 
 class ApplicationTabs extends Component {
@@ -24,8 +25,7 @@ class ApplicationTabs extends Component {
 
 		if (tab.key === 'chat') {
 			return (
-				<View style={[styles.tabContent, {backgroundColor: 'pink'}]}>
-				</View>
+				<NotificationsPage />
 			);
 		}
 
