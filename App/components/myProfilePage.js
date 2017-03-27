@@ -32,6 +32,9 @@ var favs = [
 
 
 class ProfilePage extends Component{
+  constructor(props){
+    super(props)
+  }
   viewStyle() {
     return {
       flex: 2,
@@ -39,8 +42,17 @@ class ProfilePage extends Component{
       justifyContent: 'center'
     }
   }
+  addFriend(){
+    const {userObject} = this.props.profile;
+    const {activitiesPageState, actions} =this.props;
+    console.log("TO USER: ", activitiesPageState.selectedActivityOwner)
+    console.log("FROM USER: ", userObject._id)
+    console.log("PROPS IN TEST", this.props)
+    actions.sendFriendRequest(userObject._id , activitiesPageState.selectedActivityOwner)
+    console.log('ADDEDDDDDEDDDD FRIEND')
+  }
   render(){
-    console.log("this is at swiperView.js and this is this.prop: ", this.props)
+    console.log("PROPS IN RENDER >>>> ", this.props)
     const {userObject} = this.props.profile;
     const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
     const dataFavs = ds.cloneWithRows(favs);
@@ -49,6 +61,7 @@ class ProfilePage extends Component{
       const profileImg = userObject.profileImg;
       console.log('this is looking for the profile image',profileImg)
     }
+
 
     return (
         <View>
@@ -96,29 +109,25 @@ class ProfilePage extends Component{
               <View style={this.viewStyle()}>
                 <Container>
                   <Content>
-                  <View style={{flex: 1, flexDirection: 'row' }}>
-                  <View style={{flex: 1, alignItems: 'flex-start', marginTop: 20, marginLeft: 20}}>
-                  <TouchableOpacity>
-                  <Icon style={{fontSize: 40, color: '#883AAA'}} name='ios-chatbubbles' />
-                  </TouchableOpacity>
-                  </View>
-                  <View style={{flex: 1, alignItems: 'flex-end', marginTop: 20, marginRight: 20}}>
-                  <TouchableOpacity onPress={alert.bind(null,'pressed')}>
-                  <Icon style={{fontSize: 40, color: '#883AAA'}} name='md-person-add' />
-                  </TouchableOpacity>
-                  </View>
-                  </View>
                     <View style={styles.profileBox}>
-                      <Thumbnail style={{marginTop: 0, height: 100, width: 100, borderRadius: 50}} source={{uri: userObject.profileImg }} />
+                      <Thumbnail style={{marginTop: 10, height: 100, width: 100, borderRadius: 50}} source={{uri: userObject.profileImg }} />
                       <Text style={{textAlign: 'center', fontWeight: '400', fontSize: 25, marginTop: 5}}>{userObject.firstName + " " + userObject.lastName}</Text>
                       <Text style={{textAlign: 'center', fontWeight: '300', fontSize: 10, marginBottom: 5}}>Age: {userObject.age}</Text>
                       <Text note style={{textAlign: 'center', fontWeight: '100', fontSize: 12, marginBottom: 5, color: '#323232'}}>Bio: {userObject.bio}</Text>
                       <View style={{flex: 1, flexDirection: 'row'}}>
-                        <View style={{flex: 1, backgroundColor: '#883AAA', alignItems: 'center', padding: 15,
-                         margin: 20, borderRadius: 35}}><Text style={{color: 'white', fontWeight: '500', letterSpacing: 1}}>FOLLOW</Text></View>
-                        <View style={{flex: 1, backgroundColor: 'white', alignItems: 'center', padding: 15,
-                      borderColor: '#883AAA', borderStyle: 'solid', borderWidth: 2, margin: 20,  borderRadius: 35, marginLeft: -5}}><Text style={{color: '#883AAA',
-                      fontWeight: '500', letterSpacing: 1}}>MESSAGE</Text></View>
+                        <TouchableOpacity style={{flex: 1}} onPress={this.addFriend.bind(this)}>
+                        <View style={{flex: 1, backgroundColor: '#00A8BE', alignItems: 'center', padding: 15,
+                         margin: 20, borderRadius: 35}}>
+                         <Text style={{color: 'white', fontWeight: '500', letterSpacing: 1}}>FOLLOW</Text>
+                         </View>
+                          </TouchableOpacity>
+                          <TouchableOpacity style={{flex: 1}} onPress={console.log('I want to message you')}>
+                          <View style={{flex: 1, backgroundColor: 'white', alignItems: 'center', padding: 15,
+                        borderColor: '#00A8BE', borderStyle: 'solid', borderWidth: 2, margin: 20,  borderRadius: 35, marginLeft: -5}}>
+                        <Text style={{color: '#00A8BE',
+                        fontWeight: '500', letterSpacing: 1}}>MESSAGE</Text>
+                        </View>
+                      </TouchableOpacity>
                       </View>
                       <View style={{flex:1, flexDirection: 'row'}}>
                         <View style={{flex: 1, backgroundColor: 'white', alignItems: 'center', padding: 10,
@@ -164,6 +173,7 @@ class ProfilePage extends Component{
                       showsHorizontalScrollIndicator = {false}
                       onEndReachedThreshold = {500}
                       />
+
                     </View>
                   </Content>
                 </Container>
@@ -234,17 +244,19 @@ class ProfilePage extends Component{
 }
 
 function mapStateToProps(state) {
-	return {
-		navigation: state.get('tabs'),
-    profile: state.get('profile'),
-		indexPage: state.get('indexPage')
-	};
+  console.log("this is state inside of ProfilePage: ", state)
+    return {
+        login: state.get('login'),
+        profile: state.get('profile'),
+        activitiesPageState: state.get('activityPageState')
+
+    };
 }
 
 function mapDispatchToProps(dispatch) {
-	return {
-		dispatch
-	};
+    return {
+        actions: bindActionCreators(actionCreators, dispatch)
+    };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProfilePage);

@@ -85,7 +85,7 @@ export function sendFriendRequest(currentUserID, friendToAddID){
       console.log('currentUserID in sendFriendRequest in initialAction: ', currentUserID);
       console.log('friendToAddID in sendFriendRequest in initialAction: ', friendToAddID);
 
-      fetch('http://localhost8080/sendFriendRequest', {
+      fetch('http://localhost:8080/sendFriendRequest', {
             method: 'POST',
             header: {
               'Content-Type': 'application/json'
@@ -104,6 +104,11 @@ export function sendFriendRequest(currentUserID, friendToAddID){
   };
 }
 
+export function test(){
+  return {
+    type: "TEST"
+  }
+}
 
 export function acceptFriendRequest(currentUserID, friendToAddID, accepted) {
 
