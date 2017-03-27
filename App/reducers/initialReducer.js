@@ -12,7 +12,8 @@ export function populatedActivities(state = {
     switch (action.type) {
     case 'POPULATED_ACTIVITIES':
         return Object.assign({}, state, {
-            populatedActivities: action.populatedActivities
+            populatedActivities: action.populatedActivities,
+            category: action.category
         });
     case 'GET_NOTIFICATIONS':
             return Object.assign({}, state, {

@@ -9,23 +9,65 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as actionCreators from '../actions/initialAction';
 
-import DetailEvent from './detailEventProfile'
+
 
 var image5 = {uri: 'https://www.thisiscolossal.com/wp-content/uploads/2016/03/finger-4.jpg'}
 var image4 = {uri: 'https://cdn.playbuzz.com/cdn/b19cddd2-1b79-4679-b6d3-1bf8d7235b89/93794aec-3f17-47a4-8801-a2716a9c4598_560_420.jpg'}
 var image3 = {uri: 'https://iso.500px.com/wp-content/uploads/2016/04/STROHL__ST_1204-Edit-1500x1000.jpg'}
 var image2 = {uri: 'https://static.pexels.com/photos/2855/landscape-mountains-nature-lake.jpg'}
 var image1 = {uri: 'https://upload.wikimedia.org/wikipedia/commons/3/38/Two_dancers.jpg'}
+//
+//
+// var favs = [
+//   {name:"Story through dance", homes : 18, image: image1},
+//   {name:"Exploring the outdoors", homes : 4, image: image2},
+//   {name:"Artists in your area", homes : 5, image: image3},
+//   {name:"Paiting is everthing", homes : 18, image: image4},
+//   {name:"Fun with pets", homes : 4, image: image5},
+//   {name:"Story through dance", homes : 18, image: image1},
+//   {name:"Exploring the outdoors", homes : 4, image: image2},
+//   {name:"Artists in your area", homes : 5, image: image3},
+//   {name:"Paiting is everthing", homes : 18, image: image4},
+//   {name:"Fun with pets", homes : 4, image: image5}
+// ]
+//
+// var images = [
+//   image1,
+//   image2
+// ]
 
 var events = [{name: 'Sport' },{name: 'Art' },{name: 'Music' }]
+Array.prototype.next = function(item) {
+  var length = this.length
+  if (item === null) {
+    return this[0];
+  }
+  let i = this.indexOf(item);
+  if (i === this.length - 1){
+    return this[0];
+  } else {
+    return this[(i + 1)];
+  }
+};
+Array.prototype.prev = function(item) {
+  if (item === null) {
+    return this[0];
+  }
+  let i = this.indexOf(item);
+  if (i === 0){
+    return this[(length-1)];
+  } else {
+    return this[(i - 1)];
+  }
+};
 
 class ActivitiesPage extends Component {
 
   constructor(props){
     super(props);
-    //setting loading and
-    this.props.actions.populatedActivities("Sport", 10 )
-    // this.props.actions.getNotifications(this.props.profile.userObject.id)
+    var prevCategory = events.prev("Sport").name;
+    var nextCategory = events.next("Sport").name;
+    this.props.actions.populatedActivities("Sport", prevCategory, nextCategory, 10 )
   }
   viewStyle() {
     return ({
@@ -36,36 +78,45 @@ class ActivitiesPage extends Component {
     });
   }
   press(val) {
-    this.props.navigator.push({
-      component: DetailEvent,
-      passProps: val,
-      backButtonTitle: 'Main'
+
+    this.props.navigator.replace({
+      component: Swipe,
+      passProps: val
     });
   }
   endReached(){
-    console.log('hit end')
-    console.log('ACTIVITIES PAGE >>>>>>', this.props.activitiesPageState.populatedActivities)
-    var length = this.props.activitiesPageState.populatedActivities.length + 10
-    this.props.actions.populatedActivities(this.props.activitiesPageState.category, length );
+    const {activitiesPageState, actions} = this.props
+    var category = activitiesPageState.category;
+    console.log('************', category)
+    var prevCategory = events.prev(category).name;
+    var nextCategory = events.next(category).name;
+    var length = activitiesPageState.populatedActivities.length + 10
+    actions.populatedActivities(category, prevCategory, nextCategory, length );
   }
   _onMomentumScrollEnd(evt, state, context){
+    const {activitiesPageState, actions } = this.props
+
     var category = events[context.state.index].name
-    var length = this.props.activitiesPageState.populatedActivities.length + 10
-    console.log("THIS IS THE PROPS >>>", this.props.actions)
-    this.props.actions.populatedActivities(category, length)
-    console.log("AFTER", this.props.activitiesPageState.populatedActivities)
+    var prevCategory = events.prev(category);
+    console.log(prevCategory)
+    var nextCategory = events.next(category);
+    console.log(nextCategory)
+    var length = activitiesPageState.populatedActivities.currCategory.length + 10
+    console.log("THIS IS STATE >><><<", activitiesPageState)
+    actions.populatedActivities("Sport", "Art", "Music", length)
+
   }
   render() {
-    console.log('Looking for activities object',this.props.activitiesPageState.populatedActivities);
-
-
+    const {activitiesPageState} = this.props
+    console.log("RENDERING ...")
+    console.log("STATE AT RENDER: ", activitiesPageState)
     const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
     const dataSource = ds.cloneWithRows(this.props.activitiesPageState.populatedActivities )
-    console.log('this is val ', dataSource)
+
 
     return(
       <View>
-      {this.props.activitiesPageState.populatedActivities.length > 0 ? (
+      {this.props.activitiesPageState.populatedActivities.currCategory.length > 0 ? (
         <View style={{flex:1}}>
           <View style={{flex:1}}>
           <ScrollView style={{flex:1}}>
@@ -80,7 +131,7 @@ class ActivitiesPage extends Component {
           index={0}>
           <Swiper
             horizontal={false}
-            loop={false}
+            loop={true}
             showsPagination={false}
             index={0}
             onMomentumScrollEnd={this._onMomentumScrollEnd.bind(this)}
@@ -142,7 +193,6 @@ const styles = StyleSheet.create({
 
 
 function mapStateToProps(state) {
-  console.log("this is state inside of activitiesPage: ", state)
     return {
         login: state.get('login'),
         profile: state.get('profile'),
