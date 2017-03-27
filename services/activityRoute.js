@@ -114,7 +114,7 @@ router.post('/populateActivities', function(req, res) {
       if (err) console.log('error is good');
       console.log("articles is ", articles)
       console.log("NEW ACTIVITIES", articles)
-      var activities = Object.values(articles)
+      var activities = [...articles]
       res.send(activities)
       return articles;
   });
@@ -182,5 +182,3 @@ router.post('/getActivityOwner', function(req, res){
 
 
 module.exports = router;
-
-
