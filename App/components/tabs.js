@@ -78,7 +78,7 @@ function mapDispatchToProps(dispatch) {
 function mapStateToProps(state) {
 	return {
 		navigation: state.get('tabs'),
-		indexPage: state.get('indexPage')
+		activitiesPageState: state.get('activitiesPageState')
 	};
 }
 export default connect(mapStateToProps, mapDispatchToProps)(ApplicationTabs);

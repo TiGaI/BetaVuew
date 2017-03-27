@@ -120,39 +120,6 @@ router.post('/populateActivities', function(req, res) {
   });
 });
 
-router.post('/sendFriendRequest', function(req, res){
-
-    FriendRequest.find({$and: [{toUser: req.body.toUserID},
-      {fromUser: req.body.fromUserID}]}, function(err, friendRequest) {
-      if (err) {
-          return {err, friendRequest}
-      }
-    if(!friendRequest){
-      User.find({toUser: req.body.toUserID}, function(err, user){
-        if(user){
-            console('adding a new friend')
-            var newFriend = new FriendRequest({
-              toUser: req.body.toUserID,
-              fromUser: req.body.fromUserID,
-              accepted: false
-            })
-            newFriend.save(function(err){
-              if (err) {
-                res.send(err)
-              } else {
-                console.log('Nice, you send a friend request.')
-              }
-            })
-        }else{
-          console.log("this user does not exist!");
-        }
-      });
-    }else{
-      console.log('you already send request to this friend exist!')
-    }
-  })
-});
-
 
 // TODO: Edit an activity
 router.post('/editActivity', function(req, res) {
@@ -182,5 +149,3 @@ router.post('/getActivityOwner', function(req, res){
 
 
 module.exports = router;
-
-

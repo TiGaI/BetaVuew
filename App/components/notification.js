@@ -18,34 +18,21 @@ import { connect } from 'react-redux';
 class Notifications extends Component{
   render(){
     console.log("this is at swiperView.js and this is this.prop: ", this.props)
-    const {userObject} = this.props.profile
+    const {notifications} = this.props.activityPageState
 
-    if(userObject){
-      const profileImg = userObject.profileImg
-      console.log('this is looking for the profile image',profileImg)
-      // 
-      // var Friend = userObject.connection.map(function(x){
-      //   return (
-      //             <ListItem avatar>
-      //                 <Left>
-      //                     <Thumbnail source={x.profileImg} />
-      //                 </Left>
-      //                 <Body>
-      //                     <Text>{x.firstName + ' ' x.lastName}</Text>
-      //                     <Text note>Doing what you like will always keep you happy . .</Text>
-      //                 </Body>
-      //                 <Right>
-      //                     <Text note>3:43 pm</Text>
-      //                 </Right>
-      //             </ListItem>
-      //   )
-      // })
+    if(notifications){
+      var notification = notifications.map(function(x){
+        return(
+
+        )
+      });
+
     }
+
 
     return (
         <View>
-        { userObject !== null ? (
-
+        { notifications !== null ? (
           <Container>
               <Content>
 
@@ -61,7 +48,7 @@ function mapStateToProps(state) {
 	return {
 		navigation: state.get('tabs'),
     profile: state.get('profile'),
-    message: state.get('message')
+    activityPageState: state.get('activityPageState')
 	};
 }
 
