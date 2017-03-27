@@ -23,25 +23,23 @@ class Notifications extends Component{
     if(userObject){
       const profileImg = userObject.profileImg
       console.log('this is looking for the profile image',profileImg)
-
-      var Friend = userObject.connection.map(function(x){
-        return (
-                  <ListItem avatar>
-                      <Left>
-                          <Thumbnail source={x.profileImg} />
-                      </Left>
-                      <Body>
-                          <Text>{x.firstName + ' ' x.lastName}</Text>
-                          <Text note>Doing what you like will always keep you happy . .</Text>
-                      </Body>
-                      <Right>
-                          <Text note>3:43 pm</Text>
-                      </Right>
-                  </ListItem>
-
-
-        )
-      })
+      // 
+      // var Friend = userObject.connection.map(function(x){
+      //   return (
+      //             <ListItem avatar>
+      //                 <Left>
+      //                     <Thumbnail source={x.profileImg} />
+      //                 </Left>
+      //                 <Body>
+      //                     <Text>{x.firstName + ' ' x.lastName}</Text>
+      //                     <Text note>Doing what you like will always keep you happy . .</Text>
+      //                 </Body>
+      //                 <Right>
+      //                     <Text note>3:43 pm</Text>
+      //                 </Right>
+      //             </ListItem>
+      //   )
+      // })
     }
 
     return (

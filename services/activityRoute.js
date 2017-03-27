@@ -40,8 +40,9 @@ router.post('/getMyActivitiesInfo', function(req, res) {
             } else {
               console.log('fail in getMyActivitiesInfo! no user')
             }
-        });
-});
+}
+}
+);
 
 
 router.post('/createActivity', upload.fields([{name: 'file', maxCount: 4},

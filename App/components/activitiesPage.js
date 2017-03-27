@@ -9,7 +9,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as actionCreators from '../actions/initialAction';
 
-import DetailEvent from '../components/detailEventProfile'
+import DetailEvent from './detailEventProfile'
 
 var image5 = {uri: 'https://www.thisiscolossal.com/wp-content/uploads/2016/03/finger-4.jpg'}
 var image4 = {uri: 'https://cdn.playbuzz.com/cdn/b19cddd2-1b79-4679-b6d3-1bf8d7235b89/93794aec-3f17-47a4-8801-a2716a9c4598_560_420.jpg'}
@@ -23,8 +23,9 @@ class ActivitiesPage extends Component {
 
   constructor(props){
     super(props);
+    //setting loading and
     this.props.actions.populatedActivities("Sport", 10 )
-    this.props.actions.getNotifications(this.props.profile.userObject._id)
+    // this.props.actions.getNotifications(this.props.profile.userObject.id)
   }
   viewStyle() {
     return ({
