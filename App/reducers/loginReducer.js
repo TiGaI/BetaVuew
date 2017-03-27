@@ -37,7 +37,6 @@ export function profileReducer(state =
   action) {
     switch (action.type) {
     case 'ADD_USER':
-    console.log("this is in loginReducer and this is action userObject: ", action.userObject)
         return Object.assign({}, state, {
             userObject: action.userObject,
         });
@@ -46,24 +45,6 @@ export function profileReducer(state =
         return state;
     }
 }
-
-
-// export function profileReducer(state = { id: null, name: null, email: null, profileImg: null, profileWidth: null, profileHeight: null}, action) {
-//     switch (action.type) {
-//     case 'ADD_USER':
-//         return Object.assign({}, state, {
-//             id: action.id,
-//             name: action.email,
-//             email: action.name,
-//             profileImg: action.profileImg,
-//             profileWidth: action.profileWidth,
-//             profileHeight: action.profileHeight
-//         });
-//
-//     default:
-//         return state;
-//     }
-// }
 
 /*
 default

@@ -27,6 +27,23 @@ var upload = multer({
 });
 
 
+router.post('/getMyActivitiesInfo', function(req, res) {
+    var profile = req.body.userID
+    User.findOne({email: profile.email})
+    .populate('activities', 'activityTitle', 'activityImages', 'timeStart', 'timeEnd'), function(err, user) {
+            if (err) {
+                return {err, user}
+            }
+            if (user) {
+              res.send(user)
+              return user
+            } else {
+              console.log('fail in getMyActivitiesInfo! no user')
+            }
+        });
+});
+
+
 router.post('/createActivity', upload.fields([{name: 'file', maxCount: 4},
   { name: 'video', maxCount: 1}]), function(req, res){
 

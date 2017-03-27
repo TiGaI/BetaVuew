@@ -24,6 +24,7 @@ class ActivitiesPage extends Component {
   constructor(props){
     super(props);
     this.props.actions.populatedActivities("Sport", 10 )
+    this.props.actions.getNotifications(this.props.profile.userObject._id)
   }
   viewStyle() {
     return ({
