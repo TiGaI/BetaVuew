@@ -8,8 +8,13 @@ const Activity= require('../models/models').Activity;
 const ActivityAction= require('../models/models').ActivityAction;
 const FriendRequest= require('../models/models').FriendRequest;
 
+const bodyParser = require('body-parser')
+router.use(bodyParser.urlencoded({ extended: true }));
+router.use(bodyParser.json())
+
 router.post('/sendFriendRequest', function(req, res){
-  console.log(req.body)
+  console.log('req.body', req.body);
+
   FriendRequest.find({$and: [
           {toUser: req.body.toUser},
           {fromUser: req.body.fromUser}]}, function(err, friendRequest) {

@@ -85,16 +85,20 @@ export function sendFriendRequest(currentUserID, friendToAddID){
       console.log('currentUserID in sendFriendRequest in initialAction: ', currentUserID);
       console.log('friendToAddID in sendFriendRequest in initialAction: ', friendToAddID);
 
+      console.log('sending body', JSON.stringify({
+        toUser: friendToAddID,
+        fromUser: currentUserID
+      }));
 
       fetch('http://localhost:8080/sendFriendRequest', {
             method: 'POST',
-            header: {
-              'Accept': 'application/json, text/plain, */*',
+            headers: {
+              'Accept': 'application/json',
               'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-              toUser: friendToAddID.toString(),
-              fromUser: currentUserID.toString()
+              toUser: friendToAddID,
+              fromUser: currentUserID
             })
         }).then((response) => response.json())
           .then((responseJson) => {
