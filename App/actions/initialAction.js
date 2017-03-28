@@ -137,6 +137,7 @@ export function acceptFriendRequest(currentUserID, friendToAddID, accepted) {
             })
         }).then((response) => response.json())
           .then((responseJson) => {
+            getUserNotifications(currentUserID)
             dispatch(doneFetching())
             console.log('you accepted a friend')
           })
