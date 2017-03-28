@@ -29,8 +29,8 @@ var upload = multer({
 
 router.post('/getMyActivitiesInfo', function(req, res) {
     var profile = req.body.userID
-    User.findOne({email: profile.email})
-    .populate('activities', 'activityTitle', 'activityImages', 'timeStart', 'timeEnd'), function(err, user) {
+    User.findById(req.body.userID)
+    .populate('activities', 'activityTitle activityImages timeStart timeEnd'), function(err, user) {
             if (err) {
                 return {err, user}
             }
@@ -40,8 +40,8 @@ router.post('/getMyActivitiesInfo', function(req, res) {
             } else {
               console.log('fail in getMyActivitiesInfo! no user')
             }
-}
-}
+        }
+  }
 );
 
 

@@ -53,10 +53,10 @@ router.post('/sendFriendRequest', function(req, res){
 });
 
 
-router.get('/getNotification', function(req, res){
+router.post('/getNotification', function(req, res){
     FriendRequest.find({toUser: req.body.userID})
      .sort({ createAt: -1})
-     .populate('fromUser')
+     .populate('fromUser', 'firstName lastName profileImg')
      .select('fromUser').exec( function(err, friendRequests) {
         if (err) {
             return {err, friendRequests}
@@ -66,11 +66,10 @@ router.get('/getNotification', function(req, res){
 
           console.log('hoping this is a array: ', friendRequests)
 
-          var userName = friendRequests.map(function(friend){
-            let object = {_id: friend._id, firstName: friend.firstName, lastName: friend.lastName, profileImg: friend.profileImg}
-             return object
-          })
+             res.send(friendRequests)
+
       }else{
+        res.send(null)
         return null
         console.log('No Friend Request notification')
       }
@@ -78,18 +77,22 @@ router.get('/getNotification', function(req, res){
   });
 
 router.post('/acceptFriendRequest', function(req, res){
-
-    FriendRequest.findOneAndRemove({$and: [{toUser: req.body.toUserID},
-      {fromUser: req.body.fromUserID}]}, function(err, friendRequest) {
+  console.log(req.body);
+    FriendRequest.findOneAndRemove({$and: [
+        {toUser: req.body.toUserID},
+        {fromUser: req.body.fromUserID}]}, function(err, friendRequest) {
       if (err) {
           return {err, friendRequest}
       }
 
+      console.log(friendRequest);
+
     if(friendRequest){
 
-      User.find({$or: [{toUser: req.body.toUserID}, {fromUser: req.body.fromUserID}]} ,function(err, users){
+      User.find({$or: [
+        {_id: req.body.toUserID},
+        {_id: req.body.fromUserID}]},function(err, users){
         if(users){
-            console('I am here inside acceptFriendRequestRoute')
             console.log('users: ', users)
 
 
@@ -97,24 +100,21 @@ router.post('/acceptFriendRequest', function(req, res){
               friendRequest.accepted = req.body.accepted
 
               console.log("I accepted a friend")
-              users.map(function(user){
-                if(user._id === req.body.toUserID){
-                  user.connection.concat(req.body.fromUserID)
+              users.map(function(user, index){
+                console.log(user._id == req.body.toUserID)
+                if(user._id == req.body.toUserID){
+                  user.connections = user.connections.concat(req.body.fromUserID)
                 }else{
-                  user.connection.concat(req.body.toUserID)
+                  user.connections = user.connections.concat(req.body.toUserID)
                 }
-
                 user.save(function(err){
                   if (err) {
-                    res.send(err)
+                    console.log(err);
                   } else {
                     return user
-                    console.log('you add a friend')
                   }
                 })
               });
-
-
             }else{
               friendRequest.accepted = req.body.accepted
               console.log("I rejected a friend")

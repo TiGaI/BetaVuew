@@ -1,5 +1,3 @@
-var actions = require('../actions/initialAction')
-
 export function populatedActivities(state = {
   nav: "ActivitiesPage",
   fetchingData: false,
@@ -15,9 +13,10 @@ export function populatedActivities(state = {
             populatedActivities: action.populatedActivities
         });
     case 'GET_NOTIFICATIONS':
-            return Object.assign({}, state, {
-                notifications: action.notifications
-            });
+    console.log('i am here');
+          return Object.assign({}, state, {
+              notifications: action.notifications
+          });
     case "FETCHING_DATA":
         return Object.assign({}, state, {
           fetchingData: true

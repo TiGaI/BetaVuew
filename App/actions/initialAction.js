@@ -51,17 +51,18 @@ export function getUserNotifications(currentUserID) {
 
         fetch('http://localhost:8080/getNotification', {
               method: 'POST',
-              header: {
+              headers: {
+                'Accept': 'application/json',
                 'Content-Type': 'application/json'
               },
               body: JSON.stringify({
                 userID: currentUserID
               })
-          }).then((response) => response.json())
+            }).then((response) => response.json())
             .then((responseJson) => {
 
-                var userObject = Object.assign({}, responseJson);
-
+                var userObject = [...responseJson];
+                console.log(userObject, ' is the super userObject from getUserNotifications');
                 dispatch(getNotifications(userObject));
                 dispatch(doneFetching())
             })
@@ -125,7 +126,8 @@ export function acceptFriendRequest(currentUserID, friendToAddID, accepted) {
 
       fetch('http://localhost:8080/acceptFriendRequest', {
             method: 'POST',
-            header: {
+            headers: {
+              'Accept': 'application/json',
               'Content-Type': 'application/json'
             },
             body: JSON.stringify({

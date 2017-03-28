@@ -145,7 +145,6 @@ function mapStateToProps(state) {
         login: state.get('login'),
         profile: state.get('profile'),
         activitiesPageState: state.get('activityPageState')
-
     };
 }
 

@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import {
   AppRegistry, ScrollView, StyleSheet, View, TextInput, TouchableOpacity, NavigatorIOS,
   ListView, Alert, Image } from 'react-native';
-import { Container, Content, Left, Body, Right, ListItem, Thumbnail, Text } from 'native-base';
+import { Container, Content, Left, Body, Right, ListItem, Thumbnail, Text, Button } from 'native-base';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 
@@ -12,32 +12,42 @@ import { connect } from 'react-redux';
 
 
 class Notifications extends Component{
+  constructor(props){
+    super(props);
+    //setting loading and
+    this.props.actions.getUserNotifications(this.props.profile.userObject._id)
+  }
+  onFriendRequest(friendToAddID, choice){
+      this.props.actions.acceptFriendRequest(friendToAddID, this.props.profile.userObject._id, choice)
+  }
   render(){
     console.log("this is at swiperView.js and this is this.prop: ", this.props)
     const {notifications} = this.props.activityPageState
-
+    // onPress={this.onFriendRequest(x.fromUser._id, true)}
+    //  onPress={this.onFriendRequest(x.fromUser._id, false)}
     if(notifications){
-      var notification = notifications.map(function(x){
+      var notification = notifications.map((x) => {
         return(
           <ListItem thumbnail>
               <Left>
-
+                  <Thumbnail square size={80} source={{uri: x.fromUser.profileImg}} />
               </Left>
               <Body>
-                  <Text>Sankhadeep</Text>
-                  <Text note>Its time to build a difference . .</Text>
+                  <Text>{x.fromUser.firstName + ' ' + x.fromUser.lastName}</Text>
+                  <Text note>Friend Request</Text>
               </Body>
-              <Right>
-                  <Button transparent>
-                      <Text>Accept</Text>
+              <Right style={{paddingBottom: 0, paddingTop: 0}}>
+                  <Button transparent style={{paddingTop: 0}} onPress={this.onFriendRequest.bind(this, x.fromUser._id, true)}>
+                      <Text style={{fontSize: 13}}>Accept</Text>
                   </Button>
-                  <Button transparent>
-                      <Text>Decline</Text>
+                  <Button transparent style={{paddingTop: 0}} onPress={this.onFriendRequest.bind(this, x.fromUser._id, false)}>
+                      <Text style={{fontSize: 13, paddingBottom: 0}}>Decline</Text>
                   </Button>
               </Right>
           </ListItem>
         )
-      });
+      }
+      );
 
     }
 
@@ -73,7 +83,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
 	return {
-		dispatch
+		actions: bindActionCreators(actionCreators, dispatch)
 	};
 }
 
