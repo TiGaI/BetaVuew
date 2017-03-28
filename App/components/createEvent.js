@@ -139,16 +139,19 @@ var styles = StyleSheet.create({
   }
 });
 
-function mapDispatchToProps(dispatch) {
-	return {
-		dispatch
-	};
+function mapStateToProps(state) {
+    return {
+        login: state.get('login'),
+        profile: state.get('profile'),
+        activitiesPageState: state.get('activityPageState')
+
+    };
 }
 
-function mapStateToProps(state) {
-	return {
-		profile: state.get('profile')
-	};
+function mapDispatchToProps(dispatch) {
+    return {
+        actions: bindActionCreators(actionCreators, dispatch)
+    };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreateEvent);

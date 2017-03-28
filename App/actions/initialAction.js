@@ -88,7 +88,7 @@ export function sendFriendRequest(currentUserID, friendToAddID){
 
       fetch('http://localhost:8080/sendFriendRequest', {
             method: 'POST',
-            header: {
+            headers: {
               'Accept': 'application/json, text/plain, */*',
               'Content-Type': 'application/json'
             },

@@ -24,7 +24,8 @@ class ActivitiesPage extends Component {
   constructor(props){
     super(props);
     //setting loading and
-    this.props.actions.populatedActivities("Sport", 10)
+    this.props.actions.populatedActivities("Sport", 10 )
+    // this.props.actions.getNotifications(this.props.profile.userObject.id)
   }
   viewStyle() {
     return ({
@@ -60,7 +61,8 @@ class ActivitiesPage extends Component {
 
     const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
     const dataSource = ds.cloneWithRows(this.props.activitiesPageState.populatedActivities )
-    console.log('THIS IS PROPS!!!!!!!!', this.props)
+    console.log('this is val ', dataSource)
+
     return(
       <View>
       {this.props.activitiesPageState.populatedActivities.length > 0 ? (
