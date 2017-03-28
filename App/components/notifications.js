@@ -5,6 +5,7 @@ import {
 import { Container, Content, Left, Body, Right, ListItem, Thumbnail, Text } from 'native-base';
 import Icon from 'react-native-vector-icons/Ionicons';
 
+
 import { bindActionCreators } from 'redux';
 import * as actionCreators from '../actions/initialAction';
 import { connect } from 'react-redux';
@@ -20,7 +21,7 @@ class Notifications extends Component{
         return(
           <ListItem thumbnail>
               <Left>
-                
+
               </Left>
               <Body>
                   <Text>Sankhadeep</Text>
@@ -57,9 +58,10 @@ class Notifications extends Component{
           </Container>
         )}
         </View>
-    )
-  }
+)
 }
+}
+
 
 function mapStateToProps(state) {
 	return {
@@ -74,5 +76,6 @@ function mapDispatchToProps(dispatch) {
 		dispatch
 	};
 }
+
 
 export default connect(mapStateToProps, mapDispatchToProps)(Notifications);

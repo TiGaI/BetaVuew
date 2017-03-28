@@ -60,8 +60,7 @@ class ActivitiesPage extends Component {
 
     const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
     const dataSource = ds.cloneWithRows(this.props.activitiesPageState.populatedActivities )
-    console.log('this is val ', dataSource)
-
+    console.log('THIS IS PROPS!!!!!!!!', this.props)
     return(
       <View>
       {this.props.activitiesPageState.populatedActivities.length > 0 ? (

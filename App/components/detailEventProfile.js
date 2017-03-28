@@ -14,6 +14,20 @@ import { bindActionCreators } from 'redux';
 import * as actionCreators from '../actions/initialAction';
 import { connect } from 'react-redux';
 
+var image5 = {uri: 'https://www.thisiscolossal.com/wp-content/uploads/2016/03/finger-4.jpg'}
+var image4 = {uri: 'https://cdn.playbuzz.com/cdn/b19cddd2-1b79-4679-b6d3-1bf8d7235b89/93794aec-3f17-47a4-8801-a2716a9c4598_560_420.jpg'}
+var image3 = {uri: 'https://iso.500px.com/wp-content/uploads/2016/04/STROHL__ST_1204-Edit-1500x1000.jpg'}
+var image2 = {uri: 'https://static.pexels.com/photos/2855/landscape-mountains-nature-lake.jpg'}
+var image1 = {uri: 'https://upload.wikimedia.org/wikipedia/commons/3/38/Two_dancers.jpg'}
+
+var favs = [
+{name:"DANCE", homes : 18, image: image1},
+{name:"OUTDOORS", homes : 4, image: image2},
+{name:"TRAVEL", homes : 5, image: image3},
+{name:"ART", homes : 22, image: image4},
+{name:"ART", homes : 18, image: image5}
+]
+
 class DetailEvent extends Component{
   viewStyle() {
     return {
@@ -37,39 +51,34 @@ class DetailEvent extends Component{
       //    })
       //  })
   }
-  addFriend() {
-
-     fetch("http://localhost:8080/sendFriendRequest", {
-       method: 'POST',
-       headers: {
-         "Content-Type": "application/json"
-       },
-       body: JSON.stringify({
-         toUserID: this.props.activityCreator._id,
-         fromUserID: this.props.profile._id
-       })
-     })
-
+  addFriend(){
+    const {userObject} = this.props.profile;
+    const {activityCreator, actions} =this.props;
+    actions.sendFriendRequest(userObject._id , activityCreator[0]._id);
+    console.log('ADDEDDDDDEDDDD FRIEND');
   }
   render(){
-    console.log("this is at detailEventProfile.js and this is this.prop: ", this.props)
-    var userObject = this.props.activityCreator[0]
+    // console.log("this is at detailEventProfile.js and this is this.prop: ", this.props)
+    const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+    const dataFavs = ds.cloneWithRows(favs);
+   var userObject = this.props.activityCreator[0]
 
-    var activityObject = this.props
+   var activityObject = this.props
 
-    if(userObject.length > 0){
-      const profileImg = userObject.profileImg
-      console.log('this is looking for the profile image', profileImg)
-      var alreadyFriend = false
-      var connectionLength = this.props.profile.userObject.connection.filter(
-        function(x){
-          return x === userObject[0].id
-        }).length
+   if(userObject.length > 0){
+     const profileImg = userObject.profileImg
+    //  console.log('this is looking for the profile image', profileImg)
+     var alreadyFriend = false
+     var connectionLength = this.props.profile.userObject.connection.filter(
+       function(x){
+         return x === userObject[0].id
+       }).length
 
-      if(userObject[0].id === this.props.userObject.profile.id || connectionLength > 0){
-        alreadyFriend = true
-      }
-    }
+     if(userObject[0].id === this.props.userObject.profile.id || connectionLength > 0){
+       alreadyFriend = true
+     }
+   }
+
     return (
         <View>
         { this.props.profile.userObject ? (  <Swiper
@@ -114,56 +123,74 @@ class DetailEvent extends Component{
               <View style={this.viewStyle()}>
                 <Container>
                   <Content>
-                  <View style={{flex: 1, flexDirection: 'row' }}>
-                  <View style={{flex: 1, alignItems: 'flex-start', marginTop: 20, marginLeft: 20}}>
-                  <TouchableOpacity>
-                  <Icon style={{fontSize: 40, color: '#1D79C1'}} name='ios-chatbubbles' />
-                  </TouchableOpacity>
-                  </View>
-                  <View style={{flex: 1, alignItems: 'flex-end', marginTop: 20, marginRight: 20}}>
-                  { alreadyFriend ? (null) : (
-
-                    <TouchableOpacity onPress={this.addFriend()}>
-                    <Icon style={{fontSize: 40, color: '#1D79C1'}} name='md-person-add' />
-                    </TouchableOpacity>
-
-                  ) }
-                  </View>
-                  </View>
                     <View style={styles.profileBox}>
-                      <Thumbnail style={{marginTop: 0, height: 120, width: 120, borderRadius: 60}} source={{uri: userObject.profileImg }} />
-                      <Text style={{textAlign: 'center', fontWeight: '300', fontSize: 25, marginTop: 5}}>{userObject.firstName + " " + userObject.lastName}</Text>
+                      <Thumbnail style={{marginTop: 10, height: 100, width: 100, borderRadius: 50}} source={{uri: userObject.profileImg }} />
+                      <Text style={{textAlign: 'center', fontWeight: '400', fontSize: 25, marginTop: 5}}>{userObject.firstName + " " + userObject.lastName}</Text>
                       <Text style={{textAlign: 'center', fontWeight: '300', fontSize: 10, marginBottom: 5}}>Age: {userObject.age}</Text>
                       <Text note style={{textAlign: 'center', fontWeight: '100', fontSize: 12, marginBottom: 5, color: '#323232'}}>Bio: {userObject.bio}</Text>
-
-                      <View style={styles.socialStatus}>
-                        <View style={[styles.innerbox,  {alignItems: "flex-end"}]}>
-                          <View style={[styles.circle, {backgroundColor: '#54A78B'}]}>
-                            <Text style={styles.textInCicle, {color: '#323232'}}>600</Text>
-                          </View>
-                          <Text style={{textAlign: 'center', color: "#323232", fontWeight: '300', fontSize: 10, paddingRight: 10, marginTop: 5 }}>Followers</Text>
+                      <View style={{flex: 1, flexDirection: 'row'}}>
+                        <TouchableOpacity style={{flex: 1}} onPress={this.addFriend.bind(this)}>
+                        <View style={{flex: 1, backgroundColor: '#00A8BE', alignItems: 'center', padding: 15,
+                         margin: 20, borderRadius: 35}}>
+                         <Text style={{color: 'white', fontWeight: '500', letterSpacing: 1}}>FOLLOW</Text>
+                         </View>
+                          </TouchableOpacity>
+                          <TouchableOpacity style={{flex: 1}} >
+                          <View style={{flex: 1, backgroundColor: 'white', alignItems: 'center', padding: 15,
+                        borderColor: '#00A8BE', borderStyle: 'solid', borderWidth: 2, margin: 20,  borderRadius: 35, marginLeft: -5}}>
+                        <Text style={{color: '#00A8BE',
+                        fontWeight: '500', letterSpacing: 1}}>MESSAGE</Text>
                         </View>
-                        <View style={[styles.innerbox,  {alignItems: "center"}]}>
-                          <View style={[styles.circle, {backgroundColor: '#5B6AAB'}]}>
-                            <Text style={styles.textInCicle, {color: '#323232'}}>27</Text>
-                          </View>
-                          <Text style={{textAlign: 'center', color: "#323232", fontWeight: '300', fontSize: 10, marginTop: 5}}>Activities</Text>
+                      </TouchableOpacity>
+                      </View>
+                      <View style={{flex:1, flexDirection: 'row'}}>
+                        <View style={{flex: 1, backgroundColor: 'white', alignItems: 'center', padding: 10,
+                      borderColor: 'lightgrey', borderStyle: 'solid', borderWidth: 1, borderLeftWidth: 0, borderRightWidth: 0,marginLeft: 10}}>
+                          <Text>236</Text>
+                          <Text style={{fontSize: 12, color: 'grey'}}>FOLLOWERS</Text>
                         </View>
-                        <View style={[styles.innerbox,  {alignItems: "flex-start"}]}>
-                          <View style={[styles.circle, {backgroundColor: '#579BAB'}]}>
-                            <Text style={styles.textInCicle, {color: '#323232'}}>8.7 K</Text>
-                          </View>
-                            <Text style={{textAlign: 'center', color: "#323232", fontWeight: '300', fontSize: 10, paddingLeft: 2, marginTop: 5 }}>Savage level</Text>
+                        <View style={{flex: 1, backgroundColor: 'white', alignItems: 'center', padding: 10,
+                      borderColor: 'lightgrey', borderStyle: 'solid', borderWidth: 1}}>
+                          <Text>23.6k</Text>
+                          <Text style={{fontSize: 12, color: 'grey'}}>EVENTS</Text>
+                        </View>
+                        <View style={{flex: 1, backgroundColor: 'white', alignItems: 'center', padding: 10,
+                      borderColor: 'lightgrey', borderStyle: 'solid', borderWidth: 1, borderRightWidth: 0, borderLeftWidth: 0, marginRight: 10}}>
+                          <Text>2.8k</Text>
+                          <Text style={{fontSize: 12, color: 'grey'}}>FOLLOWING</Text>
                         </View>
                       </View>
                     </View>
-
-                    <View style={{backgroundColor: '#1DC16A', flex: 1, height: 300, marginTop: 80}}>
+                    <View style={{flex: 1, flexDirection: 'row'}}>
+                      <TouchableOpacity style={{flex: 1}} onPress={this.border}>
+                        <View style={{flex: 1, margin: 10, marginTop: 20}}><Text style={{fontSize: 12, color: 'grey', textAlign: 'center'}}>MY EVENTS</Text></View>
+                      </TouchableOpacity>
+                      <TouchableOpacity style={{flex: 1}} onPress={this.border}>
+                        <View style={{flex: 1, margin: 10, marginTop: 20}}><Text style={{fontSize: 12, color: 'grey', textAlign: 'center'}}>VIDEOS</Text></View>
+                      </TouchableOpacity>
+                      <TouchableOpacity style={{flex: 1}} onPress={this.border}>
+                        <View style={{flex: 1, margin: 10, marginTop: 20}}><Text style={{fontSize: 12, color: 'grey', textAlign: 'center'}}>IMAGES</Text></View>
+                      </TouchableOpacity>
                     </View>
+                    <View style={{flex:1, padding: 20, marginTop:-10}}>
+                      <ListView
+                      dataSource = {dataFavs}
+                      renderRow={(rowData) =>
+                        <TouchableOpacity >
+                        <Image source={rowData.image} resizeMode="stretch" style={{width:150, height:150, marginRight: 10, justifyContent:'flex-end', alignItems:'center', padding: 15}}>
+                        <Text style={{backgroundColor:'rgba(0,0,0,0)', textAlign:'center', color:'white', fontSize:20, fontWeight:'700'}}>{rowData.name}</Text>
+                        <Text style={{backgroundColor:'rgba(0,0,0,0)', color:'#fff',fontSize:10, fontWeight:'600'}}>{rowData.activityDescription}</Text>
+                        </Image>
+                        </TouchableOpacity>
+                      }
+                      horizontal = {true}
+                      showsHorizontalScrollIndicator = {false}
+                      onEndReachedThreshold = {500}
+                      />
 
+                    </View>
                   </Content>
                 </Container>
-
               </View>
 
 
@@ -232,17 +259,18 @@ class DetailEvent extends Component{
 }
 
 function mapStateToProps(state) {
-	return {
-		navigation: state.get('tabs'),
-    profile: state.get('profile'),
-		indexPage: state.get('indexPage')
-	};
+    return {
+        login: state.get('login'),
+        profile: state.get('profile'),
+        activitiesPageState: state.get('activityPageState')
+
+    };
 }
 
 function mapDispatchToProps(dispatch) {
-	return {
-		dispatch
-	};
+    return {
+        actions: bindActionCreators(actionCreators, dispatch)
+    };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(DetailEvent);

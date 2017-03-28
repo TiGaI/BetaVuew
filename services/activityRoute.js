@@ -104,12 +104,18 @@ router.post('/createActivity', upload.fields([{name: 'file', maxCount: 4},
 router.post('/populateActivities', function(req, res) {
   console.log("INSIDE POPULATE ACTIVITIES")
   console.log("CATEGORY", req.body.category)
-  Activity.find({activityCategory: req.body.category}).sort('-createdAt')
-  .populate('activityCreator').exec(function (err, articles) {
+
+  Activity.find({activityCategory: req.body.category}).sort('-createdAt').populate({
+    path:'activityCreator',
+    options: {
+        limit: req.body.length,
+        sort: { created: -1},
+    }
+  }).exec(function (err, articles) {
       if (err) console.log('error is good');
       console.log("articles is ", articles)
       console.log("NEW ACTIVITIES", articles)
-      var activities = Object.values(articles)
+      var activities = [...articles]
       res.send(activities)
       return articles;
   });

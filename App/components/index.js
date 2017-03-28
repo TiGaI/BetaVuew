@@ -15,7 +15,7 @@ export default class Index extends Component {
               component: ActivitiesPage,
               title: 'ActivitiesPage'
             }}
-            navigationBarHidden={true}>
+            navigationBarHidden={false}>
           </NavigatorIOS>
         </View>
       )

@@ -28,8 +28,9 @@ app.use(bodyParser.json());
 
 app.use('/', authRoute);
 app.use('/', activityRoute);
-app.use('/', messageRoute);
 app.use('/', actionRoute);
+app.use('/', messageRoute);
+
 
 var port = process.env.PORT || 8080;
 http.listen(port, function() {

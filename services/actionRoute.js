@@ -8,35 +8,32 @@ const Activity= require('../models/models').Activity;
 const ActivityAction= require('../models/models').ActivityAction;
 const FriendRequest= require('../models/models').FriendRequest;
 
-// Require login past this point.
-router.use('/', function(req, res, next){
-  if (!req.user) {
-    res.redirect('/');
-  } else {
-    return next();
-  }
-});
-
 router.post('/sendFriendRequest', function(req, res){
-
-    FriendRequest.find({$and: [{toUser: req.body.toUserID},
-      {fromUser: req.body.fromUserID}]}, function(err, friendRequest) {
+  console.log(req.body)
+  FriendRequest.find({$and: [
+          {toUser: req.body.toUser},
+          {fromUser: req.body.fromUser}]}, function(err, friendRequest) {
       if (err) {
           return {err, friendRequest}
       }
-    if(!friendRequest){
-      User.find({toUser: req.body.toUserID}, function(err, user){
+
+    console.log(friendRequest);
+
+    if(friendRequest.length === 0){
+      User.find({toUser: req.body.toUser}, function(err, user){
         if(user){
-            console('adding a new friend')
+            console.log('adding a new friend')
             var newFriend = new FriendRequest({
-              toUser: req.body.toUserID,
-              fromUser: req.body.fromUserID,
+              toUser: req.body.toUser,
+              fromUser: req.body.fromUser,
               accepted: false
             })
             newFriend.save(function(err){
               if (err) {
                 res.send(err)
+                console.log(err)
               } else {
+                res.send('success')
                 console.log('Nice, you send a friend request.')
               }
             })
