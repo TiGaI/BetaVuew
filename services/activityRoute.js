@@ -101,24 +101,133 @@ router.post('/createActivity', upload.fields([{name: 'file', maxCount: 4},
 });
 
 //populate activities by category
+
 router.post('/populateActivities', function(req, res) {
-  console.log("INSIDE POPULATE ACTIVITIES")
-  console.log("CATEGORY", req.body.category)
-  Activity.find({activityCategory: req.body.category}).sort('-createdAt').populate({
+  var currActivities;
+  var prevActivities;
+  var nextActivities;
+  var activitiesObject = {}
+  Activity.find({activityCategory: req.body.category}).populate({
     path:'activityCreator',
     options: {
         limit: req.body.length,
-        sort: { created: 1},
+        sort: { created: -1},
     }
-  }).exec(function (err, articles) {
+  }).exec(function (err, currArticles) {
       if (err) console.log('error is good');
-      console.log("articles is ", articles)
-      console.log("NEW ACTIVITIES", articles)
-      var activities = Object.values(articles)
-      res.send(activities)
-      return articles;
-  });
-});
+
+      currActivities = [...currArticles]
+      activitiesObject["currCategory"] = currActivities
+      return activitiesObject
+    }).then((response) => {
+
+      Activity.find({activityCategory: req.body.prevCategory}).populate({
+        path:'activityCreator',
+        options: {
+            limit: req.body.length,
+            sort: { created: -1},
+        }
+      }).exec(function (err, prevArticles) {
+
+          if (err) console.log('error is good');
+
+          prevActivities = [...prevArticles]
+          activitiesObject["prevCategory"] = prevActivities
+
+          return response;
+        }).then(() => {
+        Activity.find({activityCategory: req.body.nextCategory}).populate({
+          path:'activityCreator',
+          options: {
+              limit: req.body.length,
+              sort: { created: -1},
+          }
+        }).exec(function (err, nextArticles) {
+            if (err) console.log('error is good');
+            nextActivities = [...nextArticles]
+            activitiesObject["nextCategory"] = nextActivities
+            return response
+          }).then(() => {
+              res.send(activitiesObject);
+          })
+        })
+      })
+    })
+
+
+
+// router.post('/populateActivities', function(req, res) {
+//   var prevCategory = req.body.prevCategory;
+//   console.log("FIRST: ", prevCategory)
+//   var nextCategory = req.body.nextCategory;
+//   var currActivities;
+//   var prevActivities;
+//   var nextActivities;
+//   Activity.find({activityCategory: req.body.category}).populate({
+//     path:'activityCreator',
+//     options: {
+//         limit: req.body.length,
+//         sort: { created: -1},
+//     }
+//   }).exec(function (err, currArticles) {
+//       if (err) console.log('error is good');
+//
+//       console.log("NEW ACTIVITIES", currArticles)
+//       currActivities = [...currArticles]
+//       console.log("Right Before")
+//       Activity.find({activityCategory: req.body.prevCategory}).populate({
+//         path:'activityCreator',
+//         options: {
+//             limit: req.body.length,
+//             sort: { created: -1},
+//         }
+//       }).exec(function (err, prevArticles) {
+//         console.log("NEXT CAT", nextCategory)
+//           if (err) console.log('error is good');
+//           console.log(prevCategory)
+//           console.log("prevArticles is ", prevArticles)
+//           console.log("NEW PREVIOUSACTIVITIES", prevArticles)
+//           prevActivities = [...prevArticles]
+//           console.log("Right Before next")
+//           Activity.find({activityCategory: req.body.nextCategory}).populate({
+//             path:'activityCreator',
+//             options: {
+//                 limit: req.body.length,
+//                 sort: { created: -1},
+//             }
+//           }).exec(function (err, nextArticles) {
+//               if (err) console.log('error is good');
+//               console.log("nextarticles is ", nextArticles)
+//               console.log("NEW NEXTACTIVITIES", nextArticles)
+//               nextActivities = [...nextArticles]
+//             })
+//         })
+//         console.log("This is the response Data: ", prevActivities)
+//       res.send({
+//         prevCategory:prevActivities,
+//         nextCategory:nextActivities
+//       })
+//   })
+// });
+
+// router.post('/populateActivities', function(req, res) {
+//   console.log("INSIDE POPULATE ACTIVITIES")
+//   console.log("CATEGORY", req.body.category)
+//   Activity.find({activityCategory: req.body.category}).sort('-createdAt').populate({
+//     path:'activityCreator',
+//     options: {
+//         limit: req.body.length,
+//         sort: { created: 1},
+//     }
+//   }).exec(function (err, articles) {
+//       if (err) console.log('error is good');
+//       console.log("articles is ", articles)
+//       console.log("NEW ACTIVITIES", articles)
+//       var activities = [...articles]
+//       res.send(activities)
+//       return articles;
+//   });
+// });
 
 router.post('/sendFriendRequest', function(req, res){
 

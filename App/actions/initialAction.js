@@ -1,8 +1,6 @@
 export function populatedActivities(category, prevCategory, nextCategory, populatedActivities) {
     return dispatch => {
         dispatch(fetching());
-        console.log('category in initialAction: ', category);
-        console.log('populateActivities in initialAction: ', populatedActivities);
 
         fetch('http://localhost:8080/populateActivities', {
               method: 'POST',
@@ -18,13 +16,14 @@ export function populatedActivities(category, prevCategory, nextCategory, popula
             })
             .then((response) => response.json())
             .then((responseJson) => {
-                var activitiesObject = Object.assign({}, responseJson);
-                console.log("this is activitiesArray inside of initialAction: ", activitiesObject)
+                var activitiesObject = {
+                  ...responseJson
+                };
                 dispatch(getActivities(activitiesObject, category));
                 dispatch(doneFetching())
             })
             .catch((err) => {
-              console.log('error: ', err)
+              console.log('error in populatedActivities -> ', err)
             });
     };
 }

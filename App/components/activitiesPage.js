@@ -36,13 +36,15 @@ var image1 = {uri: 'https://upload.wikimedia.org/wikipedia/commons/3/38/Two_danc
 //   image2
 // ]
 
-var events = [{name: 'Sport' },{name: 'Art' },{name: 'Music' }]
+var events = ['Sport' , 'Art' , 'Music' ]
 Array.prototype.next = function(item) {
   var length = this.length
+  console.log("NEXT >< LENGTH", length)
   if (item === null) {
     return this[0];
   }
-  let i = this.indexOf(item);
+  var i = this.indexOf(item);
+  console.log("NEXT <> this is i", i)
   if (i === this.length - 1){
     return this[0];
   } else {
@@ -53,7 +55,8 @@ Array.prototype.prev = function(item) {
   if (item === null) {
     return this[0];
   }
-  let i = this.indexOf(item);
+  var i = this.indexOf(item);
+  var length = this.length
   if (i === 0){
     return this[(length-1)];
   } else {
@@ -64,9 +67,10 @@ Array.prototype.prev = function(item) {
 class ActivitiesPage extends Component {
 
   constructor(props){
+    var prevCategory = events.prev("Sport");
+    console.log("First Time")
+    var nextCategory = events.next("Sport");
     super(props);
-    var prevCategory = events.prev("Sport").name;
-    var nextCategory = events.next("Sport").name;
     this.props.actions.populatedActivities("Sport", prevCategory, nextCategory, 10 )
   }
   viewStyle() {
@@ -88,35 +92,39 @@ class ActivitiesPage extends Component {
     const {activitiesPageState, actions} = this.props
     var category = activitiesPageState.category;
     console.log('************', category)
-    var prevCategory = events.prev(category).name;
-    var nextCategory = events.next(category).name;
+    var prevCategory = events.prev(category);
+    var nextCategory = events.next(category);
     var length = activitiesPageState.populatedActivities.length + 10
     actions.populatedActivities(category, prevCategory, nextCategory, length );
   }
   _onMomentumScrollEnd(evt, state, context){
     const {activitiesPageState, actions } = this.props
-
-    var category = events[context.state.index].name
+    if (context.state.index === 0) {
+      var index = 2;
+    } else {
+      var index = context.state.index - 1
+    }
+    console.log("INDEXXXX: ", index)
+    var category = events[index]
+    console.log("This is the category after swipe: ", category)
     var prevCategory = events.prev(category);
-    console.log(prevCategory)
     var nextCategory = events.next(category);
-    console.log(nextCategory)
-    var length = activitiesPageState.populatedActivities.currCategory.length + 10
-    console.log("THIS IS STATE >><><<", activitiesPageState)
-    actions.populatedActivities("Sport", "Art", "Music", length)
+    var length = activitiesPageState.populatedActivities.length + 10
+    actions.populatedActivities(category, prevCategory, nextCategory, length)
 
   }
   render() {
     const {activitiesPageState} = this.props
-    console.log("RENDERING ...")
-    console.log("STATE AT RENDER: ", activitiesPageState)
-    const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
-    const dataSource = ds.cloneWithRows(this.props.activitiesPageState.populatedActivities )
 
+    const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+
+    const dataSource = ds.cloneWithRows(activitiesPageState.populatedActivities.currCategory)
+    const dataSourcePrev = ds.cloneWithRows(activitiesPageState.populatedActivities.prevCategory)
+    const dataSourceNext = ds.cloneWithRows(activitiesPageState.populatedActivities.nextCategory)
 
     return(
       <View>
-      {this.props.activitiesPageState.populatedActivities.currCategory.length > 0 ? (
+      {activitiesPageState.populatedActivities.currCategory.length > 0 ? (
         <View style={{flex:1}}>
           <View style={{flex:1}}>
           <ScrollView style={{flex:1}}>
@@ -133,10 +141,34 @@ class ActivitiesPage extends Component {
             horizontal={false}
             loop={true}
             showsPagination={false}
-            index={0}
+            index={1}
             onMomentumScrollEnd={this._onMomentumScrollEnd.bind(this)}
             >
-            {[{name: 'Sport' },{name: 'Art' },{name: 'Music' }].map((x) =>
+            <View style={this.viewStyle()}>
+                <View style={{flex: 2, justifyContent: 'center', padding: 0}}>
+                  <ListView
+                  dataSource = {dataSourcePrev}
+                  renderRow={(val) =>
+                    <TouchableOpacity onPress={this.press.bind(this, val)}>
+                    <Image source={{uri: 'https://upload.wikimedia.org/wikipedia/commons/3/38/Two_dancers.jpg'}} resizeMode="stretch" style={{width:350, height:400, marginRight: 10, justifyContent:'flex-end', alignItems:'flex-start', padding: 15}}>
+                    <Text style={{backgroundColor:'rgba(0,0,0,0)', textAlign:'center', color:'#fff', fontSize:25, fontWeight:'700'}}>{val.activityTitle}</Text>
+                    <Text style={{backgroundColor:'rgba(0,0,0,0)', color:'#fff',fontSize:13, fontWeight:'600'}}>{val.homes} homes</Text>
+                    <Text style={{backgroundColor:'rgba(0,0,0,0)', color:'#fff',fontSize:13, fontWeight:'600'}}>{val.activityDescription}</Text>
+                    </Image>
+                    </TouchableOpacity>
+                  }
+                  horizontal = {true}
+                  showsHorizontalScrollIndicator = {false}
+                  onEndReachedThreshold = {500}
+                  onEndReached={this.endReached.bind(this)}
+                  />
+                </View>
+                <View style={{flex: 1, justifyContent: 'flex-start', padding: 30, backgroundColor: '#5F4F7E'}}>
+                <Text style={{fontWeight: '500', fontSize: 25, color: 'white'}}>Music</Text>
+                <Text numberOfLines={5} style={{fontSize: 15, fontWeight: '400', color: 'white' , marginTop: 10, textAlign: 'justify'}}>Description
+                </Text>
+                </View>
+              </View>
             <View style={this.viewStyle()}>
                 <View style={{flex: 2, justifyContent: 'center', padding: 0}}>
                   <ListView
@@ -156,13 +188,37 @@ class ActivitiesPage extends Component {
                   onEndReached={this.endReached.bind(this)}
                   />
                 </View>
-                  <View style={{flex: 1, justifyContent: 'flex-start', padding: 30, backgroundColor: '#5F4F7E'}}>
-                  <Text style={{fontWeight: '500', fontSize: 25, color: 'white'}}>{x.name}</Text>
-                      <Text numberOfLines={5} style={{fontSize: 15, fontWeight: '400', color: 'white' , marginTop: 10, textAlign: 'justify'}}>Description
-                      </Text>
-                      </View>
+                <View style={{flex: 1, justifyContent: 'flex-start', padding: 30, backgroundColor: '#5F4F7E'}}>
+                <Text style={{fontWeight: '500', fontSize: 25, color: 'white'}}>Sport</Text>
+                <Text numberOfLines={5} style={{fontSize: 15, fontWeight: '400', color: 'white' , marginTop: 10, textAlign: 'justify'}}>Description
+                </Text>
                 </View>
-              )}
+              </View>
+              <View style={this.viewStyle()}>
+                  <View style={{flex: 2, justifyContent: 'center', padding: 0}}>
+                    <ListView
+                    dataSource = {dataSourcePrev}
+                    renderRow={(val) =>
+                      <TouchableOpacity onPress={this.press.bind(this, val)}>
+                      <Image source={{uri: 'https://upload.wikimedia.org/wikipedia/commons/3/38/Two_dancers.jpg'}} resizeMode="stretch" style={{width:350, height:400, marginRight: 10, justifyContent:'flex-end', alignItems:'flex-start', padding: 15}}>
+                      <Text style={{backgroundColor:'rgba(0,0,0,0)', textAlign:'center', color:'#fff', fontSize:25, fontWeight:'700'}}>{val.activityTitle}</Text>
+                      <Text style={{backgroundColor:'rgba(0,0,0,0)', color:'#fff',fontSize:13, fontWeight:'600'}}>{val.homes} homes</Text>
+                      <Text style={{backgroundColor:'rgba(0,0,0,0)', color:'#fff',fontSize:13, fontWeight:'600'}}>{val.activityDescription}</Text>
+                      </Image>
+                      </TouchableOpacity>
+                    }
+                    horizontal = {true}
+                    showsHorizontalScrollIndicator = {false}
+                    onEndReachedThreshold = {500}
+                    onEndReached={this.endReached.bind(this)}
+                    />
+                  </View>
+                  <View style={{flex: 1, justifyContent: 'flex-start', padding: 30, backgroundColor: '#5F4F7E'}}>
+                  <Text style={{fontWeight: '500', fontSize: 25, color: 'white'}}>Art</Text>
+                  <Text numberOfLines={5} style={{fontSize: 15, fontWeight: '400', color: 'white' , marginTop: 10, textAlign: 'justify'}}>Description
+                  </Text>
+                  </View>
+                </View>
           </Swiper>
         </Swiper>
         </View>
