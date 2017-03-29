@@ -275,6 +275,7 @@ class DetailEvent extends Component{
 }
 
 function mapStateToProps(state) {
+
     return {
         login: state.get('login'),
         profile: state.get('profile'),

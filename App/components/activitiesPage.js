@@ -58,7 +58,7 @@ class ActivitiesPage extends Component {
 
   }
   render() {
-
+    console.log('ACTIVITIES PAGE THIS PROPS',this.props)
     const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
     const dataSource = ds.cloneWithRows(this.props.activitiesPageState.populatedActivities )
 
@@ -86,7 +86,7 @@ class ActivitiesPage extends Component {
             onMomentumScrollEnd={this._onMomentumScrollEnd.bind(this)}
             >
             {[{name: 'Sport' },{name: 'Art' },{name: 'Music' }].map((x) =>
-            <View style={this.viewStyle()}>
+            <View style={{flex: 1}}>
                 <View style={{flex: 2, justifyContent: 'center', padding: 0}}>
                   <ListView
                   dataSource = {dataSource}
@@ -105,7 +105,7 @@ class ActivitiesPage extends Component {
                   onEndReached={this.endReached.bind(this)}
                   />
                 </View>
-                  <View style={{flex: 1, justifyContent: 'flex-start', padding: 30, backgroundColor: '#5F4F7E'}}>
+                  <View style={{flex: 1, justifyContent: 'flex-start', padding: 30, backgroundColor: '#22DF8D'}}>
                   <Text style={{fontWeight: '500', fontSize: 25, color: 'white'}}>{x.name}</Text>
                       <Text numberOfLines={5} style={{fontSize: 15, fontWeight: '400', color: 'white' , marginTop: 10, textAlign: 'justify'}}>Description
                       </Text>

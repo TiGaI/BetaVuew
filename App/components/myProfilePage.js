@@ -12,6 +12,8 @@ import randomcolor from 'randomcolor';
 
 import { bindActionCreators } from 'redux';
 import * as actionCreators from '../actions/initialAction';
+import * as loginAction from '../actions/loginAction';
+
 import { connect } from 'react-redux';
 
 import CreateEvent from './createEvent';
@@ -34,6 +36,8 @@ var favs = [
 class ProfilePage extends Component{
   constructor(props){
     super(props)
+      // this.props.loginActions.getMyActivitiesInfor(val.activityCreator[0]._id);
+      // console.log('PROFILE PAGE THIS PROPS',this.props)
   }
   viewStyle() {
     return {
@@ -61,7 +65,7 @@ class ProfilePage extends Component{
     console.log("PROPS IN RENDER >>>> ", this.props)
     const {userObject} = this.props.profile;
     const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
-    const dataFavs = ds.cloneWithRows(favs);
+    const dataSource = ds.cloneWithRows(userObject.activities);
 
     if(userObject){
       const profileImg = userObject.profileImg;
@@ -127,13 +131,13 @@ class ProfilePage extends Component{
                     </View>
                     <View style={{flex:1, padding: 20, marginTop:-10}}>
                       <ListView
-                      dataSource = {dataFavs}
+                      dataSource = {dataSource}
                       renderRow={(rowData) =>
                         <TouchableOpacity >
-                        <Image source={rowData.image} resizeMode="stretch" style={{width:150, height:150, marginRight: 10, justifyContent:'flex-end', alignItems:'center', padding: 15}}>
-                        <Text style={{backgroundColor:'rgba(0,0,0,0)', textAlign:'center', color:'white', fontSize:20, fontWeight:'700'}}>{rowData.name}</Text>
-                        <Text style={{backgroundColor:'rgba(0,0,0,0)', color:'#fff',fontSize:10, fontWeight:'600'}}>{rowData.activityDescription}</Text>
+                        <Image source={{uri: 'https://iso.500px.com/wp-content/uploads/2016/04/STROHL__ST_1204-Edit-1500x1000.jpg'}} resizeMode="stretch" style={{width:150, height:150, marginRight: 10, justifyContent:'flex-end', alignItems:'center', padding: 15}}>
                         </Image>
+                        <Text style={{backgroundColor:'rgba(0,0,0,0)', textAlign:'left', color:'black', fontSize:17, fontWeight:'500'}}>{rowData.activityTitle}</Text>
+
                         </TouchableOpacity>
                       }
                       horizontal = {true}
@@ -168,7 +172,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        actions: bindActionCreators(actionCreators, dispatch)
+        actions: bindActionCreators(actionCreators, dispatch),
+        loginActions: bindActionCreators(loginAction, dispatch)
     };
 }
 

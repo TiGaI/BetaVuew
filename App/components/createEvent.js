@@ -4,8 +4,11 @@ import { AppRegistry, ScrollView, StyleSheet,
   ListView, Alert, AsyncStorage, TouchableHighlight } from 'react-native';
 import { Container, Content, Left, Body, Header, Right, ListItem, Thumbnail, Card, Title, CardItem, Icon, Item, Input, Label,  Button} from 'native-base';
 import { connect } from 'react-redux';
-import Swiper from 'react-native-swiper'
-import randomcolor from 'randomcolor'
+import Swiper from 'react-native-swiper';
+import { bindActionCreators } from 'redux';
+import randomcolor from 'randomcolor';
+import * as actionCreators from '../actions/initialAction';
+import * as loginAction from '../actions/loginAction';
 
 var t = require('tcomb-form-native');
 var Form = t.form.Form;
