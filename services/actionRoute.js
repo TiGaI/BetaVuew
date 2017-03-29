@@ -127,6 +127,9 @@ router.post('/acceptFriendRequest', function(req, res){
       console.log('you have not send a friend request him yet.')
     }
   })
+
+
+
 });
 
 router.post('/joinActivity', function(req, res){

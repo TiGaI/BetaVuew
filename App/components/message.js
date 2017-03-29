@@ -16,7 +16,11 @@ import { connect } from 'react-redux';
 
 
 class Notifications extends Component{
-
+  constructor(props){
+    super(props);
+    //setting loading and
+    this.props.actions.getUserNotifications(this.props.profile.userObject._id)
+  }
   render(){
     console.log("this is at swiperView.js and this is this.prop: ", this.props)
     const {userObject} = this.props.profile
