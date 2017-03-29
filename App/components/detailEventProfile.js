@@ -12,6 +12,7 @@ import randomcolor from 'randomcolor';
 
 import { bindActionCreators } from 'redux';
 import * as actionCreators from '../actions/initialAction';
+import * as loginCreators from '../actions/loginAction';
 import { connect } from 'react-redux';
 
 var image5 = {uri: 'https://www.thisiscolossal.com/wp-content/uploads/2016/03/finger-4.jpg'}
@@ -29,6 +30,12 @@ var favs = [
 ]
 
 class DetailEvent extends Component{
+  constructor(props){
+    super(props);
+    console.log('USERIDDDDDDDD',this.props.activityCreator[0]._id);
+
+
+  }
   viewStyle() {
     return {
       flex: 2,
@@ -52,20 +59,27 @@ class DetailEvent extends Component{
       //  })
   }
   addFriend(){
-    const {userObject} = this.props.profile;
     const {activityCreator, actions} =this.props;
     actions.sendFriendRequest(userObject._id , activityCreator[0]._id);
     console.log('ADDEDDDDDEDDDD FRIEND');
   }
   render(){
-    // console.log("this is at detailEventProfile.js and this is this.prop: ", this.props)
+    const {userObject} = this.props.profile;
+    const {activitiesPageState} = this.props;
+    const {selectedActivityOwner} = activitiesPageState;
+    const {selectedActivity} = activitiesPageState;
+
+
+    console.log("this is userObject in Profile: ", userObject)
+    console.log("THis is activitiesPageState: ", selectedActivityOwner)
+
+
     const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
-    const dataFavs = ds.cloneWithRows(favs);
-   var userObject = this.props.activityCreator[0]
+    const dataSource = ds.cloneWithRows([]);
+
+   console.log('AYYYYYYYYYYYYEEEEEE', this.props.activitiesPageState )
 
    var activityObject = this.props
-
-   console.log('I want to know what in the activity object',this.props)
 
    if(userObject.length > 0){
      const profileImg = userObject.profileImg
@@ -76,14 +90,17 @@ class DetailEvent extends Component{
          return x === userObject[0].id
        }).length
 
-     if(userObject[0].id === this.props.userObject.profile.id || connectionLength > 0){
+     if(userObject._id === this.props.userObject.profile.id || connectionLength > 0){
        alreadyFriend = true
      }
+   }
+   if (selectedActivityOwner) {
+     console.log("Activities", selectedActivityOwner.activities)
    }
 
     return (
         <View>
-        { this.props.profile.userObject ? (  <Swiper
+        { activitiesPageState.selectedActivityOwner ? (  <Swiper
             loop={false}
             showsPagination={false}
             index={0}>
@@ -98,20 +115,19 @@ class DetailEvent extends Component{
                 <Container>
                   <Content>
                     <View style={styles.profileBox}>
-                      <Thumbnail style={{marginTop: 50, height: 100, width: 100, borderRadius: 50}} source={{uri: userObject.profileImg }} />
-                      <Text style={{textAlign: 'center', fontWeight: '400', fontSize: 25, marginTop: 5}}>{userObject.firstName + " " + userObject.lastName}</Text>
-                      <Text style={{textAlign: 'center', fontWeight: '300', fontSize: 10, marginBottom: 5}}>Age: {userObject.age}</Text>
-                      <Text note style={{textAlign: 'center', fontWeight: '100', fontSize: 12, marginBottom: 5, color: '#323232'}}>Bio: {userObject.bio}</Text>
+                      <Thumbnail style={{marginTop: 50, height: 100, width: 100, borderRadius: 50}} source={{uri: selectedActivityOwner.profileImg }} />
+                      <Text style={{textAlign: 'center', fontWeight: '400', fontSize: 25, marginTop: 5}}>{selectedActivityOwner.firstName + " " + selectedActivityOwner.lastName}</Text>
+
                       <View style={{flex: 1, flexDirection: 'row'}}>
                         <TouchableOpacity style={{flex: 1}} onPress={this.addFriend.bind(this)}>
                         <View style={{flex: 1, backgroundColor: '#00A8BE', alignItems: 'center', padding: 15,
-                         margin: 20, borderRadius: 35}}>
+                         margin: 10, borderRadius: 35}}>
                          <Text style={{color: 'white', fontWeight: '500', letterSpacing: 1}}>FOLLOW</Text>
                          </View>
                           </TouchableOpacity>
                           <TouchableOpacity style={{flex: 1}} >
                           <View style={{flex: 1, backgroundColor: 'white', alignItems: 'center', padding: 15,
-                        borderColor: '#00A8BE', borderStyle: 'solid', borderWidth: 2, margin: 20,  borderRadius: 35, marginLeft: -5}}>
+                        borderColor: '#00A8BE', borderStyle: 'solid', borderWidth: 2, margin: 10,  borderRadius: 35, marginLeft: -5}}>
                         <Text style={{color: '#00A8BE',
                         fontWeight: '500', letterSpacing: 1}}>MESSAGE</Text>
                         </View>
@@ -148,13 +164,13 @@ class DetailEvent extends Component{
                     </View>
                     <View style={{flex:1, padding: 20, marginTop:-10}}>
                       <ListView
-                      dataSource = {dataFavs}
+                      dataSource = {ds.cloneWithRows(selectedActivityOwner.activities)}
                       renderRow={(rowData) =>
                         <TouchableOpacity >
-                        <Image source={rowData.image} resizeMode="stretch" style={{width:150, height:150, marginRight: 10, justifyContent:'flex-end', alignItems:'center', padding: 15}}>
-                        <Text style={{backgroundColor:'rgba(0,0,0,0)', textAlign:'center', color:'white', fontSize:20, fontWeight:'700'}}>{rowData.name}</Text>
-                        <Text style={{backgroundColor:'rgba(0,0,0,0)', color:'#fff',fontSize:10, fontWeight:'600'}}>{rowData.activityDescription}</Text>
+                        <Image source={{uri: 'https://iso.500px.com/wp-content/uploads/2016/04/STROHL__ST_1204-Edit-1500x1000.jpg'}} resizeMode="stretch"
+                        style={{width:200, height:200, marginRight: 10, justifyContent:'flex-end', alignItems:'flex-start', padding: 15}}>
                         </Image>
+                        <Text style={{backgroundColor:'rgba(0,0,0,0)', textAlign:'left', color:'black', fontSize:15, fontWeight:'500'}}>{rowData.activityTitle}</Text>
                         </TouchableOpacity>
                       }
                       horizontal = {true}
@@ -176,7 +192,7 @@ class DetailEvent extends Component{
               showsPagination={false}
               index={0}>
               <View style={{flex: 1, backgroundColor: 'transparent'}}>
-                    <Image source={require("../../assets/images/cyclist.jpg")}
+                    <Image source={{uri: 'https://iso.500px.com/wp-content/uploads/2016/04/STROHL__ST_1204-Edit-1500x1000.jpg'}}
                       resizeMode = "stretch"
                       style={{flex:3, alignItems:'center', width:null, height:null, justifyContent:'center'}}>
                     </Image>
@@ -269,7 +285,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        actions: bindActionCreators(actionCreators, dispatch)
+        actions: bindActionCreators(actionCreators, dispatch),
+        userActions: bindActionCreators(loginCreators, dispatch)
     };
 }
 

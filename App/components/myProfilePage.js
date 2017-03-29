@@ -43,10 +43,10 @@ class ProfilePage extends Component{
     }
   }
   addEvent(){
-    console.log('TRYING TO GO TO CREATE EVENT PAGE')
-    this.props.navigator.replace({
-      component: CreateEvent
-    })
+    console.log('TRYING TO GO TO CREATE EVENT PAGE', this.props)
+    // this.props.navigator.replace({
+    //   component: CreateEvent
+    // })
   }
   addFriend(){
     const {userObject} = this.props.profile;
@@ -99,17 +99,17 @@ class ProfilePage extends Component{
                       <View style={{flex:1, flexDirection: 'row'}}>
                         <View style={{flex: 1, backgroundColor: 'white', alignItems: 'center', padding: 10,
                       borderColor: 'lightgrey', borderStyle: 'solid', borderWidth: 1, borderLeftWidth: 0, borderRightWidth: 0,marginLeft: 10}}>
-                          <Text>236</Text>
+                          <Text>1.1m</Text>
                           <Text style={{fontSize: 12, color: 'grey'}}>FOLLOWERS</Text>
                         </View>
                         <View style={{flex: 1, backgroundColor: 'white', alignItems: 'center', padding: 10,
                       borderColor: 'lightgrey', borderStyle: 'solid', borderWidth: 1}}>
-                          <Text>23.6k</Text>
+                          <Text>2.6k</Text>
                           <Text style={{fontSize: 12, color: 'grey'}}>EVENTS</Text>
                         </View>
                         <View style={{flex: 1, backgroundColor: 'white', alignItems: 'center', padding: 10,
                       borderColor: 'lightgrey', borderStyle: 'solid', borderWidth: 1, borderRightWidth: 0, borderLeftWidth: 0, marginRight: 10}}>
-                          <Text>2.8k</Text>
+                          <Text>2k</Text>
                           <Text style={{fontSize: 12, color: 'grey'}}>FOLLOWING</Text>
                         </View>
                       </View>

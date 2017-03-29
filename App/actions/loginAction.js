@@ -5,10 +5,12 @@ import {
 const facebookParams = 'id,name,email,picture.width(100).height(100), gender, age_range, about';
 
 
-export function getMyActivitiesInfor(userID) {
+export function getMyActivitiesInfor(userID, activity) {
+  console.log("ACTIVITY", activity)
+  console.log("USERID", userID)
     return dispatch => {
         dispatch(attempt());
-
+        console.log("Before Fetch")
           fetch('http://localhost:8080/getMyActivitiesInfo', {
               method: 'POST',
               headers: {
@@ -20,14 +22,14 @@ export function getMyActivitiesInfor(userID) {
             })
             .then((response) => response.json())
             .then((responseJson) => {
-
+                console.log("made it to the promised land")
                 var userObject = Object.assign({}, responseJson);
-                userObject["picture.width"] = result.picture.data.width;
-                userObject["picture.height"] = result.picture.data.height;
+                // userObject["picture.width"] = result.picture.data.width;
+                // userObject["picture.height"] = result.picture.data.height;
 
                 console.log("populate activities information: ", userObject)
 
-                dispatch(addUser(userObject));
+                dispatch(selectActivity(userObject, activity));
             })
             .catch((err) => {
               console.log('error: ', err)
@@ -36,7 +38,13 @@ export function getMyActivitiesInfor(userID) {
 }
 }
 
-
+function selectActivity(activityOwner, activity) {
+  return {
+    type: "SELECT_ACTIVITY",
+    selectedActivity: activity,
+    selectedActivityOwner: activityOwner
+  }
+}
 function getInfo() {
     return new Promise((resolve, reject) => {
 

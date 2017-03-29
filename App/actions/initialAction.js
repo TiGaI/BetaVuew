@@ -27,6 +27,7 @@ export function populatedActivities(category, populatedActivities) {
     };
 }
 
+
 function fetching(){
   return {
     type: "FETCHING_DATA"
@@ -51,7 +52,7 @@ export function getUserNotifications(currentUserID) {
 
         fetch('http://localhost:8080/getNotification', {
               method: 'POST',
-              header: {
+              headers: {
                 'Content-Type': 'application/json'
               },
               body: JSON.stringify({

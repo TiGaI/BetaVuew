@@ -8,6 +8,7 @@ import randomcolor from 'randomcolor'
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as actionCreators from '../actions/initialAction';
+import * as loginAction from '../actions/loginAction';
 
 import DetailEvent from './detailEventProfile'
 
@@ -24,7 +25,7 @@ class ActivitiesPage extends Component {
   constructor(props){
     super(props);
     //setting loading and
-    this.props.actions.populatedActivities("Sport", 10 )
+    this.props.actions.populatedActivities("Sport", 10 );
     // this.props.actions.getNotifications(this.props.profile.userObject.id)
   }
   viewStyle() {
@@ -36,6 +37,8 @@ class ActivitiesPage extends Component {
     });
   }
   press(val) {
+    console.log("val", val)
+    this.props.loginActions.getMyActivitiesInfor(val.activityCreator[0]._id, val);
     this.props.navigator.push({
       component: DetailEvent,
       passProps: val,
@@ -43,25 +46,22 @@ class ActivitiesPage extends Component {
     });
   }
   endReached(){
-    console.log('hit end')
-    console.log('ACTIVITIES PAGE >>>>>>', this.props.activitiesPageState.populatedActivities)
+
     var length = this.props.activitiesPageState.populatedActivities.length + 10
     this.props.actions.populatedActivities(this.props.activitiesPageState.category, length );
   }
   _onMomentumScrollEnd(evt, state, context){
     var category = events[context.state.index].name
     var length = this.props.activitiesPageState.populatedActivities.length + 10
-    console.log("THIS IS THE PROPS >>>", this.props.actions)
+
     this.props.actions.populatedActivities(category, length)
-    console.log("AFTER", this.props.activitiesPageState.populatedActivities)
+
   }
   render() {
-    console.log('Looking for activities object',this.props.activitiesPageState.populatedActivities);
-
 
     const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
     const dataSource = ds.cloneWithRows(this.props.activitiesPageState.populatedActivities )
-    console.log('this is val ', dataSource)
+
 
     return(
       <View>
@@ -153,7 +153,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        actions: bindActionCreators(actionCreators, dispatch)
+        actions: bindActionCreators(actionCreators, dispatch),
+        loginActions: bindActionCreators(loginAction, dispatch)
     };
 }
 
