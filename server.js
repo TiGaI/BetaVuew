@@ -31,16 +31,6 @@ app.use('/', activityRoute);
 app.use('/', actionRoute);
 app.use('/', messageRoute);
 
-
-app.post('createEvent', function(req, res){
-  var activity = req.body.activity;
-  activity.save(function (err) {
-    if (err) return handleError(err);
-    console.log('saved')
-  }
-})
-
-
 var port = process.env.PORT || 8080;
 http.listen(port, function() {
   console.log('Express started. Listening on %s', port);
