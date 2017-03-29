@@ -1,6 +1,11 @@
+<<<<<<< HEAD
 import React, { Component, PropTypes } from 'react';
 import { AppRegistry, ScrollView, StyleSheet, Text, View,
   TextInput, TouchableOpacity, NavigatorIOS, ListView, Alert, AsyncStorage, Image } from 'react-native';
+=======
+import React, { Component } from 'react';
+import { AppRegistry, ScrollView, StyleSheet, Text, View, TextInput, TouchableOpacity, NavigatorIOS, ListView, Alert, AsyncStorage, Image } from 'react-native';
+>>>>>>> 16b19b3bad7521d51c2bcd2872d5628c8325994e
 import { Item, Input, Tab, Tabs } from 'native-base';
 import Swiper from 'react-native-swiper'
 import randomcolor from 'randomcolor'
@@ -108,6 +113,7 @@ class ActivitiesPage extends Component {
     const dataSourceNext = ds.cloneWithRows(activitiesPageState.populatedActivities.nextCategory)
 
     return(
+<<<<<<< HEAD
       <View>
       {activitiesPageState.populatedActivities.currCategory.length > 0 ? (
         <View style={{flex:1}}>
@@ -213,6 +219,78 @@ class ActivitiesPage extends Component {
               </Swiper>
           </Swiper>
         </Swiper>
+=======
+      <View style={{flex:1}}>
+        <View style={{flex:1}}>
+        <View style={{backgroundColor: '#19A59A', padding: 15}}>
+        <Item regular style={{backgroundColor: '#1DC1B4', borderRadius: 3, borderBottomWidth: 0}}>
+            <Input placeholder='Search that shit'/>
+        </Item>
+        </View>
+        <View style={{backgroundColor: '#19A59A', marginBottom: 50}}>
+          <Tabs>
+              <Tab heading="Locals">
+
+              </Tab>
+              <Tab heading="Friends">
+
+              </Tab>
+            </Tabs>
+        </View>
+
+        <ScrollView style={{flex:1}}>
+        <View style={styles.container}>
+        <Text style={{fontWeight: '500', fontSize: 18, marginLeft: 5}}>Sports</Text>
+        <ListView
+        dataSource = {this.state.datafav}
+        renderRow={(val) =>
+          <TouchableOpacity onPress={this.press.bind(this, val)}>
+          <Image source={val.image} resizeMode="stretch" style={{width:330, height:220, margin:5,marginBottom:20, justifyContent:'flex-end', alignItems:'flex-start'}}>
+          <Text style={{backgroundColor:'rgba(0,0,0,0)', textAlign:'center', color:'#fff', fontSize:25, fontWeight:'700'}}>{val.name}</Text>
+          <Text style={{backgroundColor:'rgba(0,0,0,0)', color:'#fff',fontSize:13, fontWeight:'600'}}>{val.homes} homes</Text>
+          </Image>
+          </TouchableOpacity>
+        }
+        horizontal = {true}
+        showsHorizontalScrollIndicator = {false}
+        onEndReachedThreshold = {500}
+        onEndReached={this.endReached.bind(this)}
+        />
+        <Text style={{fontWeight: '500', fontSize: 18, marginLeft: 5}}>Art</Text>
+        <ListView
+        dataSource = {this.state.datafav}
+        renderRow={(val) =>
+          <TouchableOpacity onPress={this.press.bind(this, val)}>
+          <Image source={val.image} resizeMode="stretch" style={{width:330, height:220, margin:5,marginBottom:20, justifyContent:'flex-end', alignItems:'flex-start'}}>
+          <Text style={{backgroundColor:'rgba(0,0,0,0)', textAlign:'center', color:'#fff', fontSize:25, fontWeight:'700'}}>{val.name}</Text>
+          <Text style={{backgroundColor:'rgba(0,0,0,0)', color:'#fff',fontSize:13, fontWeight:'600'}}>{val.homes} homes</Text>
+          </Image>
+          </TouchableOpacity>
+        }
+        horizontal = {true}
+        showsHorizontalScrollIndicator = {false}
+        onEndReachedThreshold = {500}
+        onEndReached={this.endReached.bind(this)}
+        />
+        <Text style={{fontWeight: '500', fontSize: 18, marginLeft: 5}}>Food</Text>
+        <ListView
+        dataSource = {this.state.datafav}
+        renderRow={(val) =>
+          <TouchableOpacity onPress={this.press.bind(this, val)}>
+          <Image source={val.image} resizeMode="stretch" style={{width:330, height:220, margin:5,marginBottom:20, justifyContent:'flex-end', alignItems:'flex-start'}}>
+          <Text style={{backgroundColor:'rgba(0,0,0,0)', textAlign:'center', color:'#fff', fontSize:25, fontWeight:'700'}}>{val.name}</Text>
+          <Text style={{backgroundColor:'rgba(0,0,0,0)', color:'#fff',fontSize:13, fontWeight:'600'}}>{val.homes} homes</Text>
+          </Image>
+          </TouchableOpacity>
+        }
+        horizontal = {true}
+        showsHorizontalScrollIndicator = {false}
+        onEndReachedThreshold = {500}
+        onEndReached={this.endReached.bind(this)}
+        />
+        </View>
+        </ScrollView>
+>>>>>>> 16b19b3bad7521d51c2bcd2872d5628c8325994e
         </View>
       ) : null}
       </View>
@@ -224,8 +302,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+    alignItems: 'flex-start',
+    margin: 10,
+    backgroundColor: 'transparent',
   },
   welcome: {
     fontSize: 20,
