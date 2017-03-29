@@ -1,8 +1,6 @@
 export function populatedActivities(category, prevCategory, nextCategory, populatedActivities) {
     return dispatch => {
         dispatch(fetching());
-        console.log('category in initialAction: ', category);
-        console.log('populateActivities in initialAction: ', populatedActivities);
 
         fetch('http://localhost:8080/populateActivities', {
               method: 'POST',
@@ -18,16 +16,18 @@ export function populatedActivities(category, prevCategory, nextCategory, popula
             })
             .then((response) => response.json())
             .then((responseJson) => {
-                var activitiesObject = Object.assign({}, responseJson);
-                console.log("this is activitiesArray inside of initialAction: ", activitiesObject)
+                var activitiesObject = {
+                  ...responseJson
+                };
                 dispatch(getActivities(activitiesObject, category));
                 dispatch(doneFetching())
             })
             .catch((err) => {
-              console.log('error: ', err)
+              console.log('error in populatedActivities -> ', err)
             });
     };
 }
+
 
 function fetching(){
   return {
@@ -39,11 +39,10 @@ function doneFetching() {
     type: "DONE_FETCHING"
   }
 }
-export function getActivities(populatedActivities, category) {
+export function getActivities(populatedActivities) {
     return {
         type: 'POPULATED_ACTIVITIES',
-        populatedActivities: populatedActivities,
-        category: category
+        populatedActivities
     };
 }
 
@@ -54,7 +53,7 @@ export function getUserNotifications(currentUserID) {
 
         fetch('http://localhost:8080/getNotification', {
               method: 'POST',
-              header: {
+              headers: {
                 'Content-Type': 'application/json'
               },
               body: JSON.stringify({
@@ -79,4 +78,66 @@ export function getNotifications(notifications) {
         type: 'GET_NOTIFICATIONS',
         notifications
     };
+}
+
+export function sendFriendRequest(currentUserID, friendToAddID){
+
+  return dispatch => {
+      dispatch(fetching());
+      console.log('currentUserID in sendFriendRequest in initialAction: ', currentUserID);
+      console.log('friendToAddID in sendFriendRequest in initialAction: ', friendToAddID);
+
+
+      fetch('http://localhost:8080/sendFriendRequest', {
+            method: 'POST',
+            headers: {
+              'Accept': 'application/json, text/plain, */*',
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              toUser: friendToAddID.toString(),
+              fromUser: currentUserID.toString()
+            })
+        }).then((response) => response.json())
+          .then((responseJson) => {
+            console.log('you send a friend request!')
+          })
+          .catch((err) => {
+            console.log('error: ', err)
+          });
+  };
+}
+
+export function test(){
+  return {
+    type: "TEST"
+  }
+}
+
+export function acceptFriendRequest(currentUserID, friendToAddID, accepted) {
+
+  return dispatch => {
+      dispatch(fetching());
+      console.log('currentUserID in acceptFriendRequest in initialAction: ', currentUserID);
+      console.log('friendToAddID in acceptFriendRequest in initialAction: ', friendToAddID);
+
+      fetch('http://localhost:8080/acceptFriendRequest', {
+            method: 'POST',
+            header: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              accepted: accepted,
+              toUserID: friendToAddID,
+              fromUserID: currentUserID
+            })
+        }).then((response) => response.json())
+          .then((responseJson) => {
+            dispatch(doneFetching())
+            console.log('you accepted a friend')
+          })
+          .catch((err) => {
+            console.log('error: ', err)
+          });
+  };
 }

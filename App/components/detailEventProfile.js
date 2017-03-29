@@ -54,12 +54,12 @@ class DetailEvent extends Component{
   }
   render(){
     console.log("this is at detailEventProfile.js and this is this.prop: ", this.props)
-    const {userObject} = this.props.activityCreator
+    const {userObject} = this.props.activityCreator[0]
 
     const activityObject = this.props
 
     if(userObject){
-      const profileImg = userObject[0].profileImg
+      const profileImg = userObject.profileImg
       console.log('this is looking for the profile image', profileImg)
       var alreadyFriend = false
       var connectionLength = this.props.profile.userObject.connection.filter(
@@ -71,8 +71,6 @@ class DetailEvent extends Component{
         alreadyFriend = true
       }
     }
-
-
     return (
         <View>
         { this.props.profile.userObject ? (  <Swiper

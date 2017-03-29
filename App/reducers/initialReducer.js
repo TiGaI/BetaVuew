@@ -3,7 +3,11 @@ var actions = require('../actions/initialAction')
 export function populatedActivities(state = {
   nav: "ActivitiesPage",
   fetchingData: false,
-  populatedActivities: [],
+  populatedActivities: {
+    currCategory: [],
+    prevCategory: [],
+    nextCategory: []
+  },
   category: "Sport",
   selectedActivity: null,
   selectedActivityOwner: null,
@@ -12,7 +16,8 @@ export function populatedActivities(state = {
     switch (action.type) {
     case 'POPULATED_ACTIVITIES':
         return Object.assign({}, state, {
-            populatedActivities: action.populatedActivities
+            populatedActivities: action.populatedActivities,
+            category: action.category
         });
     case 'GET_NOTIFICATIONS':
             return Object.assign({}, state, {
@@ -26,6 +31,11 @@ export function populatedActivities(state = {
             return Object.assign({}, state, {
               fetchingData: false
             })
+      case "SELECT_ACTIVITY":
+    return Object.assign({}, state, {
+      selectedActivity: action.selectedActivity,
+      selectedActivityOwner: action.selectedActivityOwner
+    })
     default:
         return state;
     }

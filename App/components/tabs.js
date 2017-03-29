@@ -6,8 +6,8 @@ import { actions as navigationActions } from 'react-native-navigation-redux-help
 const { jumpTo } = navigationActions;
 import IndexPage from './index';
 import ProfilePage from './myProfilePage';
-import NotificationsPage from './notifications';
 import CreateEvent from './createEvent';
+import Notifications from './notifications';
 
 class ApplicationTabs extends Component {
 	_renderTabContent(tab) {
@@ -19,13 +19,13 @@ class ApplicationTabs extends Component {
 
 		if (tab.key === 'notifications') {
 			return (
-				<CreateEvent />
+				<Notifications />
 			);
 		}
 
 		if (tab.key === 'chat') {
 			return (
-				<NotificationsPage />
+				<CreateEvent />
 			);
 		}
 
@@ -78,7 +78,7 @@ function mapDispatchToProps(dispatch) {
 function mapStateToProps(state) {
 	return {
 		navigation: state.get('tabs'),
-		indexPage: state.get('indexPage')
+		activitiesPageState: state.get('activitiesPageState')
 	};
 }
 export default connect(mapStateToProps, mapDispatchToProps)(ApplicationTabs);
