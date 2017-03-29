@@ -8,7 +8,7 @@ import randomcolor from 'randomcolor'
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as actionCreators from '../actions/initialAction';
-
+import * as loginAction from '../actions/loginAction';
 
 
 var image5 = {uri: 'https://www.thisiscolossal.com/wp-content/uploads/2016/03/finger-4.jpg'}
@@ -82,10 +82,12 @@ class ActivitiesPage extends Component {
     });
   }
   press(val) {
-
-    this.props.navigator.replace({
-      component: Swipe,
-      passProps: val
+    console.log("val", val)
+    this.props.loginActions.getMyActivitiesInfor(val.activityCreator[0]._id, val);
+    this.props.navigator.push({
+      component: DetailEvent,
+      passProps: val,
+      backButtonTitle: 'Main'
     });
   }
   endReached(){
@@ -139,11 +141,17 @@ class ActivitiesPage extends Component {
           index={0}>
           <Swiper
             horizontal={false}
-            loop={true}
+            loop={false}
             showsPagination={false}
-            index={1}
+            index={0}
             onMomentumScrollEnd={this._onMomentumScrollEnd.bind(this)}
             >
+            <Swiper
+              horizontal = {false}
+              loop = {true}
+              showsPagination = {false}
+              index = {1}
+              >
             <View style={this.viewStyle()}>
                 <View style={{flex: 2, justifyContent: 'center', padding: 0}}>
                   <ListView
@@ -164,7 +172,7 @@ class ActivitiesPage extends Component {
                   />
                 </View>
                 <View style={{flex: 1, justifyContent: 'flex-start', padding: 30, backgroundColor: '#5F4F7E'}}>
-                <Text style={{fontWeight: '500', fontSize: 25, color: 'white'}}>Music</Text>
+                <Text style={{fontWeight: '500', fontSize: 25, color: 'white'}}>{events.prev(activitiesPageState.category)}</Text>
                 <Text numberOfLines={5} style={{fontSize: 15, fontWeight: '400', color: 'white' , marginTop: 10, textAlign: 'justify'}}>Description
                 </Text>
                 </View>
@@ -189,7 +197,7 @@ class ActivitiesPage extends Component {
                   />
                 </View>
                 <View style={{flex: 1, justifyContent: 'flex-start', padding: 30, backgroundColor: '#5F4F7E'}}>
-                <Text style={{fontWeight: '500', fontSize: 25, color: 'white'}}>Sport</Text>
+                <Text style={{fontWeight: '500', fontSize: 25, color: 'white'}}>{activitiesPageState.category}</Text>
                 <Text numberOfLines={5} style={{fontSize: 15, fontWeight: '400', color: 'white' , marginTop: 10, textAlign: 'justify'}}>Description
                 </Text>
                 </View>
@@ -197,7 +205,7 @@ class ActivitiesPage extends Component {
               <View style={this.viewStyle()}>
                   <View style={{flex: 2, justifyContent: 'center', padding: 0}}>
                     <ListView
-                    dataSource = {dataSourcePrev}
+                    dataSource = {dataSourceNext}
                     renderRow={(val) =>
                       <TouchableOpacity onPress={this.press.bind(this, val)}>
                       <Image source={{uri: 'https://upload.wikimedia.org/wikipedia/commons/3/38/Two_dancers.jpg'}} resizeMode="stretch" style={{width:350, height:400, marginRight: 10, justifyContent:'flex-end', alignItems:'flex-start', padding: 15}}>
@@ -214,11 +222,12 @@ class ActivitiesPage extends Component {
                     />
                   </View>
                   <View style={{flex: 1, justifyContent: 'flex-start', padding: 30, backgroundColor: '#5F4F7E'}}>
-                  <Text style={{fontWeight: '500', fontSize: 25, color: 'white'}}>Art</Text>
+                  <Text style={{fontWeight: '500', fontSize: 25, color: 'white'}}>{events.next(activitiesPageState.category)}</Text>
                   <Text numberOfLines={5} style={{fontSize: 15, fontWeight: '400', color: 'white' , marginTop: 10, textAlign: 'justify'}}>Description
                   </Text>
                   </View>
                 </View>
+              </Swiper>
           </Swiper>
         </Swiper>
         </View>
@@ -260,6 +269,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators(actionCreators, dispatch)
+        loginActions: bindActionCreators(loginAction, dispatch)
     };
 }
 
