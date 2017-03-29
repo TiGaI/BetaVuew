@@ -12,7 +12,11 @@ import randomcolor from 'randomcolor';
 
 import { bindActionCreators } from 'redux';
 import * as actionCreators from '../actions/initialAction';
+import * as loginAction from '../actions/loginAction';
+
 import { connect } from 'react-redux';
+
+import CreateEvent from './createEvent';
 
 
 var image5 = {uri: 'https://www.thisiscolossal.com/wp-content/uploads/2016/03/finger-4.jpg'}
@@ -32,6 +36,8 @@ var favs = [
 class ProfilePage extends Component{
   constructor(props){
     super(props)
+      // this.props.loginActions.getMyActivitiesInfor(val.activityCreator[0]._id);
+      // console.log('PROFILE PAGE THIS PROPS',this.props)
   }
   viewStyle() {
     return {
@@ -39,6 +45,12 @@ class ProfilePage extends Component{
       backgroundColor: 'white',
       justifyContent: 'center'
     }
+  }
+  addEvent(){
+    console.log('TRYING TO GO TO CREATE EVENT PAGE', this.props)
+    // this.props.navigator.replace({
+    //   component: CreateEvent
+    // })
   }
   addFriend(){
     const {userObject} = this.props.profile;
@@ -53,7 +65,7 @@ class ProfilePage extends Component{
     console.log("PROPS IN RENDER >>>> ", this.props)
     const {userObject} = this.props.profile;
     const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
-    const dataFavs = ds.cloneWithRows(favs);
+    const dataSource = ds.cloneWithRows(userObject.activities);
 
     if(userObject){
       const profileImg = userObject.profileImg;
@@ -68,36 +80,6 @@ class ProfilePage extends Component{
             showsPagination={false}
             index={1}>
 
-            <View style={{flex: 1, backgroundColor: 'transparent'}}>
-              <View style={{flex: 2}}>
-                <View style={{flex: 1}}>
-                <Image source={require("../../assets/images/cyclist.jpg")}
-                  resizeMode = "stretch"
-                  style={{flex:1, alignItems:'center', width:null, height:null, justifyContent:'center'}}>
-                </Image>
-                </View>
-              </View>
-
-              <View style={{flex: 1, padding: 20, margin: 0}}>
-              <ScrollView style={{flex: 1}}>
-                <View style={{flex: 1}}>
-                  <Text style={{fontSize: 25, fontWeight: '700', color: '#323232'}}>{this.props.name}</Text>
-                </View>
-                <View style={{flex: 1, marginTop: 10}}>
-                <Text numberOfLines={3} style={{fontSize: 15, fontWeight: '300', color: '#4E4E4E' }}>Narwhal occupy banh mi, skateboard locavore semiotics vape vexillologist XOXO.
-                 Pop-up seitan selvage unicorn fanny pack, art party fam celiac fixie flannel vegan vinyl trust fund intelligentsia. Squid skateboard cardigan,
-                 lyft occupy portland fap fashion axe hoodie kinfolk blog four dollar toast yuccie. </Text>
-                </View>
-                <View style={{flex: 1, marginTop: 10}}>
-                  <Button full success>
-                      <Text style={{color: 'white', fontSize: 20, fontWeight: '500'}}>Join Activity</Text>
-                  </Button>
-                </View>
-              </ScrollView>
-              </View>
-            </View>
-
-
             <Swiper
               horizontal={false}
               loop={false}
@@ -110,37 +92,28 @@ class ProfilePage extends Component{
                     <View style={styles.profileBox}>
                       <Thumbnail style={{marginTop: 10, height: 100, width: 100, borderRadius: 50}} source={{uri: userObject.profileImg }} />
                       <Text style={{textAlign: 'center', fontWeight: '400', fontSize: 25, marginTop: 5}}>{userObject.firstName + " " + userObject.lastName}</Text>
-                      <Text style={{textAlign: 'center', fontWeight: '300', fontSize: 10, marginBottom: 5}}>Age: {userObject.age}</Text>
-                      <Text note style={{textAlign: 'center', fontWeight: '100', fontSize: 12, marginBottom: 5, color: '#323232'}}>Bio: {userObject.bio}</Text>
                       <View style={{flex: 1, flexDirection: 'row'}}>
-                        <TouchableOpacity style={{flex: 1}} onPress={this.addFriend.bind(this)}>
-                        <View style={{flex: 1, backgroundColor: '#00A8BE', alignItems: 'center', padding: 15,
+                        <TouchableOpacity style={{flex: 1}} onPress={this.addEvent.bind(this)}>
+                        <View style={{flex: 1, backgroundColor: '#00A8BE', alignItems: 'center', padding: 12,
                          margin: 20, borderRadius: 35}}>
-                         <Text style={{color: 'white', fontWeight: '500', letterSpacing: 1}}>FOLLOW</Text>
+                         <Text style={{color: 'white', fontWeight: '500', letterSpacing: 1}}>CREATE EVENT</Text>
                          </View>
                           </TouchableOpacity>
-                          <TouchableOpacity style={{flex: 1}} onPress={console.log('I want to message you')}>
-                          <View style={{flex: 1, backgroundColor: 'white', alignItems: 'center', padding: 15,
-                        borderColor: '#00A8BE', borderStyle: 'solid', borderWidth: 2, margin: 20,  borderRadius: 35, marginLeft: -5}}>
-                        <Text style={{color: '#00A8BE',
-                        fontWeight: '500', letterSpacing: 1}}>MESSAGE</Text>
-                        </View>
-                      </TouchableOpacity>
                       </View>
                       <View style={{flex:1, flexDirection: 'row'}}>
                         <View style={{flex: 1, backgroundColor: 'white', alignItems: 'center', padding: 10,
                       borderColor: 'lightgrey', borderStyle: 'solid', borderWidth: 1, borderLeftWidth: 0, borderRightWidth: 0,marginLeft: 10}}>
-                          <Text>236</Text>
+                          <Text>1.1m</Text>
                           <Text style={{fontSize: 12, color: 'grey'}}>FOLLOWERS</Text>
                         </View>
                         <View style={{flex: 1, backgroundColor: 'white', alignItems: 'center', padding: 10,
                       borderColor: 'lightgrey', borderStyle: 'solid', borderWidth: 1}}>
-                          <Text>23.6k</Text>
+                          <Text>2.6k</Text>
                           <Text style={{fontSize: 12, color: 'grey'}}>EVENTS</Text>
                         </View>
                         <View style={{flex: 1, backgroundColor: 'white', alignItems: 'center', padding: 10,
                       borderColor: 'lightgrey', borderStyle: 'solid', borderWidth: 1, borderRightWidth: 0, borderLeftWidth: 0, marginRight: 10}}>
-                          <Text>2.8k</Text>
+                          <Text>2k</Text>
                           <Text style={{fontSize: 12, color: 'grey'}}>FOLLOWING</Text>
                         </View>
                       </View>
@@ -158,13 +131,13 @@ class ProfilePage extends Component{
                     </View>
                     <View style={{flex:1, padding: 20, marginTop:-10}}>
                       <ListView
-                      dataSource = {dataFavs}
+                      dataSource = {dataSource}
                       renderRow={(rowData) =>
                         <TouchableOpacity >
-                        <Image source={rowData.image} resizeMode="stretch" style={{width:150, height:150, marginRight: 10, justifyContent:'flex-end', alignItems:'center', padding: 15}}>
-                        <Text style={{backgroundColor:'rgba(0,0,0,0)', textAlign:'center', color:'white', fontSize:20, fontWeight:'700'}}>{rowData.name}</Text>
-                        <Text style={{backgroundColor:'rgba(0,0,0,0)', color:'#fff',fontSize:10, fontWeight:'600'}}>{rowData.activityDescription}</Text>
+                        <Image source={{uri: 'https://iso.500px.com/wp-content/uploads/2016/04/STROHL__ST_1204-Edit-1500x1000.jpg'}} resizeMode="stretch" style={{width:150, height:150, marginRight: 10, justifyContent:'flex-end', alignItems:'center', padding: 15}}>
                         </Image>
+                        <Text style={{backgroundColor:'rgba(0,0,0,0)', textAlign:'left', color:'black', fontSize:17, fontWeight:'500'}}>{rowData.activityTitle}</Text>
+
                         </TouchableOpacity>
                       }
                       horizontal = {true}
@@ -179,61 +152,7 @@ class ProfilePage extends Component{
 
 
             </Swiper>
-            <View style={{flex: 1}}>
-              <ScrollView style={{flex:1}}>
-                <View style={{flex: 1, padding: 10}}>
-                  <View style={{flex:1}}>
-                    <Text style={{fontSize: 25, fontWeight: '700', color: '#323232', marginTop: 20}}>Activity Description</Text>
-                    <Text numberOfLines={3} style={{fontSize: 15, fontWeight: '300', color: '#4E4E4E' , marginTop: 20, textAlign: 'justify'}}>Take a run to the beautiful twin peaks of San Francisco.
-                    The run is 5 miles in distance and will usually take around 1 hour to complete.</Text>
-                  </View>
-                  <View style={{flex:1, flexDirection: 'row', borderStyle: 'solid', borderColor:'grey', padding: 20,
-                   borderBottomWidth: 1, borderTopWidth: 1, marginTop: 20}}>
-                    <View style={{flex: 1}}>
-                      <Text style={{fontSize: 15, fontWeight: '400', color: '#323232', textAlign: 'center'}}>Start: 5:00 PM EST</Text>
-                    </View>
-                    <View style={{flex: 1}}>
-                      <Text style={{fontSize: 15, fontWeight: '400', color: '#323232',  textAlign: 'center'}}>End: 7:00 PM EST</Text>
-                    </View>
-                  </View>
-                  <View style={{flex:1, borderStyle: 'solid', borderColor:'grey',
-                   borderBottomWidth: 1}}>
-                    <Text style={{fontSize: 20, fontWeight: '500', color: '#323232', marginTop: 20, textAlign: 'justify'}}>Location</Text>
-                    <Text numberOfLines={3} style={{fontSize: 15, fontWeight: '300', color: '#4E4E4E' , marginTop: 20}}>We will meet the top of Twin Peaks.
-                     The address is 501 Twin Peaks Blvd, San Francisco, CA 94114</Text>
-                    <MapView
-                      style={{height: 200, width: 350, marginTop: 20, marginBottom: 20}}
-                      initialRegion={{
-                        latitude: 37.78825,
-                        longitude: -122.4324,
-                        latitudeDelta: 0.0922,
-                        longitudeDelta: 0.0421,
-                      }}
-                    />
-                  </View>
-                  <Text style={{fontSize: 20, fontWeight: '500', color: '#323232', marginTop: 20, textAlign: 'justify'}}>General Information</Text>
-                  <View style={{flex:1, flexDirection: 'row', marginTop: 20}}>
-                    <View style={{flex:1, backgroundColor: '#00A699', height: 50, justifyContent: 'center', alignItems: 'center',
-                    borderColor: 'transparent', borderStyle: 'solid', borderWidth: 1, borderRadius: 3, marginRight: 5}}>
-                    <Text style={{fontSize: 15, fontWeight: '500', color: 'white'}}>Group Size</Text>
-                    <Text style={{fontSize: 15, fontWeight: '500', color: 'white'}}>5</Text>
-                    </View>
-                    <View style={{flex:1, backgroundColor: '#00A699', height: 50, justifyContent: 'center', alignItems: 'center',
-                  borderColor: 'transparent', borderStyle: 'solid', borderWidth: 1, borderRadius: 3}}>
-                    <Text style={{fontSize: 15, fontWeight: '500', color: 'white'}}>Ages</Text>
-                    <Text style={{fontSize: 15, fontWeight: '500', color: 'white'}}>20-25</Text>
-                    </View>
-                  </View>
-                  <View style={{flex:1, marginTop: 20}}>
-                    <View style={{flex:1, backgroundColor: 'white', height: 100, justifyContent: 'center'}}>
-                    <Text style={{fontSize: 20, fontWeight: '500', color: '#323232', marginTop: 20}}>Notes</Text>
-                    <Text numberOfLines={3} style={{fontSize: 15, fontWeight: '300', color: '#323232' , marginTop: 20,textAlign: 'justify'}}>We invite only athletes with experience
-                     running 3 miles of more averaging an 8 minute mile pace.</Text>
-                    </View>
-                </View>
-                </View>
-              </ScrollView>
-            </View>
+
           </Swiper>
 ) : null}
         </View>
@@ -253,7 +172,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        actions: bindActionCreators(actionCreators, dispatch)
+        actions: bindActionCreators(actionCreators, dispatch),
+        loginActions: bindActionCreators(loginAction, dispatch)
     };
 }
 

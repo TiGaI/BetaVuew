@@ -8,6 +8,7 @@ import randomcolor from 'randomcolor'
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as actionCreators from '../actions/initialAction';
+import * as loginAction from '../actions/loginAction';
 
 import DetailEvent from './detailEventProfile'
 
@@ -24,7 +25,8 @@ class ActivitiesPage extends Component {
   constructor(props){
     super(props);
     //setting loading and
-    this.props.actions.populatedActivities("Sport", 10)
+    this.props.actions.populatedActivities("Sport", 10 );
+    // this.props.actions.getNotifications(this.props.profile.userObject.id)
   }
   viewStyle() {
     return ({
@@ -35,6 +37,8 @@ class ActivitiesPage extends Component {
     });
   }
   press(val) {
+    console.log("val", val)
+    this.props.loginActions.getMyActivitiesInfor(val.activityCreator[0]._id, val);
     this.props.navigator.push({
       component: DetailEvent,
       passProps: val,
@@ -42,25 +46,23 @@ class ActivitiesPage extends Component {
     });
   }
   endReached(){
-    console.log('hit end')
-    console.log('ACTIVITIES PAGE >>>>>>', this.props.activitiesPageState.populatedActivities)
+
     var length = this.props.activitiesPageState.populatedActivities.length + 10
     this.props.actions.populatedActivities(this.props.activitiesPageState.category, length );
   }
   _onMomentumScrollEnd(evt, state, context){
     var category = events[context.state.index].name
     var length = this.props.activitiesPageState.populatedActivities.length + 10
-    console.log("THIS IS THE PROPS >>>", this.props.actions)
+
     this.props.actions.populatedActivities(category, length)
-    console.log("AFTER", this.props.activitiesPageState.populatedActivities)
+
   }
   render() {
-    console.log('Looking for activities object',this.props.activitiesPageState.populatedActivities);
-
-
+    console.log('ACTIVITIES PAGE THIS PROPS',this.props)
     const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
     const dataSource = ds.cloneWithRows(this.props.activitiesPageState.populatedActivities )
-    console.log('THIS IS PROPS!!!!!!!!', this.props)
+
+
     return(
       <View>
       {this.props.activitiesPageState.populatedActivities.length > 0 ? (
@@ -84,7 +86,7 @@ class ActivitiesPage extends Component {
             onMomentumScrollEnd={this._onMomentumScrollEnd.bind(this)}
             >
             {[{name: 'Sport' },{name: 'Art' },{name: 'Music' }].map((x) =>
-            <View style={this.viewStyle()}>
+            <View style={{flex: 1}}>
                 <View style={{flex: 2, justifyContent: 'center', padding: 0}}>
                   <ListView
                   dataSource = {dataSource}
@@ -103,7 +105,7 @@ class ActivitiesPage extends Component {
                   onEndReached={this.endReached.bind(this)}
                   />
                 </View>
-                  <View style={{flex: 1, justifyContent: 'flex-start', padding: 30, backgroundColor: '#5F4F7E'}}>
+                  <View style={{flex: 1, justifyContent: 'flex-start', padding: 30, backgroundColor: '#22DF8D'}}>
                   <Text style={{fontWeight: '500', fontSize: 25, color: 'white'}}>{x.name}</Text>
                       <Text numberOfLines={5} style={{fontSize: 15, fontWeight: '400', color: 'white' , marginTop: 10, textAlign: 'justify'}}>Description
                       </Text>
@@ -150,7 +152,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        actions: bindActionCreators(actionCreators, dispatch)
+        actions: bindActionCreators(actionCreators, dispatch),
+        loginActions: bindActionCreators(loginAction, dispatch)
     };
 }
 

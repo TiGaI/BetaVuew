@@ -27,6 +27,7 @@ export function populatedActivities(category, populatedActivities) {
     };
 }
 
+
 function fetching(){
   return {
     type: "FETCHING_DATA"

@@ -22,7 +22,13 @@ export function populatedActivities(state = {
         case "DONE_FETCHING":
             return Object.assign({}, state, {
               fetchingData: false
-        })
+            })
+    case "SELECT_ACTIVITY":
+      return Object.assign({}, state, {
+        selectedActivity: action.selectedActivity,
+        selectedActivityOwner: action.selectedActivityOwner
+      })
+
     default:
         return state;
     }

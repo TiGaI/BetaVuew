@@ -10,7 +10,9 @@ router.post('/facebookAuth', function(req, res) {
     // req.body.id
     console.log('EMAIL', req.body.result)
     var profile = req.body.result
-    User.findOne({email: profile.email}, function(err, user) {
+    User.findOne({email: profile.email})
+    .populate('activities', 'activityTitle activityImages timeStart timeEnd')
+    .exec(function(err, user) {
             if (err) {
                 return {err, user}
             }

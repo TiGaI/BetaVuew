@@ -30,6 +30,7 @@ class ApplicationTabs extends Component {
 		}
 
 		if (tab.key === 'profile') {
+			
 			return (
 					<ProfilePage />
 			);
