@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import React, { Component, PropTypes } from 'react';
 import { AppRegistry, ScrollView, StyleSheet,
   Text, View, TextInput, TouchableOpacity, NavigatorIOS,
@@ -295,4 +294,3 @@ export default class CreateEvent extends Component {
 }
 
 module.exports = CreateEvent;
->>>>>>> 16b19b3bad7521d51c2bcd2872d5628c8325994e
