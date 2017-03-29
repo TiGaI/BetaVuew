@@ -4,19 +4,46 @@ var router = express.Router();
 
 //model
 const User  = require('../models/models').User;
-const Activity= require('../models/models').Activity;
-const ActivityAction= require('../models/models').ActivityAction;
 const FriendRequest= require('../models/models').FriendRequest;
 const Message= require('../models/models').Message;
 
-// Require login past this point.
-router.use('/', function(req, res, next){
-  if (!req.user) {
-    res.redirect('/');
-  } else {
-    return next();
-  }
-});
+router.post('/getMessage', function(req, res) {
 
+    Message.find({$or: [
+            { $and: [{toUser: req.body.toUserID}, {fromUser: req.body.fromUserID}]},
+            {$and: [{toUser: req.body.fromUserID}, {fromUser: req.body.toUserID}]})
+    .sort('-dateCreated')
+    .exec(
+    function(err, user) {
+            if (err) {
+                return {err, user}
+            }
+            if (user) {
+
+              return user
+            } else {
+              console.log('fail in getMyActivitiesInfo! no user')
+            }
+        })
+    }
+);
+
+router.post('/getNewlyAddedFriend', function(req, res) {
+    User.findById(req.body.userID)
+    .populate('connections', 'firstName lastName profileImg'),
+    function(err, user) {
+            if (err) {
+                return {err, user}
+            }
+            if (user) {
+              res.send(user)
+              return user
+            } else {
+              console.log('fail in getMyActivitiesInfo! no user')
+              return null
+            }
+        }
+     }
+);
 
 module.exports = router;

@@ -86,11 +86,6 @@ export function sendFriendRequest(currentUserID, friendToAddID){
       console.log('currentUserID in sendFriendRequest in initialAction: ', currentUserID);
       console.log('friendToAddID in sendFriendRequest in initialAction: ', friendToAddID);
 
-      console.log('sending body', JSON.stringify({
-        toUser: friendToAddID,
-        fromUser: currentUserID
-      }));
-
       fetch('http://localhost:8080/sendFriendRequest', {
             method: 'POST',
             headers: {

@@ -23,8 +23,7 @@ class Notifications extends Component{
   render(){
     console.log("this is at swiperView.js and this is this.prop: ", this.props)
     const {notifications} = this.props.activityPageState
-    // onPress={this.onFriendRequest(x.fromUser._id, true)}
-    //  onPress={this.onFriendRequest(x.fromUser._id, false)}
+
     if(notifications){
       var notification = notifications.map((x) => {
         return(
