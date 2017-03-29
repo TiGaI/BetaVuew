@@ -4,11 +4,7 @@ import {
   ListView, Alert, Image } from 'react-native';
 import { Container, Content, Left, Body, Right, ListItem, Thumbnail, Text } from 'native-base';
 import Icon from 'react-native-vector-icons/Ionicons';
-import Swiper from 'react-native-swiper'
-import styles from './styles'
 
-import MapView from 'react-native-maps';
-import randomcolor from 'randomcolor';
 
 import { bindActionCreators } from 'redux';
 import * as actionCreators from '../actions/initialAction';
@@ -18,50 +14,60 @@ import { connect } from 'react-redux';
 class Notifications extends Component{
   render(){
     console.log("this is at swiperView.js and this is this.prop: ", this.props)
-    const {userObject} = this.props.profile
+    const {notifications} = this.props.activityPageState
 
-    if(userObject){
-      const profileImg = userObject.profileImg
-      console.log('this is looking for the profile image',profileImg)
-      // 
-      // var Friend = userObject.connection.map(function(x){
-      //   return (
-      //             <ListItem avatar>
-      //                 <Left>
-      //                     <Thumbnail source={x.profileImg} />
-      //                 </Left>
-      //                 <Body>
-      //                     <Text>{x.firstName + ' ' x.lastName}</Text>
-      //                     <Text note>Doing what you like will always keep you happy . .</Text>
-      //                 </Body>
-      //                 <Right>
-      //                     <Text note>3:43 pm</Text>
-      //                 </Right>
-      //             </ListItem>
-      //   )
-      // })
+    if(notifications){
+      var notification = notifications.map(function(x){
+        return(
+          <ListItem thumbnail>
+              <Left>
+
+              </Left>
+              <Body>
+                  <Text>Sankhadeep</Text>
+                  <Text note>Its time to build a difference . .</Text>
+              </Body>
+              <Right>
+                  <Button transparent>
+                      <Text>Accept</Text>
+                  </Button>
+                  <Button transparent>
+                      <Text>Decline</Text>
+                  </Button>
+              </Right>
+          </ListItem>
+        )
+      });
+
     }
 
-    return (
-        <View>
-        { userObject !== null ? (
 
+    return (
+        <View style={{flex: 1}}>
+        { notifications.length > 0 ? (
           <Container>
               <Content>
-
+                  {notification}
               </Content>
           </Container>
-          ) : null}
+        ) : (
+          <Container>
+              <Content>
+                <Text>You do not have any notifications</Text>
+              </Content>
+          </Container>
+        )}
         </View>
-    )
+      )
   }
 }
+
 
 function mapStateToProps(state) {
 	return {
 		navigation: state.get('tabs'),
     profile: state.get('profile'),
-    message: state.get('message')
+    activityPageState: state.get('activityPageState')
 	};
 }
 
@@ -70,5 +76,6 @@ function mapDispatchToProps(dispatch) {
 		dispatch
 	};
 }
+
 
 export default connect(mapStateToProps, mapDispatchToProps)(Notifications);

@@ -3,7 +3,11 @@ var actions = require('../actions/initialAction')
 export function populatedActivities(state = {
   nav: "ActivitiesPage",
   fetchingData: false,
-  populatedActivities: [],
+  populatedActivities: {
+    currCategory: [],
+    prevCategory: [],
+    nextCategory: []
+  },
   category: "Sport",
   selectedActivity: null,
   selectedActivityOwner: null,
