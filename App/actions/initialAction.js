@@ -1,8 +1,6 @@
-export function populatedActivities(category, populatedActivities) {
+export function populatedActivities(category, prevCategory, nextCategory, populatedActivities) {
     return dispatch => {
         dispatch(fetching());
-        console.log('category in initialAction: ', category);
-        console.log('populateActivities in initialAction: ', populatedActivities);
 
         fetch('http://localhost:8080/populateActivities', {
               method: 'POST',
@@ -11,18 +9,21 @@ export function populatedActivities(category, populatedActivities) {
               },
               body: JSON.stringify({
                 category: category,
+                prevCategory: prevCategory,
+                nextCategory: nextCategory,
                 length: populatedActivities
               })
             })
             .then((response) => response.json())
             .then((responseJson) => {
-                var userObject = [...responseJson];
-                console.log("this is userObject inside of initialAction: ", userObject)
-                dispatch(getActivities(userObject));
+                var activitiesObject = {
+                  ...responseJson
+                };
+                dispatch(getActivities(activitiesObject, category));
                 dispatch(doneFetching())
             })
             .catch((err) => {
-              console.log('error: ', err)
+              console.log('error in populatedActivities -> ', err)
             });
     };
 }
@@ -38,10 +39,11 @@ function doneFetching() {
     type: "DONE_FETCHING"
   }
 }
-export function getActivities(populatedActivities) {
+export function getActivities(populatedActivities, category) {
     return {
         type: 'POPULATED_ACTIVITIES',
-        populatedActivities
+        populatedActivities: populatedActivities,
+        category: category
     };
 }
 

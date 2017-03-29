@@ -1,14 +1,19 @@
 export function populatedActivities(state = {
   nav: "ActivitiesPage",
   fetchingData: false,
-  populatedActivities: [],
+  populatedActivities: {
+    currCategory: [],
+    prevCategory: [],
+    nextCategory: []
+  },
   category: "Sport",
   notifications: []
 }, action) {
     switch (action.type) {
     case 'POPULATED_ACTIVITIES':
         return Object.assign({}, state, {
-            populatedActivities: action.populatedActivities
+            populatedActivities: action.populatedActivities,
+            category: action.category
         });
     case 'GET_NOTIFICATIONS':
     console.log('i am here');

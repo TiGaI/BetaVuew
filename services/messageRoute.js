@@ -11,7 +11,8 @@ router.post('/getMessage', function(req, res) {
 
     Message.find({$or: [
             { $and: [{toUser: req.body.toUserID}, {fromUser: req.body.fromUserID}]},
-            {$and: [{toUser: req.body.fromUserID}, {fromUser: req.body.toUserID}]})
+            {$and: [{toUser: req.body.fromUserID}, {fromUser: req.body.toUserID}] } ]}
+          )
     .sort('-dateCreated')
     .exec(
     function(err, user) {
@@ -27,23 +28,23 @@ router.post('/getMessage', function(req, res) {
         })
     }
 );
-
-router.post('/getNewlyAddedFriend', function(req, res) {
-    User.findById(req.body.userID)
-    .populate('connections', 'firstName lastName profileImg'),
-    function(err, user) {
-            if (err) {
-                return {err, user}
-            }
-            if (user) {
-              res.send(user)
-              return user
-            } else {
-              console.log('fail in getMyActivitiesInfo! no user')
-              return null
-            }
-        }
-     }
-);
+//
+// router.post('/getNewlyAddedFriend', function(req, res) {
+//     User.findById(req.body.userID)
+//     .populate('connections', 'firstName lastName profileImg'),
+//     function(err, user) {
+//             if (err) {
+//                 return {err, user}
+//             }
+//             if (user) {
+//               res.send(user)
+//               return user
+//             } else {
+//               console.log('fail in getMyActivitiesInfo! no user')
+//               return null
+//             }
+//         }
+//      }
+// );
 
 module.exports = router;

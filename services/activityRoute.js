@@ -103,9 +103,15 @@ router.post('/createActivity', upload.fields([{name: 'file', maxCount: 4},
 });
 
 //populate activities by category
+
 router.post('/populateActivities', function(req, res) {
   console.log("INSIDE POPULATE ACTIVITIES")
   console.log("CATEGORY", req.body.category)
+
+  var currActivities;
+  var prevActivities;
+  var nextActivities;
+  var activitiesObject = {}
 
   Activity.find({activityCategory: req.body.category}).sort('-createdAt').populate({
     path:'activityCreator',
@@ -113,15 +119,47 @@ router.post('/populateActivities', function(req, res) {
         limit: req.body.length,
         sort: { created: -1},
     }
-  }).exec(function (err, articles) {
+  })
+  .exec(function (err, articles) {
       if (err) console.log('error is good');
-      console.log("articles is ", articles)
-      console.log("NEW ACTIVITIES", articles)
-      var activities = [...articles]
-      res.send(activities)
-      return articles;
-  });
-});
+      var currArticles = articles
+      currActivities = [...currArticles]
+      activitiesObject["currCategory"] = currActivities
+      return activitiesObject
+    }).then((response) => {
+
+      Activity.find({activityCategory: req.body.prevCategory}).sort('-createdAt').populate({
+        path:'activityCreator',
+        options: {
+            limit: req.body.length,
+            sort: { created: -1},
+        }
+      }).exec(function (err, prevArticles) {
+
+          if (err) console.log('error is good');
+
+          prevActivities = [...prevArticles]
+          activitiesObject["prevCategory"] = prevActivities
+
+          return response;
+        }).then(() => {
+        Activity.find({activityCategory: req.body.nextCategory}).sort('-createdAt').populate({
+          path:'activityCreator',
+          options: {
+              limit: req.body.length,
+              sort: { created: -1},
+          }
+        }).exec(function (err, nextArticles) {
+            if (err) console.log('error is good');
+            nextActivities = [...nextArticles]
+            activitiesObject["nextCategory"] = nextActivities
+            return response
+          }).then(() => {
+              res.send(activitiesObject);
+          })
+        })
+      })
+    })
 
 
 // TODO: Edit an activity
