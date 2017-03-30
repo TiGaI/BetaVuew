@@ -8,7 +8,7 @@ import IndexPage from './index';
 import ProfilePage from './myProfilePage';
 import CreateEvent from './createEvent';
 import Notifications from './notifications';
-import FriendsList from './friendsList';
+import FriendsList from './friendlist';
 
 class ApplicationTabs extends Component {
 	_renderTabContent(tab) {
