@@ -42,7 +42,8 @@ class ActivitiesPage extends Component {
     this.props.navigator.push({
       component: DetailEvent,
       passProps: val,
-      backButtonTitle: 'Main'
+      backButtonTitle: 'Main',
+      barTintColor: '#00A8BE'
     });
   }
   endReached(){

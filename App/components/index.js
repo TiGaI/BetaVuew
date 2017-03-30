@@ -13,9 +13,12 @@ export default class Index extends Component {
           style={{flex: 1}}
           initialRoute={{
               component: ActivitiesPage,
-              title: 'ActivitiesPage'
+              title: 'NEWVUEW',
+              titleTextColor: 'white',
+              barTintColor: '#00A8BE'
             }}
-            navigationBarHidden={false}>
+            navigationBarHidden={false}
+            >
           </NavigatorIOS>
         </View>
       )
