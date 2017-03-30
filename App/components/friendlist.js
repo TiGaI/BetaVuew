@@ -14,48 +14,109 @@ import { bindActionCreators } from 'redux';
 import * as actionCreators from '../actions/initialAction';
 import { connect } from 'react-redux';
 
+var image5 = {uri: 'https://www.thisiscolossal.com/wp-content/uploads/2016/03/finger-4.jpg'}
+var image4 = {uri: 'https://cdn.playbuzz.com/cdn/b19cddd2-1b79-4679-b6d3-1bf8d7235b89/93794aec-3f17-47a4-8801-a2716a9c4598_560_420.jpg'}
+var image3 = {uri: 'https://iso.500px.com/wp-content/uploads/2016/04/STROHL__ST_1204-Edit-1500x1000.jpg'}
+var image2 = {uri: 'https://static.pexels.com/photos/2855/landscape-mountains-nature-lake.jpg'}
+var image1 = {uri: 'https://upload.wikimedia.org/wikipedia/commons/3/38/Two_dancers.jpg'}
 
-class Notifications extends Component{
+var favs = [
+{name:"DANCE", homes : 18, image: image1},
+{name:"OUTDOORS", homes : 4, image: image2},
+{name:"TRAVEL", homes : 5, image: image3},
+{name:"ART", homes : 22, image: image4},
+{name:"ART", homes : 18, image: image5}
+]
+
+class FriendsList extends Component{
   constructor(props){
     super(props);
     this.props.actions.getUserNotifications(this.props.profile.userObject._id)
   }
   render(){
-    console.log("this is at swiperView.js and this is this.prop: ", this.props)
-    const {userObject} = this.props.profile
+<<<<<<< HEAD
+    const ds = new ListView.DataSource({rowHasChanged: (r1,r2) => r1 !== r2});
+    const dataSource = ds.cloneWithRows(favs);
 
-    if(userObject){
-      const profileImg = userObject.profileImg
-      console.log('this is looking for the profile image',profileImg)
+    // console.log("this is at swiperView.js and this is this.prop: ", this.props)
+    // const {userObject} = this.props.profile
+    //
+    // if(userObject){
+    //   const profileImg = userObject.profileImg
+    //   console.log('this is looking for the profile image',profileImg)
+    //
+    //   var Friend = userObject.connection.map(function(x){
+    //     return (
+    //               <ListItem avatar>
+    //                   <Left>
+    //                       <Thumbnail source={x.profileImg} />
+    //                   </Left>
+    //                   <Body>
+    //                       <Text>{x.firstName + ' ' + x.lastName}</Text>
+    //                       <Text note>Doing what you like will always keep you happy . .</Text>
+    //                   </Body>
+    //                   <Right>
+    //                       <Text note>3:43 pm</Text>
+    //                   </Right>
+    //               </ListItem>
+    //
+    //
+    //     )
+    //   })
+    // }
 
-      var Friend = userObject.connection.map(function(x){
-        return (
-                  <ListItem avatar>
-                      <Left>
-                          <Thumbnail source={x.profileImg} />
-                      </Left>
-                      <Body>
-                          <Text>{x.firstName + ' ' x.lastName}</Text>
-                          <Text note>Doing what you like will always keep you happy . .</Text>
-                      </Body>
-                      <Right>
-                          <Text note>3:43 pm</Text>
-                      </Right>
-                  </ListItem>
-        )
-      })
-    }
 
     return (
-        <View>
-        { userObject !== null ? (
-
+        <View style={{flex: 1, backgroundColor: '#00A652'}}>
           <Container>
               <Content>
+              <View style={{flex: 1, borderWidth: 1, borderLeftWidth: 0, borderRightWidth: 0, borderBottomWidth: 0, borderColor: 'white', padding: 10 }}>
+                  <Text style={{backgroundColor:'rgba(0,0,0,0)', textAlign:'left', color:'white', marginRight: 10, fontSize:12, fontWeight:'500'}}>RECENTLY ADDED FRIENDS</Text>
+                  <ListView
+                  dataSource = {dataSource}
+                  renderRow={(rowData) =>
+                    <TouchableOpacity>
+                    <Image source={rowData.image} resizeMode="stretch"
+                    style={{width:80, height:80, marginRight: 10, marginTop: 10, borderRadius: 40, borderWidth: 3, borderColor: 'white',justifyContent:'flex-end', alignItems:'center', padding: 15}}>
+                    </Image>
+                    <Text style={{backgroundColor:'rgba(0,0,0,0)', textAlign:'center', color:'white', marginRight: 10, fontSize:10, fontWeight:'500'}}>{rowData.name}</Text>
+                    </TouchableOpacity>
+                  }
+                  horizontal = {true}
+                  showsHorizontalScrollIndicator = {false}
+                  onEndReachedThreshold = {500}
+                  />
+              </View>
+              <View style={{flex: 1}}>
+                    <Text style={{backgroundColor:'rgba(0,0,0,0)', textAlign:'left', color:'white', margin: 10, fontSize:12, fontWeight:'500'}}>NEW MESSAGES</Text>
+                    <ListView
+                    dataSource = {dataSource}
+                    renderRow={(rowData) =>
+                      <TouchableOpacity>
+                      <View style={{flex:1, flexDirection: 'row', borderWidth: 2, borderLeftWidth: 0, borderRightWidth: 0, borderBottomWidth: 0, borderColor: 'white', padding: 10}}>
+                        <View style={{flex: 1}}>
+                          <Image source={rowData.image} resizeMode="stretch"
+                          style={{width:80, height:80, marginRight: 10, borderRadius: 40, justifyContent:'flex-end', alignItems:'center', padding: 15}}>
+                          </Image>
+                        </View>
+                        <View style={{flex: 3, justifyContent: 'center'}}>
+                            <Text style={{backgroundColor:'transparent', textAlign:'left', color:'white', marginRight: 10, marginBottom: 5, fontSize:15, fontWeight:'700'}}>{rowData.name}</Text>
+                            <Text style={{backgroundColor:'transparent', textAlign:'left', color:'white', marginRight: 10, marginBottom: 5,fontSize:12, fontWeight:'300'}}>Description about this person</Text>
+                            <Text style={{backgroundColor:'transparent', textAlign:'left', color:'white', marginRight: 10, marginBottom: 5,fontSize:13, fontWeight:'700'}}>This is the last message recevied</Text>
+                        </View>
+                        </View>
+                      </TouchableOpacity>
+
+
+                    }
+                    horizontal = {false}
+                    showsHorizontalScrollIndicator = {false}
+                    onEndReachedThreshold = {500}
+                    />
+              </View>
 
               </Content>
           </Container>
-          ) : null}
         </View>
     )
   }
@@ -70,9 +131,9 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-	return {
-		dispatch
-	};
+    return {
+        actions: bindActionCreators(actionCreators, dispatch)
+    };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Notifications);
+export default connect(mapStateToProps, mapDispatchToProps)(FriendsList);
