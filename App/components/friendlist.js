@@ -12,6 +12,7 @@ import randomcolor from 'randomcolor';
 
 import { bindActionCreators } from 'redux';
 import * as actionCreators from '../actions/initialAction';
+import * as messagerAction from '../actions/messagerAction';
 import { connect } from 'react-redux';
 
 var image5 = {uri: 'https://www.thisiscolossal.com/wp-content/uploads/2016/03/finger-4.jpg'}
@@ -31,10 +32,10 @@ var favs = [
 class FriendsList extends Component{
   constructor(props){
     super(props);
-    this.props.actions.getUserNotifications(this.props.profile.userObject._id)
+    this.props.messagerActions.getRecentlyAddedFriend(this.props.profile.userObject._id)
+    console.log('FRIENDS LIST THIS PROPS!!!!!!!',this.props)
   }
   render(){
-<<<<<<< HEAD
     const ds = new ListView.DataSource({rowHasChanged: (r1,r2) => r1 !== r2});
     const dataSource = ds.cloneWithRows(favs);
 
@@ -132,7 +133,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        actions: bindActionCreators(actionCreators, dispatch)
+        actions: bindActionCreators(actionCreators, dispatch),
+        messagerActions: bindActionCreators(messagerAction, dispatch)
     };
 }
 

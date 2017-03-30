@@ -1,4 +1,4 @@
-import socket from '../socket';
+// import socket from '../socket';
 
 function fetching(){
   return {
@@ -41,6 +41,7 @@ export function getNewlyAddedFriend(currentUserID, friendToAddID) {
     };
 }
 
+
 export function getNewFriendComplete(userconnection) {
     return {
         type: 'GET_NEWLYADDEDFRIEND',
@@ -80,15 +81,15 @@ export function getMessage(currentUserID) {
     };
 }
 
-export function createMessage(author, text) {
-  return socket.action({
-    type: 'CREATE_MESSAGE',
-    message: {
-      author,
-      text
-    }
-  });
-};
+// export function createMessage(author, text) {
+//   return socket.action({
+//     type: 'CREATE_MESSAGE',
+//     message: {
+//       author,
+//       text
+//     }
+//   });
+// };
 
 export function receiveMessage(message) {
   console.log('receiving message', message);
@@ -98,4 +99,4 @@ export function receiveMessage(message) {
   };
 }
 
-socket.on(RECEIVE_MESSAGE, receiveMessage);
+// socket.on(RECEIVE_MESSAGE, receiveMessage);
