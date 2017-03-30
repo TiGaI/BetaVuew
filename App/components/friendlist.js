@@ -34,19 +34,15 @@ class FriendsList extends Component{
     super(props);
 
     this.props.messagerActions.getRecentlyAddedFriend(this.props.profile.userObject._id)
-    console.log('FRIENDS LIST THIS PROPS!!!!!!!',this.props);
-    console.log('FRIENDS LIST IDDDDD!!!!!!!',this.props.profile.userObject._id);
-
   }
   render(){
 
 
-
+    console.log('CONNECT',this.props);
     const {userconnection} = this.props.message;
-    const {connections} = userconnection;
-    const ds = new ListView.DataSource({rowHasChanged: (r1,r2) => r1 !== r2});
-    const dataSource = ds.cloneWithRows(connections);
-    const dataSource2 = ds.cloneWithRows(favs);
+    // const ds = new ListView.DataSource({rowHasChanged: (r1,r2) => r1 !== r2});
+    // const dataSource = ds.cloneWithRows();
+    // const dataSource2 = ds.cloneWithRows(favs);
     console.log('CONNECT',this.props);
     return (
 
