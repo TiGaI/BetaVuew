@@ -1,19 +1,18 @@
-
 import React, { Component } from 'react';
 import { NavigatorIOS, View } from 'react-native';
 
-import ActivitiesPage from './activitiesPage'
+import FriendsList from './friendlist'
 
-export default class Index extends Component {
+export default class MessageIndex extends Component {
   render(){
-    const {actions } = this.props;
+      const {actions } = this.props;
       return (
         <View style={{flex:1}}>
           <NavigatorIOS
           style={{flex: 1}}
           initialRoute={{
-              component: ActivitiesPage,
-              title: 'ActivitiesPage',
+              component: FriendsList,
+              title: 'Messages',
               showTabBar: true
             }}
             navigationBarHidden={false}>
@@ -22,4 +21,5 @@ export default class Index extends Component {
       )
     }
 }
-module.exports = Index;
+
+module.exports = MessageIndex;
