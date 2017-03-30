@@ -14,12 +14,18 @@ import { bindActionCreators } from 'redux';
 import * as actionCreators from '../actions/initialAction';
 import { connect } from 'react-redux';
 
+let Log = require('./Log');
+let MessageEntry = require('./MessageEntry');
 
-class Notifications extends Component{
+
+class Message extends Component{
   constructor(props){
     super(props);
     //setting loading and
     this.props.actions.getUserNotifications(this.props.profile.userObject._id)
+  }
+  _onMessageSubmit(text) {
+    this.props.chatActions.createMessage(this.props.author, text);
   }
   render(){
     console.log("this is at swiperView.js and this is this.prop: ", this.props)
@@ -28,33 +34,23 @@ class Notifications extends Component{
     if(userObject){
       const profileImg = userObject.profileImg
       console.log('this is looking for the profile image',profileImg)
-
-      var Friend = userObject.connections.map(function(x){
-
-          return (
-                    <ListItem avatar>
-                        <Left>
-                            <Thumbnail source={x.profileImg} />
-                        </Left>
-                        <Body>
-                            <Text>{x.firstName + ' ' x.lastName}</Text>
-                            <Text note>Doing what you like will always keep you happy . .</Text>
-                        </Body>
-                        <Right>
-                            <Text note>3:43 pm</Text>
-                        </Right>
-                    </ListItem>
-          )
-      })
+      var screen = (
+          <View style={{flex:1}}>
+            <View {...style('authorName')}>
+              <Text {...style('authorNameText')}>{this.props.author}</Text>
+            </View>
+            <Log messages={this.props.message.message} />
+            <MessageEntry onSubmit={(message) => this._onMessageSubmit(message)} />
+          </View>
+        );
     }
 
     return (
         <View>
         { userObject !== null ? (
-
           <Container>
               <Content>
-                {Friend}
+
               </Content>
           </Container>
           ) : null}
@@ -77,4 +73,4 @@ function mapDispatchToProps(dispatch) {
 	};
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Notifications);
+export default connect(mapStateToProps, mapDispatchToProps)(Message);

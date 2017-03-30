@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import {
   AppRegistry, ScrollView, StyleSheet, View, TextInput, TouchableOpacity, NavigatorIOS,
   ListView, Alert, Image } from 'react-native';
-import { Container, Content, Left, Body, Right, ListItem, Thumbnail, Text } from 'native-base';
+import { Container, Content, Left, Body, Right, ListItem, Thumbnail, Text, Spinner } from 'native-base';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Swiper from 'react-native-swiper'
 import styles from './styles'
@@ -13,6 +13,7 @@ import randomcolor from 'randomcolor';
 import { bindActionCreators } from 'redux';
 import * as actionCreators from '../actions/initialAction';
 import * as messagerAction from '../actions/messagerAction';
+import Message from './message'
 import { connect } from 'react-redux';
 
 var image5 = {uri: 'https://www.thisiscolossal.com/wp-content/uploads/2016/03/finger-4.jpg'}
@@ -32,22 +33,27 @@ var favs = [
 class FriendsList extends Component{
   constructor(props){
     super(props);
-
     this.props.messagerActions.getRecentlyAddedFriend(this.props.profile.userObject._id)
   }
+  GetMessage(toUserID){
+    this.props.navigator.push({
+      component: Message,
+      passProps: val,
+      backButtonTitle: 'Main'
+    });
+  }
   render(){
-
-
-    console.log('CONNECT',this.props);
-    const {userconnection} = this.props.message;
-    // const ds = new ListView.DataSource({rowHasChanged: (r1,r2) => r1 !== r2});
-    // const dataSource = ds.cloneWithRows();
     // const dataSource2 = ds.cloneWithRows(favs);
-    console.log('CONNECT',this.props);
-    return (
+    const userconnection = this.props.message.userconnection;
+    console.log(this.props)
+    if(userconnection.length > 0){
+      var ds = new ListView.DataSource({rowHasChanged: (r1,r2) => r1 !== r2});
+      var dataSource = ds.cloneWithRows(userconnection);
 
+    }
+    return (
       <View style={{flex: 1}}>
-      { userconnection ? (
+      { userconnection.length > 0 ? (
         <View style={{flex: 1, backgroundColor: '#00A652'}}>
           <Container>
               <Content>
@@ -68,42 +74,47 @@ class FriendsList extends Component{
                   onEndReachedThreshold = {500}
                   />
               </View>
-              <View style={{flex: 1}}>
-                    <Text style={{backgroundColor:'rgba(0,0,0,0)', textAlign:'left', color:'white', margin: 10, fontSize:12, fontWeight:'500'}}>NEW MESSAGES</Text>
-                    <ListView
-                    dataSource = {dataSource2}
-                    renderRow={(rowData) =>
-                      <TouchableOpacity>
-                      <View style={{flex:1, flexDirection: 'row', borderWidth: 2, borderLeftWidth: 0, borderRightWidth: 0, borderBottomWidth: 0, borderColor: 'white', padding: 10}}>
-                        <View style={{flex: 1}}>
-                          <Image source={rowData.image} resizeMode="stretch"
-                          style={{width:80, height:80, marginRight: 10, borderRadius: 40, justifyContent:'flex-end', alignItems:'center', padding: 15}}>
-                          </Image>
-                        </View>
-                        <View style={{flex: 3, justifyContent: 'center'}}>
-                            <Text style={{backgroundColor:'transparent', textAlign:'left', color:'white', marginRight: 10, marginBottom: 5, fontSize:15, fontWeight:'700'}}>{rowData.name}</Text>
-                            <Text style={{backgroundColor:'transparent', textAlign:'left', color:'white', marginRight: 10, marginBottom: 5,fontSize:12, fontWeight:'300'}}>Description about this person</Text>
-                            <Text style={{backgroundColor:'transparent', textAlign:'left', color:'white', marginRight: 10, marginBottom: 5,fontSize:13, fontWeight:'700'}}>This is the last message recevied</Text>
-                        </View>
-                        </View>
-                      </TouchableOpacity>
-
-
-                    }
-                    horizontal = {false}
-                    showsHorizontalScrollIndicator = {false}
-                    onEndReachedThreshold = {500}
-                    />
-              </View>
-
               </Content>
           </Container>
         </View>
-      ) : null}
+      ) : (
+
+              <View style={{flex: 1, justifyContent: 'center'}}>
+                <Spinner color='green'/>
+              </View>
+
+      )}
       </View>
     )
   }
 }
+// <View style={{flex: 1}}>
+//       <Text style={{backgroundColor:'rgba(0,0,0,0)', textAlign:'left', color:'white', margin: 10, fontSize:12, fontWeight:'500'}}>NEW MESSAGES</Text>
+//       <ListView
+//       dataSource = {dataSource2}
+//       renderRow={(rowData) =>
+//         <TouchableOpacity>
+//         <View style={{flex:1, flexDirection: 'row', borderWidth: 2, borderLeftWidth: 0, borderRightWidth: 0, borderBottomWidth: 0, borderColor: 'white', padding: 10}}>
+//           <View style={{flex: 1}}>
+//             <Image source={rowData.image} resizeMode="stretch"
+//             style={{width:80, height:80, marginRight: 10, borderRadius: 40, justifyContent:'flex-end', alignItems:'center', padding: 15}}>
+//             </Image>
+//           </View>
+//           <View style={{flex: 3, justifyContent: 'center'}}>
+//               <Text style={{backgroundColor:'transparent', textAlign:'left', color:'white', marginRight: 10, marginBottom: 5, fontSize:15, fontWeight:'700'}}>{rowData.name}</Text>
+//               <Text style={{backgroundColor:'transparent', textAlign:'left', color:'white', marginRight: 10, marginBottom: 5,fontSize:12, fontWeight:'300'}}>Description about this person</Text>
+//               <Text style={{backgroundColor:'transparent', textAlign:'left', color:'white', marginRight: 10, marginBottom: 5,fontSize:13, fontWeight:'700'}}>This is the last message recevied</Text>
+//           </View>
+//           </View>
+//         </TouchableOpacity>
+//
+//
+//       }
+//       horizontal = {false}
+//       showsHorizontalScrollIndicator = {false}
+//       onEndReachedThreshold = {500}
+//       />
+// </View>
 
 function mapStateToProps(state) {
 	return {

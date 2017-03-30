@@ -11,35 +11,36 @@ function doneFetching() {
   }
 }
 
-export function getNewlyAddedFriend(currentUserID, friendToAddID) {
-    return dispatch => {
-        dispatch(fetching());
-        console.log('currentUserID in getNewlyAddedFriend in messagerAction: ', currentUserID);
-        console.log('friendToAddID in getNewlyAddedFriend in messagerAction: ', friendToAddID);
+// export function getNewlyAddedFriend(currentUserID, friendToAddID) {
+//     return dispatch => {
+//         dispatch(fetching());
+//         console.log('currentUserID in getNewlyAddedFriend in messagerAction: ', currentUserID);
+//         console.log('friendToAddID in getNewlyAddedFriend in messagerAction: ', friendToAddID);
+//
+//         fetch('http://localhost:8080/getMessage', {
+//               method: 'POST',
+//               headers: {
+//                 'Accept': 'application/json',
+//                 'Content-Type': 'application/json'
+//               },
+//               body: JSON.stringify({
+//                 toUserID: currentUserID,
+//                 fromUserID: friendToAddID
+//               })
+//             }).then((response) => response.json())
+//             .then((responseJson) => {
+//
+//                 var userObject = [...responseJson];
+//                 console.log(userObject, "this is in getNewlyAddedFriend")
+//                 dispatch(getNewFriendComplete(userObject));
+//                 dispatch(doneFetching())
+//             })
+//             .catch((err) => {
+//               console.log('error: ', err)
+//             });
+//     };
+// }
 
-        fetch('http://localhost:8080/getMessage', {
-              method: 'POST',
-              headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-              },
-              body: JSON.stringify({
-                toUserID: currentUserID,
-                fromUserID: friendToAddID
-              })
-            }).then((response) => response.json())
-            .then((responseJson) => {
-
-                var userObject = [...responseJson];
-
-                dispatch(getNewFriendComplete(userObject));
-                dispatch(doneFetching())
-            })
-            .catch((err) => {
-              console.log('error: ', err)
-            });
-    };
-}
 export function getRecentlyAddedFriend(currentUserID) {
     return dispatch => {
         dispatch(fetching());
@@ -56,11 +57,7 @@ export function getRecentlyAddedFriend(currentUserID) {
               })
             }).then((response) => response.json())
             .then((responseJson) => {
-                console.log('INSIDE FETCH AYYYEEE', responseJson)
-                // var userObject = [...responseJson];
-                var userObject = Object.assign({}, responseJson);
-                console.log('INSIDE FETCH ARRRAAAYYY', userObject)
-
+                var userObject = [...responseJson.connections]
                 dispatch(getNewFriendComplete(userObject));
                 dispatch(doneFetching())
             })

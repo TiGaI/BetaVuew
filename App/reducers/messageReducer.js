@@ -1,8 +1,9 @@
 export function messageReducer(state = {
     message: [],
+    userconnection: [],
     fetchingData: false,
-    getMessage: null,
-    userconnection: null}, action) {
+    getMessage: null
+    }, action) {
     switch (action.type) {
 
     case 'GET_NEWLYADDEDFRIEND':
