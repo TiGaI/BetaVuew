@@ -19,7 +19,7 @@ var image2 = {uri: 'https://static.pexels.com/photos/2855/landscape-mountains-na
 var image1 = {uri: 'https://upload.wikimedia.org/wikipedia/commons/3/38/Two_dancers.jpg'}
 
 
-var events = ['Sport' , 'Art' , 'Music' ]
+var events = ['Sports' , 'Art' , 'Music' ]
 Array.prototype.next = function(item) {
   var length = this.length
   console.log("NEXT >< LENGTH", length)
@@ -133,15 +133,15 @@ class ActivitiesPage extends Component {
               horizontal = {false}
               loop = {false}
               showsPagination = {false}
-              index = {1}
+              index = {0}
               >
             <View style={{flex: 1}}>
-                <View style={{flex: 2, justifyContent: 'center', padding: 10, backgroundColor: '#FE4F44'}}>
+                <View style={{flex: 1.5, justifyContent: 'center', padding: 10, backgroundColor: 'white', marginTop: 40}}>
                   <ListView
                   dataSource = {dataSourcePrev}
                   renderRow={(val) =>
                     <TouchableOpacity onPress={this.press.bind(this, val)}>
-                    <Image source={{uri: 'https://upload.wikimedia.org/wikipedia/commons/3/38/Two_dancers.jpg'}} resizeMode="stretch" style={{width:350, height:400, marginRight: 10, justifyContent:'flex-end', alignItems:'flex-start', padding: 15}}>
+                    <Image source={{uri: 'https://upload.wikimedia.org/wikipedia/commons/3/38/Two_dancers.jpg'}} resizeMode="stretch" style={{width:300, height:300, marginRight: 10, justifyContent:'flex-end', alignItems:'flex-start', padding: 15}}>
                     <Text style={{backgroundColor:'rgba(0,0,0,0)', textAlign:'center', color:'#fff', fontSize:25, fontWeight:'700'}}>{val.activityTitle}</Text>
                     <Text style={{backgroundColor:'rgba(0,0,0,0)', color:'#fff',fontSize:13, fontWeight:'600'}}>{val.homes} homes</Text>
                     <Text style={{backgroundColor:'rgba(0,0,0,0)', color:'#fff',fontSize:13, fontWeight:'600'}}>{val.activityDescription}</Text>
@@ -154,19 +154,21 @@ class ActivitiesPage extends Component {
                   onEndReached={this.endReached.bind(this)}
                   />
                 </View>
-                <View style={{flex: 1, justifyContent: 'flex-start', padding: 30, backgroundColor: '#FE4F44'}}>
-                <Text style={{fontWeight: '500', fontSize: 25, color: 'white', textAlign: 'center'}}>{events.prev(activitiesPageState.category)}</Text>
-                <Text numberOfLines={5} style={{fontSize: 15, fontWeight: '400', color: 'white' , marginTop: 10, textAlign: 'center'}}>Description
-                </Text>
+                <View style={{flex: 1}}>
+                  <Image source={{uri: 'https://upload.wikimedia.org/wikipedia/commons/b/ba/Lake_Malawi_music_band.jpg'}} resizeMode="stretch" style={{flex: 1, width:null, height:null,
+                  justifyContent:'flex-start', alignItems:'flex-start', padding: 10}}>
+                  <Text style={{fontWeight: '500', fontSize: 25, color: 'white', textAlign: 'center'}}>{events.prev(activitiesPageState.category)}</Text>
+                  <Text numberOfLines={5} style={{fontSize: 15, fontWeight: '400', color: 'white' , textAlign: 'center', marginTop: 10}}>Description</Text>
+                  </Image>
                 </View>
               </View>
             <View style={{flex: 1}}>
-                <View style={{flex: 2, justifyContent: 'center', padding: 10, backgroundColor: '#23DC3E'}}>
+                <View style={{flex: 1.5, justifyContent: 'center', padding: 10, backgroundColor: 'white', paddingTop: 50}}>
                   <ListView
                   dataSource = {dataSource}
                   renderRow={(val) =>
                     <TouchableOpacity onPress={this.press.bind(this, val)}>
-                    <Image source={{uri: 'https://upload.wikimedia.org/wikipedia/commons/3/38/Two_dancers.jpg'}} resizeMode="stretch" style={{width:350, height:400, marginRight: 10, justifyContent:'flex-end', alignItems:'flex-start', padding: 15}}>
+                    <Image source={{uri: 'https://upload.wikimedia.org/wikipedia/commons/3/38/Two_dancers.jpg'}} resizeMode="stretch" style={{width:300, height:300, marginRight: 10, justifyContent:'flex-end', alignItems:'flex-start', padding: 15}}>
                     <Text style={{backgroundColor:'rgba(0,0,0,0)', textAlign:'center', color:'#fff', fontSize:25, fontWeight:'700'}}>{val.activityTitle}</Text>
                     <Text style={{backgroundColor:'rgba(0,0,0,0)', color:'#fff',fontSize:13, fontWeight:'600'}}>{val.homes} homes</Text>
                     <Text style={{backgroundColor:'rgba(0,0,0,0)', color:'#fff',fontSize:13, fontWeight:'600'}}>{val.activityDescription}</Text>
@@ -179,19 +181,21 @@ class ActivitiesPage extends Component {
                   onEndReached={this.endReached.bind(this)}
                   />
                 </View>
-                <View style={{flex: 1, justifyContent: 'flex-start', padding: 30, backgroundColor: '#23DC3E'}}>
-                <Text style={{fontWeight: '500', fontSize: 25, color: 'white',textAlign: 'center'}}>{activitiesPageState.category}</Text>
-                <Text numberOfLines={5} style={{fontSize: 15, fontWeight: '400', color: 'white' , marginTop: 10, textAlign: 'justify',textAlign: 'center'}}>Description
-                </Text>
+                <View style={{flex: 1}}>
+                  <Image source={{uri: 'https://cbsla.files.wordpress.com/2012/04/basketballsunset.jpg'}} resizeMode="stretch" style={{flex: 1, width:null, height:null,
+                  justifyContent:'flex-start', alignItems:'flex-start',padding: 10}}>
+                  <Text style={{fontWeight: '500', fontSize: 25, color: 'white', textAlign: 'center'}}>{activitiesPageState.category}</Text>
+                  <Text numberOfLines={5} style={{fontSize: 15, fontWeight: '400', color: 'white' , textAlign: 'center', marginTop: 10}}>Description</Text>
+                  </Image>
                 </View>
               </View>
               <View style={{flex: 1}}>
-                  <View style={{flex: 2, justifyContent: 'center', padding: 10, backgroundColor: '#5F4F7E'}}>
+                  <View style={{flex: 1.5, justifyContent: 'center', padding: 10, backgroundColor: 'white', paddingTop: 50}}>
                     <ListView
                     dataSource = {dataSourceNext}
                     renderRow={(val) =>
                       <TouchableOpacity onPress={this.press.bind(this, val)}>
-                      <Image source={{uri: 'https://upload.wikimedia.org/wikipedia/commons/3/38/Two_dancers.jpg'}} resizeMode="stretch" style={{width:350, height:400, marginRight: 10,
+                      <Image source={{uri: 'https://upload.wikimedia.org/wikipedia/commons/3/38/Two_dancers.jpg'}} resizeMode="stretch" style={{width:300, height:300, marginRight: 10,
                       justifyContent:'flex-end', alignItems:'flex-start', padding: 15}}>
                       <Text style={{backgroundColor:'rgba(0,0,0,0)', textAlign:'center', color:'#fff', fontSize:25, fontWeight:'700'}}>{val.activityTitle}</Text>
                       <Text style={{backgroundColor:'rgba(0,0,0,0)', color:'#fff',fontSize:13, fontWeight:'600'}}>{val.homes} homes</Text>
@@ -205,10 +209,12 @@ class ActivitiesPage extends Component {
                     onEndReached={this.endReached.bind(this)}
                     />
                   </View>
-                  <View style={{flex: 1, justifyContent: 'flex-start', padding: 30, backgroundColor: '#5F4F7E'}}>
-                  <Text style={{fontWeight: '500', fontSize: 25, color: 'white', textAlign: 'center'}}>{events.next(activitiesPageState.category)}</Text>
-                  <Text numberOfLines={5} style={{fontSize: 15, fontWeight: '400', color: 'white' , textAlign: 'center', marginTop: 10}}>Description
-                  </Text>
+                  <View style={{flex: 1}}>
+                    <Image source={{uri: 'https://upload.wikimedia.org/wikipedia/commons/b/ba/Lake_Malawi_music_band.jpg'}} resizeMode="stretch" style={{flex: 1, width:null, height:null,
+                    justifyContent:'flex-start', alignItems:'flex-start', padding: 10}}>
+                    <Text style={{fontWeight: '500', fontSize: 25, color: 'white', textAlign: 'center'}}>{events.next(activitiesPageState.category)}</Text>
+                    <Text numberOfLines={5} style={{fontSize: 15, fontWeight: '400', color: 'white' , textAlign: 'center', marginTop: 10}}>Description</Text>
+                    </Image>
                   </View>
                 </View>
               </Swiper>

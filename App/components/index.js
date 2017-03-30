@@ -13,7 +13,7 @@ export default class Index extends Component {
           style={{flex: 1}}
           initialRoute={{
               component: ActivitiesPage,
-              title: 'ActivitiesPage'
+              title: 'Local Activities'
             }}
             navigationBarHidden={false}>
           </NavigatorIOS>
