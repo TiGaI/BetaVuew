@@ -111,19 +111,23 @@ router.post('/acceptFriendRequest', function(req, res){
                   if (err) {
                     console.log(err);
                   } else {
+                    res.send(user)
                     return user
                   }
                 })
               });
             }else{
               friendRequest.accepted = req.body.accepted
+              res.send(friendRequest)
               console.log("I rejected a friend")
             }
         }else{
+          res.send('fail')
           console.log("this user does not exist!");
         }
       });
     }else{
+      res.send('fail')
       console.log('you have not send a friend request him yet.')
     }
   })

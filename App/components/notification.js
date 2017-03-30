@@ -40,8 +40,6 @@ class Notifications extends Component{
       });
 
     }
-
-
     return (
         <View style={{flex: 1}}>
         { notifications.length > 0 ? (

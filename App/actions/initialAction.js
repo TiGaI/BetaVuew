@@ -47,33 +47,6 @@ export function getActivities(populatedActivities, category) {
     };
 }
 
-export function getUserNotifications(currentUserID) {
-    return dispatch => {
-        dispatch(fetching());
-        console.log('currentUserID in getNotifications in initialAction: ', currentUserID);
-
-        fetch('http://localhost:8080/getNotification', {
-              method: 'POST',
-              headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-              },
-              body: JSON.stringify({
-                userID: currentUserID
-              })
-            }).then((response) => response.json())
-            .then((responseJson) => {
-
-                var userObject = [...responseJson];
-                console.log(userObject, ' is the super userObject from getUserNotifications');
-                dispatch(getNotifications(userObject));
-                dispatch(doneFetching())
-            })
-            .catch((err) => {
-              console.log('error: ', err)
-            });
-    };
-}
 
 export function getNotifications(notifications) {
     return {
@@ -109,12 +82,6 @@ export function sendFriendRequest(currentUserID, friendToAddID){
   };
 }
 
-export function test(){
-  return {
-    type: "TEST"
-  }
-}
-
 export function acceptFriendRequest(currentUserID, friendToAddID, accepted) {
 
   return dispatch => {
@@ -135,7 +102,10 @@ export function acceptFriendRequest(currentUserID, friendToAddID, accepted) {
             })
         }).then((response) => response.json())
           .then((responseJson) => {
-            getUserNotifications(currentUserID)
+            console.log("I am here!");
+            console.log(getUserNotifications)
+            console.log(getUserNotifications(currentUserID))
+            getUserNotifications(currentUserID)(dispatch);
             dispatch(doneFetching())
             console.log('you accepted a friend')
           })
@@ -143,4 +113,33 @@ export function acceptFriendRequest(currentUserID, friendToAddID, accepted) {
             console.log('error: ', err)
           });
   };
+}
+
+export function getUserNotifications(currentUserID) {
+
+    return dispatch => {
+        dispatch(fetching());
+        console.log('currentUserID in getNotifications in initialAction: ', currentUserID);
+
+        fetch('http://localhost:8080/getNotification', {
+              method: 'POST',
+              headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({
+                userID: currentUserID
+              })
+            }).then((response) => response.json())
+            .then((responseJson) => {
+
+                var userObject = [...responseJson];
+                console.log(userObject, ' is the super userObject from getUserNotifications');
+                dispatch(getNotifications(userObject));
+                dispatch(doneFetching())
+            })
+            .catch((err) => {
+              console.log('error: ', err)
+            });
+    };
 }
