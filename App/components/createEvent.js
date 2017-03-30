@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { AppRegistry, ScrollView, StyleSheet,
   Text, View, TextInput, TouchableOpacity, NavigatorIOS,
-  ListView, Alert, AsyncStorage, TouchableHighlight } from 'react-native';
+  ListView, Alert, AsyncStorage, TouchableHighlight, ImagePickerIOS, Image } from 'react-native';
 import { Container, Content, Left, Body, Header, Right, ListItem, Thumbnail, Card, Title, CardItem, Icon, Item, Input, Label,  Button} from 'native-base';
 import { connect } from 'react-redux';
 import Swiper from 'react-native-swiper';
@@ -9,6 +9,8 @@ import { bindActionCreators } from 'redux';
 import randomcolor from 'randomcolor';
 import * as actionCreators from '../actions/initialAction';
 import * as loginAction from '../actions/loginAction';
+
+import ImagePickerComp from './imagePicker'
 
 var t = require('tcomb-form-native');
 var Form = t.form.Form;
@@ -64,6 +66,35 @@ var CreateEvent = React.createClass({
       }
     };
    },
+
+   pickImage() {
+   // openSelectDialog(config, successCallback, errorCallback);
+   ImagePickerIOS.openSelectDialog({},
+     resp => {
+       var formData = new FormData();
+       formData.append('moose', {
+         uri: resp,
+         type: 'image/jpeg',
+         name: 'whatever.jpg'
+       });
+       fetch('https://s3-upload.gomix.me/', {
+         method: 'POST',
+         headers: {
+           'Content-Type': 'multipart/form-data'
+         },
+         body: formData
+       })
+       .then(resp => resp.json())
+       .then(resp => {
+         console.log('success upload', resp);
+         this.setState({photo: resp.file.location});
+       })
+       .catch(resp => console.log('err upload', resp));
+     },
+     resp => console.log('err', resp));
+  // console.log("IMAGE PICKER IOS", ImagePickerIOS.openSelectDialog)
+ },
+
    onChange(value) {
     this.setState({value});
    },
@@ -100,6 +131,9 @@ var CreateEvent = React.createClass({
             type={Activity}
             options={options}
           />
+          <TouchableHighlight style={styles.button} onPress={this.pickImage} underlayColor = '#99d9f4'>
+          <Text style={styles.buttonText}>Upload Photo</Text>
+          </TouchableHighlight>
           <TouchableHighlight style={styles.button} onPress={this.onPress} underlayColor='#99d9f4'>
             <Text style={styles.buttonText}>Save</Text>
           </TouchableHighlight>
