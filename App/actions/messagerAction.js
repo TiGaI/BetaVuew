@@ -40,9 +40,39 @@ export function getNewlyAddedFriend(currentUserID, friendToAddID) {
             });
     };
 }
+export function getRecentlyAddedFriend(currentUserID) {
+    return dispatch => {
+        dispatch(fetching());
+        console.log('currentUserID in getNewlyAddedFriend in messagerAction: ', currentUserID);
+
+        fetch('http://localhost:8080/getNewlyAddedFriend', {
+              method: 'POST',
+              headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({
+                toUserID: currentUserID
+              })
+            }).then((response) => response.json())
+            .then((responseJson) => {
+                console.log('INSIDE FETCH AYYYEEE', responseJson)
+                // var userObject = [...responseJson];
+                var userObject = Object.assign({}, responseJson);
+                console.log('INSIDE FETCH ARRRAAAYYY', userObject)
+
+                dispatch(getNewFriendComplete(userObject));
+                dispatch(doneFetching())
+            })
+            .catch((err) => {
+              console.log('error: ', err)
+            });
+    };
+}
 
 
-export function getNewFriendComplete(userconnection) {
+function getNewFriendComplete(userconnection) {
+  console.log('INSIDE FETCH DISPATCH', userconnection)
     return {
         type: 'GET_NEWLYADDEDFRIEND',
         userconnection

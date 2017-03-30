@@ -33,41 +33,23 @@ class FriendsList extends Component{
   constructor(props){
     super(props);
     this.props.messagerActions.getRecentlyAddedFriend(this.props.profile.userObject._id)
-    console.log('FRIENDS LIST THIS PROPS!!!!!!!',this.props)
+    console.log('FRIENDS LIST THIS PROPS!!!!!!!',this.props);
+    console.log('FRIENDS LIST IDDDDD!!!!!!!',this.props.profile.userObject._id);
   }
   render(){
+
+
+
+    const {userconnection} = this.props.message;
+    const {connections} = userconnection;
     const ds = new ListView.DataSource({rowHasChanged: (r1,r2) => r1 !== r2});
-    const dataSource = ds.cloneWithRows(favs);
-
-    // console.log("this is at swiperView.js and this is this.prop: ", this.props)
-    // const {userObject} = this.props.profile
-    //
-    // if(userObject){
-    //   const profileImg = userObject.profileImg
-    //   console.log('this is looking for the profile image',profileImg)
-    //
-    //   var Friend = userObject.connection.map(function(x){
-    //     return (
-    //               <ListItem avatar>
-    //                   <Left>
-    //                       <Thumbnail source={x.profileImg} />
-    //                   </Left>
-    //                   <Body>
-    //                       <Text>{x.firstName + ' ' + x.lastName}</Text>
-    //                       <Text note>Doing what you like will always keep you happy . .</Text>
-    //                   </Body>
-    //                   <Right>
-    //                       <Text note>3:43 pm</Text>
-    //                   </Right>
-    //               </ListItem>
-    //
-    //
-    //     )
-    //   })
-    // }
-
-
+    const dataSource = ds.cloneWithRows(connections);
+    const dataSource2 = ds.cloneWithRows(favs);
+    console.log('CONNECT',this.props);
     return (
+
+      <View style={{flex: 1}}>
+      { userconnection ? (
         <View style={{flex: 1, backgroundColor: '#00A652'}}>
           <Container>
               <Content>
@@ -77,10 +59,10 @@ class FriendsList extends Component{
                   dataSource = {dataSource}
                   renderRow={(rowData) =>
                     <TouchableOpacity>
-                    <Image source={rowData.image} resizeMode="stretch"
+                    <Image source={{uri: rowData.profileImg}} resizeMode="stretch"
                     style={{width:80, height:80, marginRight: 10, marginTop: 10, borderRadius: 40, borderWidth: 3, borderColor: 'white',justifyContent:'flex-end', alignItems:'center', padding: 15}}>
                     </Image>
-                    <Text style={{backgroundColor:'rgba(0,0,0,0)', textAlign:'center', color:'white', marginRight: 10, fontSize:10, fontWeight:'500'}}>{rowData.name}</Text>
+                    <Text style={{backgroundColor:'rgba(0,0,0,0)', textAlign:'center', color:'white', marginRight: 10, fontSize:10, fontWeight:'500'}}>{rowData.firstName}</Text>
                     </TouchableOpacity>
                   }
                   horizontal = {true}
@@ -91,7 +73,7 @@ class FriendsList extends Component{
               <View style={{flex: 1}}>
                     <Text style={{backgroundColor:'rgba(0,0,0,0)', textAlign:'left', color:'white', margin: 10, fontSize:12, fontWeight:'500'}}>NEW MESSAGES</Text>
                     <ListView
-                    dataSource = {dataSource}
+                    dataSource = {dataSource2}
                     renderRow={(rowData) =>
                       <TouchableOpacity>
                       <View style={{flex:1, flexDirection: 'row', borderWidth: 2, borderLeftWidth: 0, borderRightWidth: 0, borderBottomWidth: 0, borderColor: 'white', padding: 10}}>
@@ -119,6 +101,8 @@ class FriendsList extends Component{
               </Content>
           </Container>
         </View>
+      ) : null}
+      </View>
     )
   }
 }

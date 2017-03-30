@@ -1,12 +1,13 @@
 export function messageReducer(state = {
     message: [],
     fetchingData: false,
-    getMessage: null}, action) {
+    getMessage: null,
+    userconnection: null}, action) {
     switch (action.type) {
 
-    case 'Get_NEWLYADDEDFRIEND':
+    case 'GET_NEWLYADDEDFRIEND':
         return Object.assign({}, state, {
-            populatedActivities: action.populatedActivities
+            userconnection: action.userconnection
         });
     case 'GET_MYMESSAGE':
           return Object.assign({}, state, {
