@@ -32,9 +32,11 @@ var favs = [
 class FriendsList extends Component{
   constructor(props){
     super(props);
+
     this.props.messagerActions.getRecentlyAddedFriend(this.props.profile.userObject._id)
     console.log('FRIENDS LIST THIS PROPS!!!!!!!',this.props);
     console.log('FRIENDS LIST IDDDDD!!!!!!!',this.props.profile.userObject._id);
+
   }
   render(){
 
