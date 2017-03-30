@@ -131,11 +131,11 @@ class ActivitiesPage extends Component {
             >
             <Swiper
               horizontal = {false}
-              loop = {true}
+              loop = {false}
               showsPagination = {false}
               index = {1}
               >
-            <View style={this.viewStyle()}>
+            <View style={{flex: 1}}>
                 <View style={{flex: 2, justifyContent: 'center', padding: 0}}>
                   <ListView
                   dataSource = {dataSourcePrev}
@@ -160,7 +160,7 @@ class ActivitiesPage extends Component {
                 </Text>
                 </View>
               </View>
-            <View style={this.viewStyle()}>
+            <View style={{flex: 1}}>
                 <View style={{flex: 2, justifyContent: 'center', padding: 0}}>
                   <ListView
                   dataSource = {dataSource}
@@ -185,7 +185,7 @@ class ActivitiesPage extends Component {
                 </Text>
                 </View>
               </View>
-              <View style={this.viewStyle()}>
+              <View style={{flex: 1}}>
                   <View style={{flex: 2, justifyContent: 'center', padding: 0}}>
                     <ListView
                     dataSource = {dataSourceNext}

@@ -138,17 +138,17 @@ class DetailEvent extends Component{
                      <View style={{flex:1, flexDirection: 'row'}}>
                        <View style={{flex: 1, backgroundColor: 'white', alignItems: 'center', padding: 10,
                      borderColor: 'lightgrey', borderStyle: 'solid', borderWidth: 1, borderLeftWidth: 0, borderRightWidth: 0,marginLeft: 10}}>
-                         <Text>236</Text>
+                         <Text>{selectedActivityOwner.connections.length}</Text>
                          <Text style={{fontSize: 12, color: 'grey'}}>FOLLOWERS</Text>
                        </View>
                        <View style={{flex: 1, backgroundColor: 'white', alignItems: 'center', padding: 10,
                      borderColor: 'lightgrey', borderStyle: 'solid', borderWidth: 1}}>
-                         <Text>23.6k</Text>
+                         <Text>{selectedActivityOwner.activities.length}</Text>
                          <Text style={{fontSize: 12, color: 'grey'}}>EVENTS</Text>
                        </View>
                        <View style={{flex: 1, backgroundColor: 'white', alignItems: 'center', padding: 10,
                      borderColor: 'lightgrey', borderStyle: 'solid', borderWidth: 1, borderRightWidth: 0, borderLeftWidth: 0, marginRight: 10}}>
-                         <Text>2.8k</Text>
+                         <Text>{selectedActivityOwner.connections.length}</Text>
                          <Text style={{fontSize: 12, color: 'grey'}}>FOLLOWING</Text>
                        </View>
                      </View>
