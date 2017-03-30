@@ -12,7 +12,6 @@ export function messageReducer(state = {
           return Object.assign({}, state, {
               notifications: action.notifications
           });
-
     case "FETCHING_DATA":
       return Object.assign({}, state, {
         fetchingData: true

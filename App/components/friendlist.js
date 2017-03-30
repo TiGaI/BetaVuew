@@ -18,7 +18,6 @@ import { connect } from 'react-redux';
 class Notifications extends Component{
   constructor(props){
     super(props);
-    //setting loading and
     this.props.actions.getUserNotifications(this.props.profile.userObject._id)
   }
   render(){
@@ -43,8 +42,6 @@ class Notifications extends Component{
                           <Text note>3:43 pm</Text>
                       </Right>
                   </ListItem>
-
-
         )
       })
     }
