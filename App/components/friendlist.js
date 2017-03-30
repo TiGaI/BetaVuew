@@ -31,10 +31,10 @@ var favs = [
 class FriendsList extends Component{
   constructor(props){
     super(props);
-    //setting loading and
     this.props.actions.getUserNotifications(this.props.profile.userObject._id)
   }
   render(){
+<<<<<<< HEAD
     const ds = new ListView.DataSource({rowHasChanged: (r1,r2) => r1 !== r2});
     const dataSource = ds.cloneWithRows(favs);
 
@@ -64,6 +64,7 @@ class FriendsList extends Component{
     //     )
     //   })
     // }
+
 
     return (
         <View style={{flex: 1, backgroundColor: '#00A652'}}>
