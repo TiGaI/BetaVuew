@@ -196,18 +196,23 @@ class DetailEvent extends Component{
              <View style={{flex: 1, backgroundColor: 'transparent'}}>
                    <Image source={{uri: 'https://iso.500px.com/wp-content/uploads/2016/04/STROHL__ST_1204-Edit-1500x1000.jpg'}}
                      resizeMode = "stretch"
-                     style={{flex:3, alignItems:'center', width:null, height:null, justifyContent:'center'}}>
+                     style={{flex:1, width:null, height:null, justifyContent:'center', opacity: 0.9, padding: 10}} blurRadius={1}>
+                       <View style={{flex: 1, justifyContent: 'flex-end'}}>
+                         <Text style={{fontSize: 50, fontWeight: '700', color: 'white', textAlign: 'left', opacity: 1,
+                         textShadowOffset: {width: 1, height: 1}, textShadowRadius: 1, textShadowColor: 'black'}}>{activityObject.activityTitle}</Text>
+                         <Text style={{fontSize: 20, fontWeight: '400', color: 'white', textAlign: 'left', marginTop: 10,
+                       textShadowOffset: {width: 1, height: 1}, textShadowRadius: 1, textShadowColor: 'black'}}>{activityObject.activityDescription}</Text>
+                       <Text style={{fontSize: 20, fontWeight: '400', color: 'white', textAlign: 'left', marginTop: 10,
+                     textShadowOffset: {width: 1, height: 1}, textShadowRadius: 1, textShadowColor: 'black'}}>Location</Text>
+                       </View>
+                       <View style={{flex: 1, justifyContent: 'flex-end', marginBottom: 20}}>
+                         <Icon name="ios-arrow-up" style={{fontSize: 50, color: 'white', fontWeight: '800', textAlign: 'center',
+                       textShadowOffset: {width: 1,height: 1}, textShadowRadius: 1, textShadowColor: 'black'}}/>
+                         <Text style={{fontSize: 20, fontWeight: '700', color: 'white', textAlign: 'left', opacity: 1, textAlign: 'center', marginBottom: 50,
+                       textShadowOffset: {width: 1,height: 1}, textShadowRadius: 1, textShadowColor: 'black'}}>Swipe Up For Details</Text>
+                       </View>
                    </Image>
-                   <View style={{flex: 1, padding: 20, margin: 0}}>
-                   <ScrollView style={{flex: 1}}>
-                     <View style={{flex: 1}}>
-                       <Text style={{fontSize: 25, fontWeight: '700', color: '#323232', textAlign: 'left'}}>{activityObject.activityTitle}</Text>
-                     </View>
-                     <View style={{flex: 1}}>
-                       <Text style={{fontSize: 15, fontWeight: '300', color: '#4E4E4E', textAlign: 'left', marginTop: 10}}>{activityObject.activityDescription}</Text>
-                     </View>
-                   </ScrollView>
-                   </View>
+
             </View>
 
              <View style={{flex: 1}}>

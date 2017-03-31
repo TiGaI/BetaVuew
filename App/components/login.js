@@ -8,7 +8,8 @@ class Login extends Component {
     return (
       <View style={styles.container}>
         <TouchableOpacity onPress={this.props.onPress}>
-                <Text> Login With Facebook </Text>
+                <Text style={{backgroundColor: '#00A8BE',
+                color: 'white', fontSize: 20, borderWidth: 3, borderColor: 'white', padding: 20, borderRadius: 5}}> Login With Facebook </Text>
         </TouchableOpacity>
       </View>
     )
@@ -19,7 +20,9 @@ const styles = StyleSheet.create({
   container:{
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    padding: 20,
+    backgroundColor: '#00A8BE'
   }
 })
 

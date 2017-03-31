@@ -123,9 +123,6 @@ class ProfilePage extends Component{
                         <View style={{flex: 1, margin: 10, marginTop: 20}}><Text style={{fontSize: 12, color: 'grey', textAlign: 'center'}}>MY EVENTS</Text></View>
                       </TouchableOpacity>
                       <TouchableOpacity style={{flex: 1}} onPress={this.border}>
-                        <View style={{flex: 1, margin: 10, marginTop: 20}}><Text style={{fontSize: 12, color: 'grey', textAlign: 'center'}}>VIDEOS</Text></View>
-                      </TouchableOpacity>
-                      <TouchableOpacity style={{flex: 1}} onPress={this.border}>
                         <View style={{flex: 1, margin: 10, marginTop: 20}}><Text style={{fontSize: 12, color: 'grey', textAlign: 'center'}}>IMAGES</Text></View>
                       </TouchableOpacity>
                     </View>
