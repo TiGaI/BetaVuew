@@ -63,6 +63,7 @@ router.post('/createActivity', upload.fields([{name: 'file', maxCount: 4},
       var newActivity = new Activity({
         activityCreator: activity.activityCreator,
         activityTitle: activity.activityTitle,
+        activityImages: activity.activityImages,
         activityDescription: activity.activityDescription,
         typeofRoom: activity.typeofRoom,
         activityCategory: activity.activityCategory,

@@ -1,233 +1,196 @@
-import React, { Component } from 'react';
-import {
-  AppRegistry,
-  Text,
-  View,
-  ImagePickerIOS,
-  Image,
-} from 'react-native';
+import React, { Component, PropTypes } from 'react';
+import { AppRegistry, ScrollView, StyleSheet,
+  Text, View, TextInput, TouchableOpacity, NavigatorIOS,
+  ListView, Alert, AsyncStorage, TouchableHighlight, ImagePickerIOS, Image } from 'react-native';
+import { Container, Content, Left, Body, Header, Right, ListItem, Thumbnail, Card, Title, CardItem, Icon, Item, Input, Label,  Button} from 'native-base';
+import { connect } from 'react-redux';
+import Swiper from 'react-native-swiper';
+import { bindActionCreators } from 'redux';
+import randomcolor from 'randomcolor';
+import * as actionCreators from '../actions/initialAction';
+import * as loginAction from '../actions/loginAction';
 
-export default class CreateEvent extends Component {
-  constructor() {
-    super();
-    this.state = { image: null };
-  }
+import ImagePickerComp from './imagePicker'
 
-  componentDidMount() {
-    this.pickImage();
-  }
+var t = require('tcomb-form-native');
+var Form = t.form.Form;
 
-  pickImage() {
-    // openSelectDialog(config, successCallback, errorCallback);
-    ImagePickerIOS.openSelectDialog({}, imageUri => {
-      this.setState({ image: imageUri });
-    }, error => console.error(error));
+const nameofthecategory = t.enums.of([
+  'Music',
+  'Art',
+  'Sport'
+], 'nameofthecategory');
+
+const typeofroom = t.enums.of([
+  'Public',
+  'Private',
+  'Public - Friend Join Only'
+], 'typeofroom');
+
+var capacity = t.refinement(t.Number, function (n) { return n > 0; });
+
+capacity.getValidationErrorMessage = function (value, path, context) {
+  return 'capacity cannot be less than zero: ' + context.locale;
+};
+
+var Activity = t.struct({
+  activityTitle: t.String,
+  activityDescription: t.String,
+  activityLocation: t.String,
+  activityCategory: nameofthecategory,
+  timeStart: t.Date,
+  timeEnd: t.Date,
+  typeofRoom: typeofroom,
+  activityCapacity: capacity
+});
+
+var options = {
+  auto: 'placeholders',
+  fields: {
+    timeStart: {
+      mode: 'time'
+    }
   }
+};
+
+var CreateEvent = React.createClass({
+  getInitialState() {
+   return {
+     value: {
+       activityTitle: "Template Title",
+       activityDescription: "Template Description",
+       actvityLocation: "Template Location",
+       activityCategory: "Music",
+       typeofRoom: "Public",
+       actvityCapacity: 3
+      }
+    };
+   },
+
+   pickImage() {
+   // openSelectDialog(config, successCallback, errorCallback);
+   var date = Date.now()
+   var imgTitle =  this.props.profile.userObject.email + date + '.jpg'
+   ImagePickerIOS.openSelectDialog({},
+     resp => {
+       var formData = new FormData();
+       formData.append('file', {
+         uri: resp,
+         type: 'image/jpeg',
+         name:  imgTitle
+       });
+       fetch('http://localhost:8080/postToS3', {
+         method: 'POST',
+         headers: {
+           'Content-Type': 'multipart/form-data'
+         },
+         body: formData
+       })
+       .then(resp => resp.json())
+       .then(resp => {
+         console.log('success upload', resp);
+         this.setState({photo: resp.file.location});
+       })
+       .catch(resp => console.log('err upload', resp));
+     },
+     resp => console.log('err', resp));
+  // console.log("IMAGE PICKER IOS", ImagePickerIOS.openSelectDialog)
+ },
+
+   onChange(value) {
+    this.setState({value});
+   },
+   onPress: function (){
+
+   var value = this.refs.form.getValue();
+   if (value) {
+     console.log("PHOTO", this.state.photo)
+     var copy = Object.assign({}, value);
+     copy["activityCreator"] = this.props.profile.userObject._id
+     copy["activityImages"] = [this.state.photo]
+
+      fetch("http://localhost:8080/createActivity", {
+        method: 'POST',
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          activity: copy
+        })
+      })
+   }
+ this.setState({photo: ["defaultimage.jpg"]});
+ },
 
   render() {
-    return (
-      <View style={{ flex: 1 }}>
-        {this.state.image?
-          <Image style={{ flex: 1 }} source={{ uri: this.state.image }} /> :
-          null
-        }
+    const { profile } = this.props;
+    return(
+      <View style={styles.container}>
+      <Text style={{fontSize: 25, fontWeight: '700', color: '#323232', marginTop: 20}}>Create An Activity </Text>
+        <ScrollView keyboardShouldPersistTaps="always" style={{paddingLeft:10,paddingRight:10, height:500}}>
+          <Form
+            ref="form"
+            type={Activity}
+            options={options}
+          />
+          <TouchableHighlight style={styles.button} onPress={this.pickImage} underlayColor = '#99d9f4'>
+          <Text style={styles.buttonText}>Upload Photo</Text>
+          </TouchableHighlight>
+          <TouchableHighlight style={styles.button} onPress={this.onPress} underlayColor='#99d9f4'>
+            <Text style={styles.buttonText}>Save</Text>
+          </TouchableHighlight>
+
+        </ScrollView>
+
       </View>
-    );
+
+    )
   }
+
+})
+
+var styles = StyleSheet.create({
+  container: {
+    justifyContent: 'center',
+    marginTop: 20,
+    padding: 20,
+    backgroundColor: '#ffffff',
+  },
+  title: {
+    fontSize: 30,
+    alignSelf: 'center',
+    marginBottom: 30
+  },
+  buttonText: {
+    fontSize: 18,
+    color: 'white',
+    alignSelf: 'center'
+  },
+  button: {
+    height: 36,
+    backgroundColor: '#48BBEC',
+    borderColor: '#48BBEC',
+    borderWidth: 1,
+    borderRadius: 8,
+    marginBottom: 10,
+    alignSelf: 'stretch',
+    justifyContent: 'center'
+  }
+});
+
+function mapStateToProps(state) {
+    return {
+        login: state.get('login'),
+        profile: state.get('profile'),
+        activitiesPageState: state.get('activityPageState')
+
+    };
 }
 
-AppRegistry.registerComponent('CreateEvent', () => CreateEvent);
-// import React, { Component, PropTypes } from 'react';
-// import { AppRegistry, ScrollView, StyleSheet,
-//   Text, View, TextInput, TouchableOpacity, NavigatorIOS,
-//   ListView, Alert, AsyncStorage, TouchableHighlight, ImagePickerIOS, Image } from 'react-native';
-// import { Container, Content, Left, Body, Header, Right, ListItem, Thumbnail, Card, Title, CardItem, Icon, Item, Input, Label,  Button} from 'native-base';
-// import { connect } from 'react-redux';
-// import Swiper from 'react-native-swiper';
-// import { bindActionCreators } from 'redux';
-// import randomcolor from 'randomcolor';
-// import * as actionCreators from '../actions/initialAction';
-// import * as loginAction from '../actions/loginAction';
-//
-// import ImagePickerComp from './imagePicker'
-//
-// var t = require('tcomb-form-native');
-// var Form = t.form.Form;
-//
-// const nameofthecategory = t.enums.of([
-//   'Music',
-//   'Art',
-//   'Sport'
-// ], 'nameofthecategory');
-//
-// const typeofroom = t.enums.of([
-//   'Public',
-//   'Private',
-//   'Public - Friend Join Only'
-// ], 'typeofroom');
-//
-// var capacity = t.refinement(t.Number, function (n) { return n > 0; });
-//
-// capacity.getValidationErrorMessage = function (value, path, context) {
-//   return 'capacity cannot be less than zero: ' + context.locale;
-// };
-//
-// var Activity = t.struct({
-//   activityTitle: t.String,
-//   activityDescription: t.String,
-//   activityLocation: t.String,
-//   activityCategory: nameofthecategory,
-//   timeStart: t.Date,
-//   timeEnd: t.Date,
-//   typeofRoom: typeofroom,
-//   activityCapacity: capacity
-// });
-//
-// var options = {
-//   auto: 'placeholders',
-//   fields: {
-//     timeStart: {
-//       mode: 'time'
-//     }
-//   }
-// };
-//
-// var CreateEvent = React.createClass({
-//   getInitialState() {
-//    return {
-//      value: {
-//        activityTitle: "Template Title",
-//        activityDescription: "Template Description",
-//        actvityLocation: "Template Location",
-//        activityCategory: "Music",
-//        typeofRoom: "Public",
-//        actvityCapacity: 3
-//       }
-//     };
-//    },
-//
-//    pickImage() {
-//    // openSelectDialog(config, successCallback, errorCallback);
-//    ImagePickerIOS.openSelectDialog({},
-//      resp => {
-//        var formData = new FormData();
-//        formData.append('moose', {
-//          uri: resp,
-//          type: 'image/jpeg',
-//          name: 'whatever.jpg'
-//        });
-//        fetch('https://s3-upload.gomix.me/', {
-//          method: 'POST',
-//          headers: {
-//            'Content-Type': 'multipart/form-data'
-//          },
-//          body: formData
-//        })
-//        .then(resp => resp.json())
-//        .then(resp => {
-//          console.log('success upload', resp);
-//          this.setState({photo: resp.file.location});
-//        })
-//        .catch(resp => console.log('err upload', resp));
-//      },
-//      resp => console.log('err', resp));
-//   // console.log("IMAGE PICKER IOS", ImagePickerIOS.openSelectDialog)
-//  },
-//
-//    onChange(value) {
-//     this.setState({value});
-//    },
-//    onPress: function (){
-//
-//    var value = this.refs.form.getValue();
-//    if (value) {
-//      var copy = Object.assign({}, value);
-//      copy["activityCreator"] = this.props.profile.userObject._id
-//
-//       fetch("http://localhost:8080/createActivity", {
-//         method: 'POST',
-//         headers: {
-//           "Content-Type": "application/json"
-//         },
-//         body: JSON.stringify({
-//           activity: copy
-//         })
-//       })
-//    }
-//
-//
-//
-//  },
-//
-//   render() {
-//     const { profile } = this.props;
-//     return(
-//       <View style={styles.container}>
-//       <Text style={{fontSize: 25, fontWeight: '700', color: '#323232', marginTop: 20}}>Create An Activity </Text>
-//         <ScrollView keyboardShouldPersistTaps="always" style={{paddingLeft:10,paddingRight:10, height:500}}>
-//           <Form
-//             ref="form"
-//             type={Activity}
-//             options={options}
-//           />
-//           <TouchableHighlight style={styles.button} onPress={this.pickImage} underlayColor = '#99d9f4'>
-//           <Text style={styles.buttonText}>Upload Photo</Text>
-//           </TouchableHighlight>
-//           <TouchableHighlight style={styles.button} onPress={this.onPress} underlayColor='#99d9f4'>
-//             <Text style={styles.buttonText}>Save</Text>
-//           </TouchableHighlight>
-//
-//         </ScrollView>
-//
-//       </View>
-//
-//     )
-//   }
-//
-// })
-//
-// var styles = StyleSheet.create({
-//   container: {
-//     justifyContent: 'center',
-//     marginTop: 20,
-//     padding: 20,
-//     backgroundColor: '#ffffff',
-//   },
-//   title: {
-//     fontSize: 30,
-//     alignSelf: 'center',
-//     marginBottom: 30
-//   },
-//   buttonText: {
-//     fontSize: 18,
-//     color: 'white',
-//     alignSelf: 'center'
-//   },
-//   button: {
-//     height: 36,
-//     backgroundColor: '#48BBEC',
-//     borderColor: '#48BBEC',
-//     borderWidth: 1,
-//     borderRadius: 8,
-//     marginBottom: 10,
-//     alignSelf: 'stretch',
-//     justifyContent: 'center'
-//   }
-// });
-//
-// function mapStateToProps(state) {
-//     return {
-//         login: state.get('login'),
-//         profile: state.get('profile'),
-//         activitiesPageState: state.get('activityPageState')
-//
-//     };
-// }
-//
-// function mapDispatchToProps(dispatch) {
-//     return {
-//         actions: bindActionCreators(actionCreators, dispatch)
-//     };
-// }
-//
-// export default connect(mapStateToProps, mapDispatchToProps)(CreateEvent);
+function mapDispatchToProps(dispatch) {
+    return {
+        actions: bindActionCreators(actionCreators, dispatch)
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(CreateEvent);
