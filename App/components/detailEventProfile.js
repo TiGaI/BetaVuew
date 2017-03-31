@@ -14,6 +14,7 @@ import { bindActionCreators } from 'redux';
 import * as actionCreators from '../actions/initialAction';
 import * as loginCreators from '../actions/loginAction';
 import { connect } from 'react-redux';
+import { BlurView } from 'react-native-blur';
 
 var image5 = {uri: 'https://www.thisiscolossal.com/wp-content/uploads/2016/03/finger-4.jpg'}
 var image4 = {uri: 'https://cdn.playbuzz.com/cdn/b19cddd2-1b79-4679-b6d3-1bf8d7235b89/93794aec-3f17-47a4-8801-a2716a9c4598_560_420.jpg'}
@@ -78,6 +79,7 @@ class DetailEvent extends Component{
 
     const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
     const dataSource = ds.cloneWithRows([]);
+    const dataSource2 = ds.cloneWithRows(favs);
 
    console.log('AYYYYYYYYYYYYEEEEEE', this.props.activitiesPageState )
 
@@ -107,11 +109,118 @@ class DetailEvent extends Component{
            showsPagination={false}
            index={0}>
 
+           <View style={{flex: 1}}>
            <Swiper
              horizontal={false}
              loop={false}
              showsPagination={false}
              index={0}>
+             <View style={{flex: 1, backgroundColor: 'transparent'}}>
+
+
+              <Image source={{uri: 'https://static.pexels.com/photos/2855/landscape-mountains-nature-lake.jpg'}}
+                resizeMode = "stretch"
+                style={{flex:1, width:null, height:null, justifyContent:'center', opacity: 0.9, padding: 0}} blurType="light" blurAmount={10}>
+                  <BlurView blurType="dark" blurAmount={1} style={{flex: 1}}>
+                  <View style={{flex: 1, justifyContent: 'flex-start', padding: 20, marginTop: 40}}>
+                    <Text style={{fontSize: 15, fontWeight: '400', color: 'white', textAlign: 'left', letterSpacing:1}}>EVENTS</Text>
+                    <Text style={{fontSize: 25, fontWeight: '600', color: '#BEBEBE', textAlign: 'left', marginTop: 10}}>San Francisco, CA</Text>
+                  </View>
+                  <View style={{flex: 2, justifyContent: 'flex-start', padding: 20}}>
+                    <Text style={{fontSize: 50, fontWeight: '700', color: 'white', textAlign: 'left', opacity: 1}}>{activityObject.activityTitle}</Text>
+                    <Text style={{fontSize: 20, fontWeight: '400', color: 'white', textAlign: 'left', marginTop: 10}}>{activityObject.activityDescription}</Text>
+                  <Text style={{fontSize: 20, fontWeight: '400', color: 'white', textAlign: 'left', marginTop: 10}}>Location: {activityObject.activityLocation}</Text>
+                  <Text style={{backgroundColor:'rgba(0,0,0,0)', textAlign:'left', color:'white', marginTop: 50, fontSize:13, fontWeight:'300'}}>People going to this event</Text>
+                  <ListView
+                  dataSource = {dataSource2}
+                  renderRow={(rowData) =>
+                    <TouchableOpacity>
+                    <Image source={rowData.image} resizeMode="stretch"
+                    style={{width:50, height:50, marginRight: 10, marginTop: 10, borderRadius: 25, borderWidth: 2, borderColor: 'white',justifyContent:'flex-end', alignItems:'center', padding: 15}}>
+                    </Image>
+                    <Text style={{backgroundColor:'rgba(0,0,0,0)', textAlign:'center', color:'white', marginRight: 10, fontSize:10, fontWeight:'500'}}>{rowData.name}</Text>
+                    </TouchableOpacity>
+                  }
+                  horizontal = {true}
+                  />
+                  </View>
+                  <View style={{flex: 1, justifyContent: 'flex-end', marginBottom: 20}}>
+                    <Icon name="ios-arrow-down" style={{fontSize: 40, color: 'white', fontWeight: '800', textAlign: 'center'}}/>
+                    <Text style={{fontSize: 20, fontWeight: '700', color: 'white', textAlign: 'left', opacity: 1, textAlign: 'center', marginBottom: 50}}>Details</Text>
+                  </View>
+                  </BlurView>
+              </Image>
+
+
+
+            </View>
+
+             <View style={{flex: 1}}>
+             <ScrollView style={{flex:1}}>
+
+               <View style={{flex: 1, padding: 10}}>
+                 <View style={{flex:1}}>
+                   <Text style={{fontSize: 25, fontWeight: '700', color: '#323232', marginTop: 40}}>Activity Description</Text>
+                   <Text numberOfLines={3} style={{fontSize: 15, fontWeight: '300', color: '#4E4E4E' , marginTop: 20, textAlign: 'justify'}}>{activityObject.activityDescription}</Text>
+                 </View>
+                 <Text style={{fontSize: 20, fontWeight: '500', color: '#323232', marginTop: 20, textAlign: 'justify'}}>General Information</Text>
+                 <View style={{flex:1, flexDirection: 'row', marginTop: 20}}>
+                   <View style={{flex:1, backgroundColor: '#00A699', height: 50, justifyContent: 'center', alignItems: 'center',
+                   borderColor: 'transparent', borderStyle: 'solid', borderWidth: 1, borderRadius: 3, marginRight: 5}}>
+                   <Text style={{fontSize: 18, fontWeight: '500', color: 'white'}}>Group Size</Text>
+                   <Text style={{fontSize: 14, fontWeight: '500', color: 'white'}}>{activityObject.activityCapacity}</Text>
+                   </View>
+                   <View style={{flex:1, backgroundColor: '#00A699', height: 50, justifyContent: 'center', alignItems: 'center',
+                 borderColor: 'transparent', borderStyle: 'solid', borderWidth: 1, borderRadius: 3}}>
+                   <Text style={{fontSize: 18, fontWeight: '500', color: 'white'}}>Event Type</Text>
+                   <Text style={{fontSize: 14, fontWeight: '500', color: 'white'}}>{activityObject.typeofRoom}</Text>
+                   </View>
+                 </View>
+
+                 <View style={{flex:1, flexDirection: 'row', borderStyle: 'solid', borderColor:'grey', padding: 20,
+                  borderBottomWidth: 1, borderTopWidth: 1, marginTop: 20}}>
+                   <View style={{flex: 1}}>
+                     <Text style={{fontSize: 15, fontWeight: '400', color: '#323232', textAlign: 'center'}}>Start Time: {activityObject.timeEnd}</Text>
+                   </View>
+                   <View style={{flex: 1}}>
+                     <Text style={{fontSize: 15, fontWeight: '400', color: '#323232',  textAlign: 'center'}}>End Time: {activityObject.timeStart}</Text>
+                   </View>
+                 </View>
+                 <View style={{flex:1, borderStyle: 'solid', borderColor:'grey',
+                  borderBottomWidth: 1}}>
+                   <Text style={{fontSize: 20, fontWeight: '500', color: '#323232', marginTop: 20, textAlign: 'justify'}}>Location</Text>
+                   <Text numberOfLines={3} style={{fontSize: 15, fontWeight: '300', color: '#4E4E4E' , marginTop: 20}}>{activityObject.activityLocation}</Text>
+                   <MapView
+                     style={{height: 200, width: 350, marginTop: 20, marginBottom: 20}}
+                     initialRegion={{
+                       latitude: 37.78825,
+                       longitude: -122.4324,
+                       latitudeDelta: 0.0922,
+                       longitudeDelta: 0.0421,
+                     }}
+                   />
+                 </View>
+
+                 <View style={{flex:1, marginTop: 20}}>
+                   <View style={{flex:1, backgroundColor: 'white', height: 100, justifyContent: 'center'}}>
+                   <Text style={{fontSize: 20, fontWeight: '500', color: '#323232', marginTop: 20}}>Notes</Text>
+                   <Text numberOfLines={3} style={{fontSize: 15, fontWeight: '300', color: '#323232' , marginTop: 20,textAlign: 'justify'}}>We invite only athletes with experience
+                    running 3 miles of more averaging an 8 minute mile pace.</Text>
+                   </View>
+               </View>
+               </View>
+             </ScrollView>
+             </View>
+             </Swiper>
+
+           </View>
+
+
+           <Swiper
+             horizontal={false}
+             loop={false}
+             showsPagination={false}
+             index={1}>
 
              <View style={this.viewStyle()}>
                <Container>
@@ -187,93 +296,7 @@ class DetailEvent extends Component{
            </Swiper>
 
 
-           <View style={{flex: 1}}>
-           <Swiper
-             horizontal={false}
-             loop={false}
-             showsPagination={false}
-             index={0}>
-             <View style={{flex: 1, backgroundColor: 'transparent'}}>
-                   <Image source={{uri: 'https://iso.500px.com/wp-content/uploads/2016/04/STROHL__ST_1204-Edit-1500x1000.jpg'}}
-                     resizeMode = "stretch"
-                     style={{flex:1, width:null, height:null, justifyContent:'center', opacity: 0.9, padding: 10}} blurRadius={1}>
-                       <View style={{flex: 1, justifyContent: 'flex-end'}}>
-                         <Text style={{fontSize: 50, fontWeight: '700', color: 'white', textAlign: 'left', opacity: 1,
-                         textShadowOffset: {width: 1, height: 1}, textShadowRadius: 1, textShadowColor: 'black'}}>{activityObject.activityTitle}</Text>
-                         <Text style={{fontSize: 20, fontWeight: '400', color: 'white', textAlign: 'left', marginTop: 10,
-                       textShadowOffset: {width: 1, height: 1}, textShadowRadius: 1, textShadowColor: 'black'}}>{activityObject.activityDescription}</Text>
-                       <Text style={{fontSize: 20, fontWeight: '400', color: 'white', textAlign: 'left', marginTop: 10,
-                     textShadowOffset: {width: 1, height: 1}, textShadowRadius: 1, textShadowColor: 'black'}}>Location</Text>
-                       </View>
-                       <View style={{flex: 1, justifyContent: 'flex-end', marginBottom: 20}}>
-                         <Icon name="ios-arrow-up" style={{fontSize: 50, color: 'white', fontWeight: '800', textAlign: 'center',
-                       textShadowOffset: {width: 1,height: 1}, textShadowRadius: 1, textShadowColor: 'black'}}/>
-                         <Text style={{fontSize: 20, fontWeight: '700', color: 'white', textAlign: 'left', opacity: 1, textAlign: 'center', marginBottom: 50,
-                       textShadowOffset: {width: 1,height: 1}, textShadowRadius: 1, textShadowColor: 'black'}}>Swipe Up For Details</Text>
-                       </View>
-                   </Image>
 
-            </View>
-
-             <View style={{flex: 1}}>
-             <ScrollView style={{flex:1}}>
-
-               <View style={{flex: 1, padding: 10}}>
-                 <View style={{flex:1}}>
-                   <Text style={{fontSize: 25, fontWeight: '700', color: '#323232', marginTop: 40}}>Activity Description</Text>
-                   <Text numberOfLines={3} style={{fontSize: 15, fontWeight: '300', color: '#4E4E4E' , marginTop: 20, textAlign: 'justify'}}>{activityObject.activityDescription}</Text>
-                 </View>
-                 <Text style={{fontSize: 20, fontWeight: '500', color: '#323232', marginTop: 20, textAlign: 'justify'}}>General Information</Text>
-                 <View style={{flex:1, flexDirection: 'row', marginTop: 20}}>
-                   <View style={{flex:1, backgroundColor: '#00A699', height: 50, justifyContent: 'center', alignItems: 'center',
-                   borderColor: 'transparent', borderStyle: 'solid', borderWidth: 1, borderRadius: 3, marginRight: 5}}>
-                   <Text style={{fontSize: 18, fontWeight: '500', color: 'white'}}>Group Size</Text>
-                   <Text style={{fontSize: 14, fontWeight: '500', color: 'white'}}>{activityObject.activityCapacity}</Text>
-                   </View>
-                   <View style={{flex:1, backgroundColor: '#00A699', height: 50, justifyContent: 'center', alignItems: 'center',
-                 borderColor: 'transparent', borderStyle: 'solid', borderWidth: 1, borderRadius: 3}}>
-                   <Text style={{fontSize: 18, fontWeight: '500', color: 'white'}}>Event Type</Text>
-                   <Text style={{fontSize: 14, fontWeight: '500', color: 'white'}}>{activityObject.typeofRoom}</Text>
-                   </View>
-                 </View>
-
-                 <View style={{flex:1, flexDirection: 'row', borderStyle: 'solid', borderColor:'grey', padding: 20,
-                  borderBottomWidth: 1, borderTopWidth: 1, marginTop: 20}}>
-                   <View style={{flex: 1}}>
-                     <Text style={{fontSize: 15, fontWeight: '400', color: '#323232', textAlign: 'center'}}>Start Time: {activityObject.timeEnd}</Text>
-                   </View>
-                   <View style={{flex: 1}}>
-                     <Text style={{fontSize: 15, fontWeight: '400', color: '#323232',  textAlign: 'center'}}>End Time: {activityObject.timeStart}</Text>
-                   </View>
-                 </View>
-                 <View style={{flex:1, borderStyle: 'solid', borderColor:'grey',
-                  borderBottomWidth: 1}}>
-                   <Text style={{fontSize: 20, fontWeight: '500', color: '#323232', marginTop: 20, textAlign: 'justify'}}>Location</Text>
-                   <Text numberOfLines={3} style={{fontSize: 15, fontWeight: '300', color: '#4E4E4E' , marginTop: 20}}>{activityObject.activityLocation}</Text>
-                   <MapView
-                     style={{height: 200, width: 350, marginTop: 20, marginBottom: 20}}
-                     initialRegion={{
-                       latitude: 37.78825,
-                       longitude: -122.4324,
-                       latitudeDelta: 0.0922,
-                       longitudeDelta: 0.0421,
-                     }}
-                   />
-                 </View>
-
-                 <View style={{flex:1, marginTop: 20}}>
-                   <View style={{flex:1, backgroundColor: 'white', height: 100, justifyContent: 'center'}}>
-                   <Text style={{fontSize: 20, fontWeight: '500', color: '#323232', marginTop: 20}}>Notes</Text>
-                   <Text numberOfLines={3} style={{fontSize: 15, fontWeight: '300', color: '#323232' , marginTop: 20,textAlign: 'justify'}}>We invite only athletes with experience
-                    running 3 miles of more averaging an 8 minute mile pace.</Text>
-                   </View>
-               </View>
-               </View>
-             </ScrollView>
-             </View>
-             </Swiper>
-
-           </View>
          </Swiper>
 ) : null}
        </View>

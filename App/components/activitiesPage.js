@@ -9,6 +9,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as actionCreators from '../actions/initialAction';
 import * as loginAction from '../actions/loginAction';
+const { BlurView } = require('react-native-blur');
 
 import DetailEvent from './detailEventProfile'
 
@@ -142,10 +143,12 @@ class ActivitiesPage extends Component {
                   dataSource = {dataSourcePrev}
                   renderRow={(val) =>
                     <TouchableOpacity onPress={this.press.bind(this, val)}>
+
                     <Image source={{uri: 'https://iso.500px.com/wp-content/uploads/2016/04/STROHL__ST_1204-Edit-1500x1000.jpg'}} resizeMode="stretch" style={{width:350, height:400, marginRight: 10, justifyContent:'flex-end', alignItems:'flex-start', padding: 10}}>
                     <Text style={{backgroundColor:'rgba(0,0,0,0)', textAlign:'center', color:'#fff', fontSize:25, fontWeight:'700', marginLeft: 10}}>{val.activityTitle}</Text>
                     <Text style={{backgroundColor:'rgba(0,0,0,0)', color:'#fff',fontSize:14, fontWeight:'600', marginLeft: 10}}>Hosted by {val.activityCreator[0].firstName} </Text>
                     </Image>
+
                     </TouchableOpacity>
                   }
                   horizontal = {true}
@@ -154,12 +157,16 @@ class ActivitiesPage extends Component {
                   onEndReached={this.endReached.bind(this)}
                   />
                 </View>
+
                 <View style={{flex: 1, justifyContent: 'flex-start', backgroundColor: '#00A8BE', padding: 10}}>
+
                 <Text style={{fontWeight: '500', fontSize: 25, color: 'white', textAlign: 'left', marginLeft: 10}}>{events.prev(activitiesPageState.category)}</Text>
                 <Text numberOfLines={5} style={{fontSize: 15, fontWeight: '400', color: 'white' , marginTop: 10, textAlign: 'left', marginLeft: 10}}>Enjoy the sights and sounds of local music.
                 Hangout with friends and experience the best talent in your area. Go out and show the world your passion in music.
                 </Text>
+
                 </View>
+
               </View>
             <View style={{flex: 1, paddingTop: 45}}>
                 <View style={{flex: 2, justifyContent: 'center', padding: 0}}>
