@@ -11,13 +11,47 @@ function doneFetching() {
   }
 }
 
+
+export function getMessage(currentUserID) {
+    return dispatch => {
+        dispatch(fetching());
+        console.log('currentUserID in getMessage in messagerAction: ', currentUserID);
+
+        fetch('http://localhost:8080/getNotification', {
+              method: 'POST',
+              headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({
+                userID: currentUserID
+              })
+            }).then((response) => response.json())
+            .then((responseJson) => {
+
+
+                var userObject = [...responseJson];
+                console.log(userObject, ' is the super userObject from getUserNotifications');
+
+                  // socket.emit()
+
+                dispatch(getNotifications(userObject));
+                dispatch(doneFetching())
+            })
+            .catch((err) => {
+              console.log('error: ', err)
+            });
+    };
+}
+
+
 export function sendMessage(currentUserID, friendToAddID) {
     return dispatch => {
         dispatch(fetching());
         console.log('currentUserID in getNewlyAddedFriend in messagerAction: ', currentUserID);
         console.log('friendToAddID in getNewlyAddedFriend in messagerAction: ', friendToAddID);
 
-        fetch('http://localhost:8080/getMessage', {
+        fetch('http://localhost:8080/sendMessage', {
               method: 'POST',
               headers: {
                 'Accept': 'application/json',
@@ -31,8 +65,38 @@ export function sendMessage(currentUserID, friendToAddID) {
             .then((responseJson) => {
 
                 var userObject = [...responseJson];
-                console.log(userObject, "this is in getNewlyAddedFriend")
-                dispatch(getNewFriendComplete(userObject));
+
+
+                dispatch(doneFetching())
+            })
+            .catch((err) => {
+              console.log('error: ', err)
+            });
+    };
+}
+
+export function receiveMessage(currentUserID, friendToAddID) {
+    return dispatch => {
+        dispatch(fetching());
+        console.log('currentUserID in getNewlyAddedFriend in messagerAction: ', currentUserID);
+        console.log('friendToAddID in getNewlyAddedFriend in messagerAction: ', friendToAddID);
+
+        fetch('http://localhost:8080/receiveMessage', {
+              method: 'POST',
+              headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({
+                toUserID: currentUserID,
+                fromUserID: friendToAddID
+              })
+            }).then((response) => response.json())
+            .then((responseJson) => {
+
+                var userObject = [...responseJson];
+
+
                 dispatch(doneFetching())
             })
             .catch((err) => {
@@ -73,38 +137,6 @@ function getNewFriendComplete(userconnection) {
     return {
         type: 'GET_NEWLYADDEDFRIEND',
         userconnection
-    };
-}
-
-export function getMessage(currentUserID) {
-    return dispatch => {
-        dispatch(fetching());
-        console.log('currentUserID in getMessage in messagerAction: ', currentUserID);
-
-        fetch('http://localhost:8080/getNotification', {
-              method: 'POST',
-              headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-              },
-              body: JSON.stringify({
-                userID: currentUserID
-              })
-            }).then((response) => response.json())
-            .then((responseJson) => {
-
-
-                var userObject = [...responseJson];
-                console.log(userObject, ' is the super userObject from getUserNotifications');
-
-                  // socket.emit()
-
-                dispatch(getNotifications(userObject));
-                dispatch(doneFetching())
-            })
-            .catch((err) => {
-              console.log('error: ', err)
-            });
     };
 }
 
