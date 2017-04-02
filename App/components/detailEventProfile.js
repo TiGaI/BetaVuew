@@ -118,7 +118,7 @@ class DetailEvent extends Component{
              <View style={{flex: 1, backgroundColor: 'transparent'}}>
 
 
-              <Image source={{uri: 'https://static.pexels.com/photos/2855/landscape-mountains-nature-lake.jpg'}}
+              <Image source={{uri: 'https://iso.500px.com/wp-content/uploads/2016/04/STROHL__ST_1204-Edit-1500x1000.jpg'}}
                 resizeMode = "stretch"
                 style={{flex:1, width:null, height:null, justifyContent:'center', opacity: 0.9, padding: 0}} blurType="light" blurAmount={10}>
                   <BlurView blurType="dark" blurAmount={1} style={{flex: 1}}>
@@ -158,57 +158,73 @@ class DetailEvent extends Component{
              <View style={{flex: 1}}>
              <ScrollView style={{flex:1}}>
 
-               <View style={{flex: 1, padding: 10}}>
-                 <View style={{flex:1}}>
-                   <Text style={{fontSize: 25, fontWeight: '700', color: '#323232', marginTop: 40}}>Activity Description</Text>
-                   <Text numberOfLines={3} style={{fontSize: 15, fontWeight: '300', color: '#4E4E4E' , marginTop: 20, textAlign: 'justify'}}>{activityObject.activityDescription}</Text>
-                 </View>
-                 <Text style={{fontSize: 20, fontWeight: '500', color: '#323232', marginTop: 20, textAlign: 'justify'}}>General Information</Text>
-                 <View style={{flex:1, flexDirection: 'row', marginTop: 20}}>
-                   <View style={{flex:1, backgroundColor: '#00A699', height: 50, justifyContent: 'center', alignItems: 'center',
-                   borderColor: 'transparent', borderStyle: 'solid', borderWidth: 1, borderRadius: 3, marginRight: 5}}>
-                   <Text style={{fontSize: 18, fontWeight: '500', color: 'white'}}>Group Size</Text>
-                   <Text style={{fontSize: 14, fontWeight: '500', color: 'white'}}>{activityObject.activityCapacity}</Text>
-                   </View>
-                   <View style={{flex:1, backgroundColor: '#00A699', height: 50, justifyContent: 'center', alignItems: 'center',
-                 borderColor: 'transparent', borderStyle: 'solid', borderWidth: 1, borderRadius: 3}}>
-                   <Text style={{fontSize: 18, fontWeight: '500', color: 'white'}}>Event Type</Text>
-                   <Text style={{fontSize: 14, fontWeight: '500', color: 'white'}}>{activityObject.typeofRoom}</Text>
-                   </View>
-                 </View>
-
-                 <View style={{flex:1, flexDirection: 'row', borderStyle: 'solid', borderColor:'grey', padding: 20,
-                  borderBottomWidth: 1, borderTopWidth: 1, marginTop: 20}}>
-                   <View style={{flex: 1}}>
-                     <Text style={{fontSize: 15, fontWeight: '400', color: '#323232', textAlign: 'center'}}>Start Time: {activityObject.timeEnd}</Text>
-                   </View>
-                   <View style={{flex: 1}}>
-                     <Text style={{fontSize: 15, fontWeight: '400', color: '#323232',  textAlign: 'center'}}>End Time: {activityObject.timeStart}</Text>
-                   </View>
-                 </View>
-                 <View style={{flex:1, borderStyle: 'solid', borderColor:'grey',
-                  borderBottomWidth: 1}}>
-                   <Text style={{fontSize: 20, fontWeight: '500', color: '#323232', marginTop: 20, textAlign: 'justify'}}>Location</Text>
-                   <Text numberOfLines={3} style={{fontSize: 15, fontWeight: '300', color: '#4E4E4E' , marginTop: 20}}>{activityObject.activityLocation}</Text>
-                   <MapView
-                     style={{height: 200, width: 350, marginTop: 20, marginBottom: 20}}
-                     initialRegion={{
-                       latitude: 37.78825,
-                       longitude: -122.4324,
-                       latitudeDelta: 0.0922,
-                       longitudeDelta: 0.0421,
-                     }}
-                   />
-                 </View>
-
-                 <View style={{flex:1, marginTop: 20}}>
-                   <View style={{flex:1, backgroundColor: 'white', height: 100, justifyContent: 'center'}}>
-                   <Text style={{fontSize: 20, fontWeight: '500', color: '#323232', marginTop: 20}}>Notes</Text>
-                   <Text numberOfLines={3} style={{fontSize: 15, fontWeight: '300', color: '#323232' , marginTop: 20,textAlign: 'justify'}}>We invite only athletes with experience
-                    running 3 miles of more averaging an 8 minute mile pace.</Text>
-                   </View>
+               <View style={{flex: 1, padding: 0}}>
+               <View style={{flex:1, borderStyle: 'solid', borderColor:'grey',
+                borderBottomWidth: 1, paddingTop: 45}}>
+                 <MapView
+                  resizeMode = "stretch"
+                   style={{flex: 1, height: 250, width: null}}
+                   initialRegion={{
+                     latitude: 37.78825,
+                     longitude: -122.4324,
+                     latitudeDelta: 0.0922,
+                     longitudeDelta: 0.0421,
+                   }}
+                 >
+                  <MapView.Marker
+                    coordinate={{latitude: 37.78825,
+                    longitude: -122.4324}}
+                    title={activityObject.activityTitle}
+                 />
+                 </MapView>
+                 <View style={{flex: 1, flexDirection: 'row', backgroundColor: 'white', padding: 10}}>
+                      <View style={{flex: 1, alignItems: 'center'}}>
+                      <Text style={{fontSize: 13, fontWeight: '500', color: '#242424', textAlign: 'justify'}}>Going</Text>
+                      <Icon name='md-contacts' style={{fontSize: 40, color: '#00A8BE'}}/>
+                      <Text style={{fontSize: 11, fontWeight: '500', color: '#242424', textAlign: 'justify'}}>12</Text>
+                      </View>
+                      <View style={{flex: 1, alignItems: 'center'}}>
+                      <Text style={{fontSize: 13, fontWeight: '500', color: '#242424', textAlign: 'justify'}}>Event</Text>
+                      <Icon name='md-calendar' style={{fontSize: 40, color: '#00A8BE'}}/>
+                      <Text style={{fontSize: 11, fontWeight: '500', color: '#242424', textAlign: 'justify'}}>{activityObject.typeofRoom}</Text>
+                      </View>
+                      <View style={{flex: 1, alignItems: 'center'}}>
+                      <Text style={{fontSize: 13, fontWeight: '500', color: '#242424', textAlign: 'justify'}}>Duration</Text>
+                      <Icon name='ios-timer' style={{fontSize: 40, color: '#00A8BE'}}/>
+                      <Text style={{fontSize: 11, fontWeight: '500', color: '#242424', textAlign: 'justify'}}>2 Hours</Text>
+                      </View>
+                      <View style={{flex: 1, alignItems: 'center'}}>
+                      <Text style={{fontSize: 13, fontWeight: '500', color: '#242424', textAlign: 'justify'}}>Capacity</Text>
+                      <Icon name='ios-people' style={{fontSize: 40, color: '#00A8BE'}}/>
+                      <Text style={{fontSize: 11, fontWeight: '500', color: '#242424', textAlign: 'justify'}}>{activityObject.activityCapacity}</Text>
+                      </View>
+                  </View>
                </View>
+               <View style={{flex:1, backgroundColor: 'white', padding: 10, paddingLeft: 30, borderStyle: 'solid', borderColor:'grey',
+                borderBottomWidth: 1}}>
+                 <Text style={{fontSize: 20, fontWeight: '600', color: '#00A8BE'}}>Location</Text>
+                 <Text numberOfLines={3} style={{fontSize: 14, fontWeight: '400', color: '#242424'}}>{activityObject.activityLocation}</Text>
                </View>
+              <View style={{flex:1, backgroundColor: 'white', padding: 10, paddingLeft: 30, borderStyle: 'solid', borderColor:'grey',
+               borderBottomWidth: 1}}>
+                <Text style={{fontSize: 20, fontWeight: '600', color: '#00A8BE'}}>Activity Description</Text>
+                <Text numberOfLines={3} style={{fontSize: 14, fontWeight: '400', color: '#242424' ,textAlign: 'justify'}}>{activityObject.activityDescription}</Text>
+              </View>
+              <View style={{flex:1, backgroundColor: 'white', padding: 10, paddingLeft: 30, borderStyle: 'solid', borderColor:'grey',
+               borderBottomWidth: 1}}>
+                <Text style={{fontSize: 20, fontWeight: '600', color: '#00A8BE'}}>Date & Time</Text>
+                <Text style={{fontSize: 14, fontWeight: '400', color: '#242424', textAlign: 'left'}}>Begins: {activityObject.timeStart}</Text>
+                <Text style={{fontSize: 14, fontWeight: '400', color: '#242424',  textAlign: 'left'}}>Ends: {activityObject.timeEnd}</Text>
+              </View>
+              <View style={{flex:1, backgroundColor: 'white', padding: 10, paddingLeft: 30, borderStyle: 'solid', borderColor:'grey',
+               borderBottomWidth: 1}}>
+                <Text style={{fontSize: 20, fontWeight: '600', color: '#00A8BE'}}>Notes</Text>
+                <Text style={{fontSize: 14, fontWeight: '400', color: '#242424', textAlign: 'left'}}>Notes about the event, for example,
+                health or safety precautions. </Text>
+              </View>
+
+
+              </View>
              </ScrollView>
              </View>
              </Swiper>
@@ -231,14 +247,14 @@ class DetailEvent extends Component{
 
                      <View style={{flex: 1, flexDirection: 'row'}}>
                        <TouchableOpacity style={{flex: 1}} onPress={this.addFriend.bind(this)}>
-                       <View style={{flex: 1, backgroundColor: '#00A8BE', alignItems: 'center', padding: 15,
-                        margin: 10, borderRadius: 35}}>
+                       <View style={{flex: 1, backgroundColor: '#00A8BE', alignItems: 'center', padding: 10,
+                        margin: 10, borderRadius: 5}}>
                         <Text style={{color: 'white', fontWeight: '500', letterSpacing: 1}}>FOLLOW</Text>
                         </View>
                          </TouchableOpacity>
                          <TouchableOpacity style={{flex: 1}} >
-                         <View style={{flex: 1, backgroundColor: 'white', alignItems: 'center', padding: 15,
-                       borderColor: '#00A8BE', borderStyle: 'solid', borderWidth: 2, margin: 10,  borderRadius: 35, marginLeft: -5}}>
+                         <View style={{flex: 1, backgroundColor: 'white', alignItems: 'center', padding: 10,
+                       borderColor: '#00A8BE', borderStyle: 'solid', borderWidth: 2, margin: 10,  borderRadius: 5, marginLeft: -5}}>
                        <Text style={{color: '#00A8BE',
                        fontWeight: '500', letterSpacing: 1}}>MESSAGE</Text>
                        </View>
@@ -265,9 +281,6 @@ class DetailEvent extends Component{
                    <View style={{flex: 1, flexDirection: 'row'}}>
                      <TouchableOpacity style={{flex: 1}} onPress={this.border}>
                        <View style={{flex: 1, margin: 10, marginTop: 20}}><Text style={{fontSize: 12, color: 'grey', textAlign: 'center'}}>MY EVENTS</Text></View>
-                     </TouchableOpacity>
-                     <TouchableOpacity style={{flex: 1}} onPress={this.border}>
-                       <View style={{flex: 1, margin: 10, marginTop: 20}}><Text style={{fontSize: 12, color: 'grey', textAlign: 'center'}}>VIDEOS</Text></View>
                      </TouchableOpacity>
                      <TouchableOpacity style={{flex: 1}} onPress={this.border}>
                        <View style={{flex: 1, margin: 10, marginTop: 20}}><Text style={{fontSize: 12, color: 'grey', textAlign: 'center'}}>IMAGES</Text></View>
