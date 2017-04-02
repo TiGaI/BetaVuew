@@ -17,16 +17,20 @@ class FriendsList extends Component{
     super(props);
     this.props.messagerActions.getRecentlyAddedFriend(this.props.profile.userObject._id)
   }
-  GetMessage(toUserID){
-    this.props.navigator.push({
-      component: Message,
-      backButtonTitle: 'Chat'
-    });
+  GetMessage(toUserObject){
+    console.log('inside friendlist of toUserObject: ', toUserObject)
+    this.props.messagerActions.getMessage(this.props.profile.userObject._id, toUserObject)
   }
   render(){
     // const dataSource2 = ds.cloneWithRows(favs);
     const userconnection = this.props.message.userconnection;
     console.log(this.props)
+    if(this.props.message.chatingUser){
+      this.props.navigator.push({
+        component: Message,
+        backButtonTitle: 'Chat'
+      });
+    }
     if(userconnection.length > 0){
       var ds = new ListView.DataSource({rowHasChanged: (r1,r2) => r1 !== r2});
       var dataSource = ds.cloneWithRows(userconnection);
@@ -42,7 +46,7 @@ class FriendsList extends Component{
                   <ListView
                   dataSource = {dataSource}
                   renderRow={(rowData) =>
-                    <TouchableOpacity onPress={this.GetMessage.bind(this)}>
+                    <TouchableOpacity onPress={this.GetMessage.bind(this, rowData)}>
                     <Image source={{uri: rowData.profileImg}} resizeMode="stretch"
                     style={{width:80, height:80, marginRight: 10, marginTop: 10, borderRadius: 40, borderWidth: 3, borderColor: 'white',justifyContent:'flex-end', alignItems:'center', padding: 15}}>
                     </Image>

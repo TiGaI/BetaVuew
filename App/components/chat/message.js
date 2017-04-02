@@ -11,8 +11,10 @@ import CustomActions from './CustomActions';
 import CustomView from './CustomView';
 
 import { bindActionCreators } from 'redux';
-import * as actionCreators from '../../actions/initialAction';
+import * as messagerAction from '../../actions/messagerAction';
 import { connect } from 'react-redux';
+import SocketIOClient from 'socket.io-client';
+
 
 class Message extends Component{
   constructor(props) {
@@ -23,6 +25,11 @@ class Message extends Component{
     typingText: null,
     isLoadingEarlier: false,
   };
+  this.socket = SocketIOClient('http://localhost:8080', {
+      transports: ['websocket']
+    });
+  this.socket.on('message', this.onReceivedMessage);
+  this.determineUser();
 
   this._isMounted = false;
   this.onSend = this.onSend.bind(this);
@@ -31,21 +38,86 @@ class Message extends Component{
   this.renderBubble = this.renderBubble.bind(this);
   this.renderFooter = this.renderFooter.bind(this);
   this.onLoadEarlier = this.onLoadEarlier.bind(this);
-
   this._isAlright = null;
 }
-
+determineUser(){
+  if (this.props.profile.userObject._id) {
+      this.socket.emit('userJoined', this.props.profile.userObject._id);
+  } else {
+      this.socket.emit('userJoined', null);
+  }
+}
 componentWillMount() {
   this._isMounted = true;
+
+
+  console.log('messagesForThisChat is ', this.props)
+
+var messagesForThisChat = this.props.message.message.map((x) => {
+if(x.fromUser == this.props.profile.userObject._id){
+  return {_id: x._id, text: x.body,
+        createdAt: x.dateCreated,
+        user: {_id: 2,
+        name: this.props.message.chatingUser.firstName + ' ' + this.props.message.chatingUser.lastName,
+        avatar: this.props.message.chatingUser.profileImg }}
+}else{
+  return {_id: x._id, text: x.body, createdAt: x.dateCreated,
+            user: {_id: 1,
+            name: this.props.profile.userObject.firstName + ' ' + this.props.profile.userObject.lastName,
+            avatar: this.props.profile.userObject.profileImg },
+            sent: true,
+            received: true}
+}
+
+});
+
   this.setState(() => {
     return {
-      messages: require('./data/messages.js'),
+      messages: messagesForThisChat,
     };
   });
 }
 
+//
+// {
+//   _id: Math.round(Math.random() * 1000000),
+//   text: 'Are you building a chat app?',
+//   createdAt: new Date(Date.UTC(2016, 7, 30, 17, 20, 0)),
+//   user: {
+//     _id: 2,
+//     name: 'React Native',
+//   },
+// },
 componentWillUnmount() {
   this._isMounted = false;
+}
+componentDidMount(){
+
+this.socket.on(this.props.profile.userObject._id, function(messageObject){
+console.log("receiving message: ", messageObject)
+
+    if(messageObject.fromUserID == this.props.message.chatingUser._id){
+        this.onReceive(messageObject);
+    }
+
+  })
+}
+
+onReceive(messageObject) {
+  this.setState((previousState) => {
+    return {
+      messages: GiftedChat.append(previousState.messages, {
+        _id: messageObject._id,
+        text: messageObject.body,
+        createdAt: new Date(),
+        user: {
+          _id: 2,
+          name: this.props.message.chatingUser.firstName + ' ' + this.props.message.chatingUser.lastName,
+          avatar: this.props.message.chatingUser.profileImg,
+        },
+      }),
+    };
+  });
 }
 
 onLoadEarlier() {
@@ -69,67 +141,43 @@ onLoadEarlier() {
 }
 
 onSend(messages = []) {
+  //save in the database
+  this.props.messagerActions.sendMessage(this.props.profile.userObject._id, this.props.message.chatingUser._id, messages)
+  //appending message on the client side
   this.setState((previousState) => {
     return {
-      messages: GiftedChat.append(previousState.messages, messages),
+      messages: GiftedChat.append(previousState.messages,  messages)
     };
   });
+  var message = {toUserID:  this.props.message.chatingUser._id,
+                  fromUserID: this.props.profile.userObject._id,
+                  body: messages}
+  //emitting messages
+  this.socket.emit('sendMessage', message)
 
-  // for demo purpose
-  this.answerDemo(messages);
+
 }
 
-answerDemo(messages) {
-  if (messages.length > 0) {
-    if ((messages[0].image || messages[0].location) || !this._isAlright) {
-      this.setState((previousState) => {
-        return {
-          typingText: 'React Native is typing'
-        };
-      });
-    }
-  }
+// answerDemo(messages) {
+//   if (messages.length > 0) {
+//     if ((messages[0].image || messages[0].location) || !this._isAlright) {
+//       this.setState((previousState) => {
+//         return {
+//           typingText: 'React Native is typing'
+//         };
+//       });
+//     }
+//   }
+//
+//
+//     this.setState((previousState) => {
+//       return {
+//         typingText: null,
+//       };
+//     });
+//   }, 1000);
+// }
 
-  setTimeout(() => {
-    if (this._isMounted === true) {
-      if (messages.length > 0) {
-        if (messages[0].image) {
-          this.onReceive('Nice picture!');
-        } else if (messages[0].location) {
-          this.onReceive('My favorite place');
-        } else {
-          if (!this._isAlright) {
-            this._isAlright = true;
-            this.onReceive('Alright');
-          }
-        }
-      }
-    }
-
-    this.setState((previousState) => {
-      return {
-        typingText: null,
-      };
-    });
-  }, 1000);
-}
-
-onReceive(text) {
-  this.setState((previousState) => {
-    return {
-      messages: GiftedChat.append(previousState.messages, {
-        _id: Math.round(Math.random() * 1000000),
-        text: text,
-        createdAt: new Date(),
-        user: {
-          _id: 2,
-          name: 'React Native',
-          // avatar: 'https://facebook.github.io/react/img/logo_og.png',
-        },
-      }),
-    };
-  });
-}
 
 renderCustomActions(props) {
   if (Platform.OS === 'ios') {
@@ -198,11 +246,9 @@ render() {
       loadEarlier={this.state.loadEarlier}
       onLoadEarlier={this.onLoadEarlier}
       isLoadingEarlier={this.state.isLoadingEarlier}
-
       user={{
-        _id: 1, // sent messages should have same user._id
+        _id: 1,
       }}
-
       renderActions={this.renderCustomActions}
       renderBubble={this.renderBubble}
       renderCustomView={this.renderCustomView}
@@ -221,9 +267,9 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-	return {
-		dispatch
-	};
+    return {
+        messagerActions: bindActionCreators(messagerAction, dispatch)
+    };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Message);

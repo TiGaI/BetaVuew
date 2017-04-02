@@ -11,9 +11,10 @@ export function messageReducer(state = {
         return Object.assign({}, state, {
             userconnection: action.userconnection
         });
-    case 'GET_MYMESSAGE':
+    case 'GET_MESSAGES':
           return Object.assign({}, state, {
-              notifications: action.notifications
+              message: action.messagesArray,
+              chatingUser: action.chattinguserObject
           });
     case "FETCHING_DATA":
       return Object.assign({}, state, {
@@ -23,10 +24,7 @@ export function messageReducer(state = {
           return Object.assign({}, state, {
             fetchingData: false
     })
-    case "CHATTING_USER":
-          return Object.assign({}, state, {
-            chatingUser: action.chattinguserObject
-          })
+
     default:
         return state;
     }

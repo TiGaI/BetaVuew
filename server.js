@@ -4,7 +4,7 @@ const express = require('express');
 const path = require('path');
 const app = express();
 const http = require('http').Server(app);
-// const io = require('socket.io')(http);
+const io = require('socket.io')(http);
 const bodyParser = require('body-parser')
 
 const mongoose = require('mongoose');
@@ -31,28 +31,42 @@ app.use('/', activityRoute);
 app.use('/', actionRoute);
 app.use('/', messageRoute);
 
+var userIDs = {};
+
+io.on('connection', function(socket) {
+  console.log('connected');
+  var socketUser;
+
+  socket.on('userJoined', function(userID) {
+    console.log(userID)
+
+    try {
+      console.log('adding user', userID);
+      socket.userID = userID;
+      userIDs[userID] = userID;
+    } catch ( e ) {
+      console.log("error in userJoined Socket!", e)
+    }
+  });
+
+  socket.on('sendMessage', function(messageObject){
+
+      console.log(messageObject);
+
+      socket.emit(messageObject.toUserID, messageObject)
+  })
+
+  socket.on('typing', function(){
+
+  })
+
+  socket.on('stop typing', function(){
+
+  })
+});
+
+
 var port = process.env.PORT || 8080;
 http.listen(port, function() {
   console.log('Express started. Listening on %s', port);
 });
-
-// io.on('connection', function(socket) {
-//   console.log('connected');
-//   var interactions = interactionsConstructor(socket, game);
-//   var socketUser; //the user who sent whatever event is being handled in here //TODO refactor to use
-//
-//   socket.on('username', function(username) {
-//     console.log(username)
-//     try {
-//       var id = game.addPlayer(username);
-//       console.log("after add " + username + " game is", game.players);
-//       socket.playerId = id;
-//       socketUser = username;
-//       socket.broadcast.emit('newUser', username);
-//     } catch ( e ) {
-//       socket.emit('username', false);
-//       console.error(e);
-//       socket.emit("errorMessage", e);
-//     }
-//   });
-// });
