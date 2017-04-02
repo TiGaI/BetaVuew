@@ -76,6 +76,8 @@ if(x.fromUser == this.props.profile.userObject._id){
       messages: messagesForThisChat,
     };
   });
+
+  this._isMounted = false;
 }
 
 //
@@ -88,9 +90,6 @@ if(x.fromUser == this.props.profile.userObject._id){
 //     name: 'React Native',
 //   },
 // },
-componentWillUnmount() {
-  this._isMounted = false;
-}
 componentDidMount(){
 
 this.socket.on(this.props.profile.userObject._id, function(messageObject){
