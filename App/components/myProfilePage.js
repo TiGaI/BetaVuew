@@ -103,17 +103,17 @@ class ProfilePage extends Component{
                       <View style={{flex:1, flexDirection: 'row'}}>
                         <View style={{flex: 1, backgroundColor: 'white', alignItems: 'center', padding: 10,
                       borderColor: 'lightgrey', borderStyle: 'solid', borderWidth: 1, borderLeftWidth: 0, borderRightWidth: 0,marginLeft: 10}}>
-                          <Text>1.1m</Text>
+                          <Text>{userObject.connections.length}</Text>
                           <Text style={{fontSize: 12, color: 'grey'}}>FOLLOWERS</Text>
                         </View>
                         <View style={{flex: 1, backgroundColor: 'white', alignItems: 'center', padding: 10,
                       borderColor: 'lightgrey', borderStyle: 'solid', borderWidth: 1}}>
-                          <Text>2.6k</Text>
+                          <Text>{userObject.activities.length}</Text>
                           <Text style={{fontSize: 12, color: 'grey'}}>EVENTS</Text>
                         </View>
                         <View style={{flex: 1, backgroundColor: 'white', alignItems: 'center', padding: 10,
                       borderColor: 'lightgrey', borderStyle: 'solid', borderWidth: 1, borderRightWidth: 0, borderLeftWidth: 0, marginRight: 10}}>
-                          <Text>2k</Text>
+                          <Text>{userObject.connections.length}</Text>
                           <Text style={{fontSize: 12, color: 'grey'}}>FOLLOWING</Text>
                         </View>
                       </View>
@@ -121,9 +121,6 @@ class ProfilePage extends Component{
                     <View style={{flex: 1, flexDirection: 'row'}}>
                       <TouchableOpacity style={{flex: 1}} onPress={this.border}>
                         <View style={{flex: 1, margin: 10, marginTop: 20}}><Text style={{fontSize: 12, color: 'grey', textAlign: 'center'}}>MY EVENTS</Text></View>
-                      </TouchableOpacity>
-                      <TouchableOpacity style={{flex: 1}} onPress={this.border}>
-                        <View style={{flex: 1, margin: 10, marginTop: 20}}><Text style={{fontSize: 12, color: 'grey', textAlign: 'center'}}>VIDEOS</Text></View>
                       </TouchableOpacity>
                       <TouchableOpacity style={{flex: 1}} onPress={this.border}>
                         <View style={{flex: 1, margin: 10, marginTop: 20}}><Text style={{fontSize: 12, color: 'grey', textAlign: 'center'}}>IMAGES</Text></View>

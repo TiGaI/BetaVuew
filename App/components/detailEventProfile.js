@@ -14,6 +14,7 @@ import { bindActionCreators } from 'redux';
 import * as actionCreators from '../actions/initialAction';
 import * as loginCreators from '../actions/loginAction';
 import { connect } from 'react-redux';
+import { BlurView } from 'react-native-blur';
 
 var image5 = {uri: 'https://www.thisiscolossal.com/wp-content/uploads/2016/03/finger-4.jpg'}
 var image4 = {uri: 'https://cdn.playbuzz.com/cdn/b19cddd2-1b79-4679-b6d3-1bf8d7235b89/93794aec-3f17-47a4-8801-a2716a9c4598_560_420.jpg'}
@@ -78,6 +79,7 @@ class DetailEvent extends Component{
 
     const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
     const dataSource = ds.cloneWithRows([]);
+    const dataSource2 = ds.cloneWithRows(favs);
 
    console.log('AYYYYYYYYYYYYEEEEEE', this.props.activitiesPageState )
 
@@ -107,86 +109,6 @@ class DetailEvent extends Component{
            showsPagination={false}
            index={0}>
 
-           <Swiper
-             horizontal={false}
-             loop={false}
-             showsPagination={false}
-             index={0}>
-
-             <View style={this.viewStyle()}>
-               <Container>
-                 <Content>
-                   <View style={styles.profileBox}>
-                     <Thumbnail style={{marginTop: 50, height: 100, width: 100, borderRadius: 50}} source={{uri: selectedActivityOwner.profileImg }} />
-                     <Text style={{textAlign: 'center', fontWeight: '400', fontSize: 25, marginTop: 5}}>{selectedActivityOwner.firstName + " " + selectedActivityOwner.lastName}</Text>
-
-                     <View style={{flex: 1, flexDirection: 'row'}}>
-                       <TouchableOpacity style={{flex: 1}} onPress={this.addFriend.bind(this)}>
-                       <View style={{flex: 1, backgroundColor: '#00A8BE', alignItems: 'center', padding: 15,
-                        margin: 10, borderRadius: 35}}>
-                        <Text style={{color: 'white', fontWeight: '500', letterSpacing: 1}}>FOLLOW</Text>
-                        </View>
-                         </TouchableOpacity>
-                         <TouchableOpacity style={{flex: 1}} >
-                         <View style={{flex: 1, backgroundColor: 'white', alignItems: 'center', padding: 15,
-                       borderColor: '#00A8BE', borderStyle: 'solid', borderWidth: 2, margin: 10,  borderRadius: 35, marginLeft: -5}}>
-                       <Text style={{color: '#00A8BE',
-                       fontWeight: '500', letterSpacing: 1}}>MESSAGE</Text>
-                       </View>
-                     </TouchableOpacity>
-                     </View>
-                     <View style={{flex:1, flexDirection: 'row'}}>
-                       <View style={{flex: 1, backgroundColor: 'white', alignItems: 'center', padding: 10,
-                     borderColor: 'lightgrey', borderStyle: 'solid', borderWidth: 1, borderLeftWidth: 0, borderRightWidth: 0,marginLeft: 10}}>
-                         <Text>236</Text>
-                         <Text style={{fontSize: 12, color: 'grey'}}>FOLLOWERS</Text>
-                       </View>
-                       <View style={{flex: 1, backgroundColor: 'white', alignItems: 'center', padding: 10,
-                     borderColor: 'lightgrey', borderStyle: 'solid', borderWidth: 1}}>
-                         <Text>23.6k</Text>
-                         <Text style={{fontSize: 12, color: 'grey'}}>EVENTS</Text>
-                       </View>
-                       <View style={{flex: 1, backgroundColor: 'white', alignItems: 'center', padding: 10,
-                     borderColor: 'lightgrey', borderStyle: 'solid', borderWidth: 1, borderRightWidth: 0, borderLeftWidth: 0, marginRight: 10}}>
-                         <Text>2.8k</Text>
-                         <Text style={{fontSize: 12, color: 'grey'}}>FOLLOWING</Text>
-                       </View>
-                     </View>
-                   </View>
-                   <View style={{flex: 1, flexDirection: 'row'}}>
-                     <TouchableOpacity style={{flex: 1}} onPress={this.border}>
-                       <View style={{flex: 1, margin: 10, marginTop: 20}}><Text style={{fontSize: 12, color: 'grey', textAlign: 'center'}}>MY EVENTS</Text></View>
-                     </TouchableOpacity>
-                     <TouchableOpacity style={{flex: 1}} onPress={this.border}>
-                       <View style={{flex: 1, margin: 10, marginTop: 20}}><Text style={{fontSize: 12, color: 'grey', textAlign: 'center'}}>VIDEOS</Text></View>
-                     </TouchableOpacity>
-                     <TouchableOpacity style={{flex: 1}} onPress={this.border}>
-                       <View style={{flex: 1, margin: 10, marginTop: 20}}><Text style={{fontSize: 12, color: 'grey', textAlign: 'center'}}>IMAGES</Text></View>
-                     </TouchableOpacity>
-                   </View>
-                   <View style={{flex:1, padding: 20, marginTop:-10}}>
-                     <ListView
-                     dataSource = {ds.cloneWithRows(selectedActivityOwner.activities)}
-                     renderRow={(rowData) =>
-                       <TouchableOpacity >
-                       <Image source={{uri: 'https://iso.500px.com/wp-content/uploads/2016/04/STROHL__ST_1204-Edit-1500x1000.jpg'}} resizeMode="stretch"
-                       style={{width:200, height:200, marginRight: 10, justifyContent:'flex-end', alignItems:'flex-start', padding: 15}}>
-                       </Image>
-                       <Text style={{backgroundColor:'rgba(0,0,0,0)', textAlign:'left', color:'black', fontSize:15, fontWeight:'500'}}>{rowData.activityTitle}</Text>
-                       </TouchableOpacity>
-                     }
-                     horizontal = {true}
-                     showsHorizontalScrollIndicator = {false}
-                     onEndReachedThreshold = {500}
-                     />
-
-                   </View>
-                 </Content>
-               </Container>
-             </View>
-           </Swiper>
-
-
            <View style={{flex: 1}}>
            <Swiper
              horizontal={false}
@@ -194,20 +116,43 @@ class DetailEvent extends Component{
              showsPagination={false}
              index={0}>
              <View style={{flex: 1, backgroundColor: 'transparent'}}>
-                   <Image source={{uri: 'https://iso.500px.com/wp-content/uploads/2016/04/STROHL__ST_1204-Edit-1500x1000.jpg'}}
-                     resizeMode = "stretch"
-                     style={{flex:3, alignItems:'center', width:null, height:null, justifyContent:'center'}}>
-                   </Image>
-                   <View style={{flex: 1, padding: 20, margin: 0}}>
-                   <ScrollView style={{flex: 1}}>
-                     <View style={{flex: 1}}>
-                       <Text style={{fontSize: 25, fontWeight: '700', color: '#323232', textAlign: 'left'}}>{activityObject.activityTitle}</Text>
-                     </View>
-                     <View style={{flex: 1}}>
-                       <Text style={{fontSize: 15, fontWeight: '300', color: '#4E4E4E', textAlign: 'left', marginTop: 10}}>{activityObject.activityDescription}</Text>
-                     </View>
-                   </ScrollView>
-                   </View>
+
+
+              <Image source={{uri: 'https://static.pexels.com/photos/2855/landscape-mountains-nature-lake.jpg'}}
+                resizeMode = "stretch"
+                style={{flex:1, width:null, height:null, justifyContent:'center', opacity: 0.9, padding: 0}} blurType="light" blurAmount={10}>
+                  <BlurView blurType="dark" blurAmount={1} style={{flex: 1}}>
+                  <View style={{flex: 1, justifyContent: 'flex-start', padding: 20, marginTop: 40}}>
+                    <Text style={{fontSize: 15, fontWeight: '400', color: 'white', textAlign: 'left', letterSpacing:1}}>EVENTS</Text>
+                    <Text style={{fontSize: 25, fontWeight: '600', color: '#BEBEBE', textAlign: 'left', marginTop: 10}}>San Francisco, CA</Text>
+                  </View>
+                  <View style={{flex: 2, justifyContent: 'flex-start', padding: 20}}>
+                    <Text style={{fontSize: 50, fontWeight: '700', color: 'white', textAlign: 'left', opacity: 1}}>{activityObject.activityTitle}</Text>
+                    <Text style={{fontSize: 20, fontWeight: '400', color: 'white', textAlign: 'left', marginTop: 10}}>{activityObject.activityDescription}</Text>
+                  <Text style={{fontSize: 20, fontWeight: '400', color: 'white', textAlign: 'left', marginTop: 10}}>Location: {activityObject.activityLocation}</Text>
+                  <Text style={{backgroundColor:'rgba(0,0,0,0)', textAlign:'left', color:'white', marginTop: 50, fontSize:13, fontWeight:'300'}}>People going to this event</Text>
+                  <ListView
+                  dataSource = {dataSource2}
+                  renderRow={(rowData) =>
+                    <TouchableOpacity>
+                    <Image source={rowData.image} resizeMode="stretch"
+                    style={{width:50, height:50, marginRight: 10, marginTop: 10, borderRadius: 25, borderWidth: 2, borderColor: 'white',justifyContent:'flex-end', alignItems:'center', padding: 15}}>
+                    </Image>
+                    <Text style={{backgroundColor:'rgba(0,0,0,0)', textAlign:'center', color:'white', marginRight: 10, fontSize:10, fontWeight:'500'}}>{rowData.name}</Text>
+                    </TouchableOpacity>
+                  }
+                  horizontal = {true}
+                  />
+                  </View>
+                  <View style={{flex: 1, justifyContent: 'flex-end', marginBottom: 20}}>
+                    <Icon name="ios-arrow-down" style={{fontSize: 40, color: 'white', fontWeight: '800', textAlign: 'center'}}/>
+                    <Text style={{fontSize: 20, fontWeight: '700', color: 'white', textAlign: 'left', opacity: 1, textAlign: 'center', marginBottom: 50}}>Details</Text>
+                  </View>
+                  </BlurView>
+              </Image>
+
+
+
             </View>
 
              <View style={{flex: 1}}>
@@ -269,6 +214,89 @@ class DetailEvent extends Component{
              </Swiper>
 
            </View>
+
+
+           <Swiper
+             horizontal={false}
+             loop={false}
+             showsPagination={false}
+             index={1}>
+
+             <View style={this.viewStyle()}>
+               <Container>
+                 <Content>
+                   <View style={styles.profileBox}>
+                     <Thumbnail style={{marginTop: 50, height: 100, width: 100, borderRadius: 50}} source={{uri: selectedActivityOwner.profileImg }} />
+                     <Text style={{textAlign: 'center', fontWeight: '400', fontSize: 25, marginTop: 5}}>{selectedActivityOwner.firstName + " " + selectedActivityOwner.lastName}</Text>
+
+                     <View style={{flex: 1, flexDirection: 'row'}}>
+                       <TouchableOpacity style={{flex: 1}} onPress={this.addFriend.bind(this)}>
+                       <View style={{flex: 1, backgroundColor: '#00A8BE', alignItems: 'center', padding: 15,
+                        margin: 10, borderRadius: 35}}>
+                        <Text style={{color: 'white', fontWeight: '500', letterSpacing: 1}}>FOLLOW</Text>
+                        </View>
+                         </TouchableOpacity>
+                         <TouchableOpacity style={{flex: 1}} >
+                         <View style={{flex: 1, backgroundColor: 'white', alignItems: 'center', padding: 15,
+                       borderColor: '#00A8BE', borderStyle: 'solid', borderWidth: 2, margin: 10,  borderRadius: 35, marginLeft: -5}}>
+                       <Text style={{color: '#00A8BE',
+                       fontWeight: '500', letterSpacing: 1}}>MESSAGE</Text>
+                       </View>
+                     </TouchableOpacity>
+                     </View>
+                     <View style={{flex:1, flexDirection: 'row'}}>
+                       <View style={{flex: 1, backgroundColor: 'white', alignItems: 'center', padding: 10,
+                     borderColor: 'lightgrey', borderStyle: 'solid', borderWidth: 1, borderLeftWidth: 0, borderRightWidth: 0,marginLeft: 10}}>
+                         <Text>{selectedActivityOwner.connections.length}</Text>
+                         <Text style={{fontSize: 12, color: 'grey'}}>FOLLOWERS</Text>
+                       </View>
+                       <View style={{flex: 1, backgroundColor: 'white', alignItems: 'center', padding: 10,
+                     borderColor: 'lightgrey', borderStyle: 'solid', borderWidth: 1}}>
+                         <Text>{selectedActivityOwner.activities.length}</Text>
+                         <Text style={{fontSize: 12, color: 'grey'}}>EVENTS</Text>
+                       </View>
+                       <View style={{flex: 1, backgroundColor: 'white', alignItems: 'center', padding: 10,
+                     borderColor: 'lightgrey', borderStyle: 'solid', borderWidth: 1, borderRightWidth: 0, borderLeftWidth: 0, marginRight: 10}}>
+                         <Text>{selectedActivityOwner.connections.length}</Text>
+                         <Text style={{fontSize: 12, color: 'grey'}}>FOLLOWING</Text>
+                       </View>
+                     </View>
+                   </View>
+                   <View style={{flex: 1, flexDirection: 'row'}}>
+                     <TouchableOpacity style={{flex: 1}} onPress={this.border}>
+                       <View style={{flex: 1, margin: 10, marginTop: 20}}><Text style={{fontSize: 12, color: 'grey', textAlign: 'center'}}>MY EVENTS</Text></View>
+                     </TouchableOpacity>
+                     <TouchableOpacity style={{flex: 1}} onPress={this.border}>
+                       <View style={{flex: 1, margin: 10, marginTop: 20}}><Text style={{fontSize: 12, color: 'grey', textAlign: 'center'}}>VIDEOS</Text></View>
+                     </TouchableOpacity>
+                     <TouchableOpacity style={{flex: 1}} onPress={this.border}>
+                       <View style={{flex: 1, margin: 10, marginTop: 20}}><Text style={{fontSize: 12, color: 'grey', textAlign: 'center'}}>IMAGES</Text></View>
+                     </TouchableOpacity>
+                   </View>
+                   <View style={{flex:1, padding: 20, marginTop:-10}}>
+                     <ListView
+                     dataSource = {ds.cloneWithRows(selectedActivityOwner.activities)}
+                     renderRow={(rowData) =>
+                       <TouchableOpacity >
+                       <Image source={{uri: 'https://iso.500px.com/wp-content/uploads/2016/04/STROHL__ST_1204-Edit-1500x1000.jpg'}} resizeMode="stretch"
+                       style={{width:200, height:200, marginRight: 10, justifyContent:'flex-end', alignItems:'flex-start', padding: 15}}>
+                       </Image>
+                       <Text style={{backgroundColor:'rgba(0,0,0,0)', textAlign:'left', color:'black', fontSize:15, fontWeight:'500'}}>{rowData.activityTitle}</Text>
+                       </TouchableOpacity>
+                     }
+                     horizontal = {true}
+                     showsHorizontalScrollIndicator = {false}
+                     onEndReachedThreshold = {500}
+                     />
+
+                   </View>
+                 </Content>
+               </Container>
+             </View>
+           </Swiper>
+
+
+
          </Swiper>
 ) : null}
        </View>
