@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react';
+˜import React, { Component, PropTypes } from 'react';
 import { AppRegistry, ScrollView, StyleSheet,
   Text, View, TextInput, TouchableOpacity, NavigatorIOS,
   ListView, Alert, AsyncStorage, TouchableHighlight, ImagePickerIOS, Image } from 'react-native';
@@ -56,16 +56,17 @@ import { AppRegistry, ScrollView, StyleSheet,
   var CreateEvent = React.createClass({
 
     getInitialState() {
+      var photoData;
       return {
         value: {
-          activityTitle: "",
-          activityDescription: "",
-          actvityLocation: "",
-          activityCategory: "",
-          typeofRoom: "",
+          activityTitle: "Template Title",
+          activityDescription: "Template Description",
+          actvityLocation: "Template Location",
+          activityCategory: "Music",
+          typeofRoom: "Public",
           actvityCapacity: 3
         },
-        photoData: null
+        photo: false
       };
     },
 
@@ -81,10 +82,7 @@ import { AppRegistry, ScrollView, StyleSheet,
             type: 'image/jpeg',
             name:  imgTitle
           });
-          var value = this.refs.form.getValue();
-          console.log(value);
-          this.setState({photoData: formData})
-
+          photoData = formData;
           //    fetch('http://localhost:8080/postToS3', {
           //      method: 'POST',
           //      headers: {
@@ -105,78 +103,40 @@ import { AppRegistry, ScrollView, StyleSheet,
       },
 
       onChange(value) {
-        this.setState({value: this.refs.form.getValue()});
-        console.log(this.state.value);
+        this.setState({value});
       },
       onPress: function (){
-        console.log("PHotoData", this.state.photoData)
-        var s3 = function(){
-          console.log("IN S3")
-          return fetch('http://localhost:8080/postToS3', {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'multipart/form-data'
-              },
-              body: this.state.photoData
-            })
-            .then(resp => resp.json())
-            .then(resp => {
-              console.log('success upload', resp.file.location);
-              copy["activityImages"] = [resp.file.location];
-            })
-        }
-        var createActivity = function() {
-          return fetch("http://localhost:8080/createActivity", {
-            method: 'POST',
-            headers: {
-              "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-              activity: copy
-            })
-          })
-        }
-        var doMyShit = function(photoAdded){
-          if (photoAdded){
-            return s3().then(createActivity()).catch((resp => console.log('err upload', resp)));
-          } else {
-            return createActivity().catch((resp => console.log('err upload', resp)));
-          }
-        }
+        console.log("PhotoData", photoData)
         var value = this.refs.form.getValue();
         if (value) {
           var copy = Object.assign({}, value);
           copy["activityCreator"] = this.props.profile.userObject._id
-          var photoAdded = (!!this.state.photoData);
           this.setState({value});
-          doMyShit(photoAdded);
-
+          fetch('http://localhost:8080/postToS3', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'multipart/form-data'
+            },
+            body: photoData
+          })
+          .then(resp => resp.json())
+          .then(resp => {
+            console.log('success upload', resp);
+            copy["activityImages"] = [resp.file.location];
+          }).then(() => {
+            fetch("http://localhost:8080/createActivity", {
+              method: 'POST',
+              headers: {
+                "Content-Type": "application/json"
+              },
+              body:
+              JSON.stringify({
+                activity: copy
+              })
+            })
+            photoData = null;
+          }).catch(resp => console.log('err upload', resp));
         }
-        //   fetch('http://localhost:8080/postToS3', {
-        //     method: 'POST',
-        //     headers: {
-        //       'Content-Type': 'multipart/form-data'
-        //     },
-        //     body: photoData
-        //   })
-        //   .then(resp => resp.json())
-        //   .then(resp => {
-        //     console.log('success upload', resp);
-        //     copy["activityImages"] = [resp.file.location];
-        //   }).then(() => {
-        //     fetch("http://localhost:8080/createActivity", {
-        //       method: 'POST',
-        //       headers: {
-        //         "Content-Type": "application/json"
-        //       },
-        //       body:
-        //       JSON.stringify({
-        //         activity: copy
-        //       })
-        //     })
-        //     photoData = null;
-        //   }).catch(resp => console.log('err upload', resp));
-        // }
         // this.setState({photo: ["defaultimage.jpg"]});
       },
 
@@ -190,8 +150,6 @@ import { AppRegistry, ScrollView, StyleSheet,
           ref="form"
           type={Activity}
           options={options}
-          value={this.state.value}
-          onChange ={this.onChange}
           />
           <TouchableHighlight style={styles.button} onPress={this.pickImage} underlayColor = '#99d9f4'>
           <Text style={styles.buttonText}>Upload Photo</Text>

@@ -1,9 +1,9 @@
 "use strict";
-var express = require('express'),
-aws = require('aws-sdk'),
-bodyParser = require('body-parser'),
-multer = require('multer'),
-multerS3 = require('multer-s3');
+var express = require('express');
+var multer = require('multer');
+var multerS3 = require('multer-s3');
+var aws = new require('aws-sdk');
+var s3 = new aws.S3();
 var router = express.Router();
 
 //model
@@ -11,17 +11,13 @@ const User  = require('../models/models').User;
 const Activity= require('../models/models').Activity;
 
 //settting up S3
-var s3 = new aws.S3();
 var upload = multer({
   storage: multerS3({
     s3: s3,
     bucket: 'newvuew',
-    metadata: function (req, file, cb) {
-      cb(null, {fieldName: file.fieldname});
-    },
-    Key: function (req, file, cb) {
-      // console.log('key', file);
-      cb(null, file.orginalname)
+    key: function (req, file, cb) {
+      console.log('key', file);
+      cb(null, file.originalname)
     }
   })
 });
@@ -47,11 +43,11 @@ router.post('/getMyActivitiesInfo', function(req, res) {
   });
 
 
-router.post('/createActivity', upload.fields([{name: 'file', maxCount: 4},
-  { name: 'video', maxCount: 1}]), function(req, res){
+router.post('/createActivity', upload.single('file'), function(req, res){
 
     var activity = req.body.activity;
     console.log("this is the body: ", activity)
+    console.log("form Data", req.file)
     Activity.findOne({$and: [{activityTitle: req.body.activityTitle},
       {activityCreator: activity.activityCreator}]}, function(err, activityfind) {
       if (err) {
@@ -69,7 +65,7 @@ router.post('/createActivity', upload.fields([{name: 'file', maxCount: 4},
         activityCategory: activity.activityCategory,
         timeStart: activity.timeStart,
         timeEnd: activity.timeEnd,
-        // activityImages: req.files['file'] ? req.files['file'][0].location : '',
+        activityImages: activity.activityImages ? activity.activityImages : ['http://www.bandartigiana.it/bnd/wp-content/uploads/2016/05/default-image.png'],
         // activityVideo: req.files['video'] ? req.files['video'][0].location : '',
         activityLocation: activity.activityLocation,
         interestUser: [],
