@@ -15,8 +15,6 @@ function doneFetching() {
 export function getMessage(currentUserID, friendToAddID){
     return dispatch => {
         dispatch(fetching());
-        console.log('currentUserID in getMessage in messagerAction: ', currentUserID);
-        console.log('friendToAddID in getMessage in messagerAction: ', friendToAddID);
 
         fetch('http://localhost:8080/getMessage', {
               method: 'POST',

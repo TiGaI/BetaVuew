@@ -40,6 +40,13 @@ class FriendsList extends Component{
           backButtonTitle: 'Chat'
         });
     }
+
+    setTimeout(() => {
+    this.props.navigator.push({
+        component: Message,
+        backButtonTitle: 'Chat'
+      });
+    }, 3000)
   }
   render(){
     // const dataSource2 = ds.cloneWithRows(favs);

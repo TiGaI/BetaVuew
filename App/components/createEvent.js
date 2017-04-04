@@ -203,7 +203,6 @@ import { AppRegistry, ScrollView, StyleSheet,
           <TouchableHighlight style={styles.button} onPress={this.onPress} underlayColor='#99d9f4'>
           <Text style={styles.buttonText}>Save</Text>
           </TouchableHighlight>
-
           </ScrollView>
 
           </View>

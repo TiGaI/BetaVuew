@@ -47,7 +47,6 @@ export function getActivities(populatedActivities, category) {
     };
 }
 
-
 export function getNotifications(notifications) {
     return {
         type: 'GET_NOTIFICATIONS',
@@ -102,12 +101,8 @@ export function acceptFriendRequest(currentUserID, friendToAddID, accepted) {
             })
         }).then((response) => response.json())
           .then((responseJson) => {
-            console.log("I am here!");
-            console.log(getUserNotifications)
-            console.log(getUserNotifications(currentUserID))
             getUserNotifications(currentUserID)(dispatch);
             dispatch(doneFetching())
-            console.log('you accepted a friend')
           })
           .catch((err) => {
             console.log('error: ', err)
@@ -136,6 +131,102 @@ export function getUserNotifications(currentUserID) {
                 var userObject = [...responseJson];
                 console.log(userObject, ' is the super userObject from getUserNotifications');
                 dispatch(getNotifications(userObject));
+                dispatch(doneFetching())
+            })
+            .catch((err) => {
+              console.log('error: ', err)
+            });
+    };
+}
+
+export function joinActivity(currentUserID, activityID, activityOwner) {
+
+    return dispatch => {
+        dispatch(fetching());
+        console.log('currentUserID in joinActivity in initialAction: ', currentUserID);
+        console.log('currentUserID in joinActivity in initialAction: ', activityID);
+
+        fetch('http://localhost:8080/joinActivity', {
+              method: 'POST',
+              headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({
+                fromUserID: currentUserID,
+                activityID: activityID,
+                toUserID: activityOwner
+              })
+            }).then((response) => response.json())
+            .then((responseJson) => {
+
+                dispatch(doneFetching())
+            })
+            .catch((err) => {
+              console.log('error: ', err)
+            });
+    };
+}
+
+export function getActivityRequest(currentUserID) {
+
+    return dispatch => {
+        dispatch(fetching());
+        console.log('currentUserID in getActivityRequest in initialAction: ', currentUserID);
+
+        fetch('http://localhost:8080/getActivityRequest', {
+              method: 'POST',
+              headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({
+                userID: currentUserID
+              })
+            }).then((response) => response.json())
+            .then((responseJson) => {
+
+                var activityJoinObject = [...responseJson];
+
+                dispatch(getJoinActivity(activityJoinObject));
+                dispatch(doneFetching())
+            })
+            .catch((err) => {
+              console.log('error: ', err)
+            });
+    };
+}
+
+export function getJoinActivity(joinActivityRequest) {
+    return {
+        type: 'GET_JOINACTIVITY',
+        joinActivityRequest
+    };
+}
+
+export function acceptActivityRequest(currentUserID, approvalUserID, activityID, accepted) {
+
+    return dispatch => {
+        dispatch(fetching());
+        console.log('currentUserID in getActivityRequest in initialAction: ', currentUserID);
+
+        fetch('http://localhost:8080//acceptActivityRequest', {
+              method: 'POST',
+              headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({
+                toUserID: currentUserID,
+                fromUserID: approvalUserID,
+                activityID: activityID,
+                accepted: accepted
+              })
+            }).then((response) => response.json())
+            .then((responseJson) => {
+
+
+                getActivityRequest(currentUserID)(dispatch);
                 dispatch(doneFetching())
             })
             .catch((err) => {

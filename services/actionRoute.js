@@ -62,7 +62,6 @@ router.post('/getNotification', function(req, res){
         }
 
       if(friendRequests){
-
           console.log('hoping this is a array: ', friendRequests)
 
              res.send(friendRequests)
@@ -131,36 +130,97 @@ router.post('/acceptFriendRequest', function(req, res){
 
 router.post('/joinActivity', function(req, res){
 
-    ActivityAction.find({$and: [{toUser: req.body.toUserID},
-      {fromUser: req.body.fromUserID}]}, function(err, friendRequest) {
+    ActivityAction.find({$and: [
+        {toUser: req.body.toUserID},
+        {fromUser: req.body.fromUserID}]}).exec(function(err, activityRequest) {
       if (err) {
-          return {err, friendRequest}
+          return {err, activityRequest}
       }
-    if(!friendRequest){
-      User.find({toUser: req.body.toUserID}, function(err, user){
-        if(user){
-            console('adding a new friend')
-            var newFriend = new ActivityAction({
-              toUser: req.body.toUserID,
-              fromUser: req.body.fromUserID,
-              accepted: false
-            })
-            newFriend.save(function(err){
-              if (err) {
-                res.send(err)
-              } else {
-                console.log('Nice, you send a friend request.')
-              }
-            })
-        }else{
-          console.log("this user does not exist!");
-        }
-      });
+
+    if(activityRequest.length === 0){
+
+        var newMessage = new ActivityAction({
+          fromUser: req.body.fromUserID,
+          toUser: req.boby.toUserID,
+          activity: req.body.activityID,
+          accepted: false
+        })
+
+        newMessage.save(function(err, newMessage){
+          if(err){
+            console.log('this is the err in joinActivity: ', err);
+            return err
+          }
+          console.log('this is the newMessage: ',newMessage);
+          return newMessage
+        });
+
+        return(activityRequest)
+
     }else{
-      console.log('you already send request to this friend exist!')
+        console.log('your already join this activity')
+        return(activityRequest)
     }
   })
 });
 
+router.post('/getActivityRequest', function(req, res){
+
+    ActivityAction.find({toUser: req.body.userID})
+    .populate('activity', 'activityTitle timeStart activityCapacity').exec(function(err, activityRequest) {
+      if (err) {
+          return {err, activityRequest}
+      }
+
+    if(activityRequest.length === 0){
+        console.log('nothing is found!')
+        res.send(activityRequest)
+        return(activityRequest)
+
+    }else{
+        console.log("activity request for this user: ", activityRequest)
+        res.send(activityRequest)
+        return(activityRequest)
+    }
+  })
+});
+
+router.post('/acceptActivityRequest', function(req, res){
+
+  ActivityAction.findOneAndRemove({$and: [
+      {toUser: req.body.toUserID},
+      {fromUser: req.body.fromUserID},
+      {activity: req.body.activityID}]}, function(err, activityRequest) {
+
+    if (err) {
+      console.log(err);
+        return {err, activityRequest}
+    }
+
+    console.log(activityRequest);
+
+        if(activityRequest){
+
+          Activity.find({_id: req.body.toUserID}, function(err, activity){
+            if(activity){
+                if(req.body.accepted){
+                  activityRequest.accepted = req.body.accepted
+                  activity.interestUser = [...activity.interestUser, ...[req.body.fromUser]]
+                }else{
+                  activityRequest.accepted = req.body.accepted
+                  res.send(activityRequest)
+                  console.log("I decline your activityRequest")
+                }
+            }else{
+              res.send('fail')
+              console.log("this user does not exist!");
+            }
+          });
+        }else{
+          res.send('fail')
+          console.log('you have not send a friend request him yet.')
+        }
+      })
+});
 
 module.exports = router;
