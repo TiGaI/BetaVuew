@@ -118,19 +118,19 @@ class DetailEvent extends Component{
              <View style={{flex: 1, backgroundColor: 'transparent'}}>
 
 
-              <Image source={{uri: 'https://iso.500px.com/wp-content/uploads/2016/04/STROHL__ST_1204-Edit-1500x1000.jpg'}}
+              <Image source={{uri: 'https://cdn.playbuzz.com/cdn/b19cddd2-1b79-4679-b6d3-1bf8d7235b89/93794aec-3f17-47a4-8801-a2716a9c4598_560_420.jpg'}}
                 resizeMode = "stretch"
                 style={{flex:1, width:null, height:null, justifyContent:'center', opacity: 0.9, padding: 0}}>
 
                   <View style={{flex: 1, justifyContent: 'flex-start', padding: 20, marginTop: 30}}>
-                    <Text style={{fontSize: 15, fontWeight: '400', color: 'white', textAlign: 'left', letterSpacing:1, textShadowOffset: {width: 1, height: 1}, textShadowRadius: 1, textShadowColor: '#2A2A2A'}}>EVENTS</Text>
-                    <Text style={{fontSize: 25, fontWeight: '600', color: '#BEBEBE', textAlign: 'left', marginTop: 10, textShadowOffset: {width: 1, height: 1}, textShadowRadius: 1, textShadowColor: '#2A2A2A'}}>San Francisco, CA</Text>
+                    <Text style={{fontSize: 15, fontWeight: '600', color: 'white', textAlign: 'left', letterSpacing:1, textShadowOffset: {width: 1, height: 1}, textShadowRadius: 0, textShadowColor: '#2A2A2A'}}>EVENTS</Text>
+                    <Text style={{fontSize: 25, fontWeight: '600', color: 'white', textAlign: 'left', marginTop: 10, textShadowOffset: {width: 1, height: 1}, textShadowRadius: 0, textShadowColor: '#2A2A2A'}}>San Francisco, CA</Text>
                   </View>
                   <View style={{flex: 2, justifyContent: 'flex-start', padding: 20}}>
-                    <Text style={{fontSize: 50, fontWeight: '700', color: 'white', textAlign: 'left', opacity: 1, textShadowOffset: {width: 1, height: 1}, textShadowRadius: 1, textShadowColor: '#2A2A2A'}}>{activityObject.activityTitle}</Text>
-                    <Text style={{fontSize: 20, fontWeight: '400', color: 'white', textAlign: 'left', marginTop: 5, textShadowOffset: {width: 1, height: 1}, textShadowRadius: 1, textShadowColor: '#2A2A2A'}}>{activityObject.activityDescription}</Text>
-                  <Text style={{fontSize: 20, fontWeight: '400', color: 'white', textAlign: 'left', marginTop: 5, textShadowOffset: {width: 1, height: 1}, textShadowRadius: 1, textShadowColor: '#2A2A2A'}}>Location: {activityObject.activityLocation}</Text>
-                  <Text style={{backgroundColor:'rgba(0,0,0,0)', textAlign:'left', color:'white', marginTop: 20, fontSize:13, fontWeight:'300',textShadowOffset: {width: 1, height: 1}, textShadowRadius: 1, textShadowColor: '#2A2A2A'}}>People going to this event</Text>
+                    <Text style={{fontSize: 50, fontWeight: '700', color: 'white', textAlign: 'left', opacity: 1, textShadowOffset: {width: 1, height: 1}, textShadowRadius: 0, textShadowColor: '#2A2A2A'}}>{activityObject.activityTitle}</Text>
+                    <Text style={{fontSize: 20, fontWeight: '600', color: 'white', textAlign: 'left', marginTop: 5, textShadowOffset: {width: 1, height: 1}, textShadowRadius: 0, textShadowColor: '#2A2A2A'}}>{activityObject.activityDescription}</Text>
+                  <Text style={{fontSize: 20, fontWeight: '600', color: 'white', textAlign: 'left', marginTop: 5, textShadowOffset: {width: 1, height: 1}, textShadowRadius: 0, textShadowColor: '#2A2A2A'}}>Location: {activityObject.activityLocation}</Text>
+                  <Text style={{backgroundColor:'rgba(0,0,0,0)', textAlign:'left', color:'white', marginTop: 20, fontSize:13, fontWeight:'600',textShadowOffset: {width: 1, height: 1}, textShadowRadius: 0, textShadowColor: '#2A2A2A'}}>People going to this event</Text>
                   <ListView
                   dataSource = {dataSource2}
                   renderRow={(rowData) =>
@@ -138,7 +138,7 @@ class DetailEvent extends Component{
                     <Image source={rowData.image} resizeMode="stretch"
                     style={{width:50, height:50, marginRight: 10, marginTop: 10, borderRadius: 25, borderWidth: 2, borderColor: 'white',justifyContent:'flex-end', alignItems:'center', padding: 15}}>
                     </Image>
-                    <Text style={{backgroundColor:'rgba(0,0,0,0)', textAlign:'center', color:'white', marginRight: 10, fontSize:10, fontWeight:'500', textShadowOffset: {width: 1, height: 1}, textShadowRadius: 1, textShadowColor: '#2A2A2A'}}>{rowData.name}</Text>
+                    <Text style={{backgroundColor:'rgba(0,0,0,0)', textAlign:'center', color:'white', marginRight: 10, marginTop: 5, fontSize:10, fontWeight:'600', textShadowOffset: {width: 1, height: 1}, textShadowRadius: 0, textShadowColor: '#2A2A2A'}}>{rowData.name}</Text>
                     </TouchableOpacity>
                   }
                   horizontal = {true}
@@ -287,10 +287,7 @@ class DetailEvent extends Component{
                    </View>
                    <View style={{flex: 1, flexDirection: 'row'}}>
                      <TouchableOpacity style={{flex: 1}} onPress={this.border}>
-                       <View style={{flex: 1, margin: 10, marginTop: 20}}><Text style={{fontSize: 12, color: 'grey', textAlign: 'center'}}>MY EVENTS</Text></View>
-                     </TouchableOpacity>
-                     <TouchableOpacity style={{flex: 1}} onPress={this.border}>
-                       <View style={{flex: 1, margin: 10, marginTop: 20}}><Text style={{fontSize: 12, color: 'grey', textAlign: 'center'}}>IMAGES</Text></View>
+                       <View style={{flex: 1, margin: 10, marginTop: 20}}><Text style={{fontSize: 15, color: 'grey', textAlign: 'left', marginLeft: 10}}>MY EVENTS</Text></View>
                      </TouchableOpacity>
                    </View>
                    <View style={{flex:1, padding: 20, marginTop:-10}}>

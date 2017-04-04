@@ -63,27 +63,28 @@ class FriendsList extends Component{
       <View style={{flex: 1}}>
       { userconnection.length > 0 ? (
         <View style={{flex: 1, backgroundColor: '#00A8BE'}}>
-          <Container>
-              <Content>
-              <View style={{flex: 1, borderWidth: 1, borderLeftWidth: 0, borderRightWidth: 0, borderBottomWidth: 0, borderColor: 'white', padding: 10 }}>
-                  <Text style={{backgroundColor:'rgba(0,0,0,0)', textAlign:'left', color:'white', marginRight: 10, fontSize:12, fontWeight:'500'}}>RECENTLY ADDED FRIENDS</Text>
-                  <ListView
-                  dataSource = {dataSource}
-                  renderRow={(rowData) =>
-                    <TouchableOpacity onPress={this.GetMessage.bind(this, rowData)}>
-                    <Image source={{uri: rowData.profileImg}} resizeMode="stretch"
-                    style={{width:80, height:80, marginRight: 10, marginTop: 30, borderRadius: 40, borderWidth: 3, borderColor: 'white',justifyContent:'flex-end', alignItems:'center', padding: 15}}>
-                    </Image>
-                    <Text style={{backgroundColor:'rgba(0,0,0,0)', textAlign:'center', color:'white', marginRight: 10, fontSize:10, fontWeight:'500'}}>{rowData.firstName}</Text>
-                    </TouchableOpacity>
-                  }
-                  horizontal = {true}
-                  showsHorizontalScrollIndicator = {false}
-                  onEndReachedThreshold = {500}
-                  />
-              </View>
-              </Content>
-          </Container>
+          {// <Container>
+          //     <Content>
+          //     <View style={{flex: 1, borderWidth: 1, borderLeftWidth: 0, borderRightWidth: 0, borderBottomWidth: 0, borderColor: 'white', padding: 10 }}>
+          //         <Text style={{backgroundColor:'rgba(0,0,0,0)', textAlign:'left', color:'white', marginRight: 10, fontSize:12, fontWeight:'500'}}>RECENTLY ADDED FRIENDS</Text>
+          //         <ListView
+          //         dataSource = {dataSource}
+          //         renderRow={(rowData) =>
+          //           <TouchableOpacity onPress={this.GetMessage.bind(this, rowData)}>
+          //           <Image source={{uri: rowData.profileImg}} resizeMode="stretch"
+          //           style={{width:80, height:80, marginRight: 10, marginTop: 30, borderRadius: 40, borderWidth: 3, borderColor: 'white',justifyContent:'flex-end', alignItems:'center', padding: 15}}>
+          //           </Image>
+          //           <Text style={{backgroundColor:'rgba(0,0,0,0)', textAlign:'center', color:'white', marginRight: 10, fontSize:10, fontWeight:'500'}}>{rowData.firstName}</Text>
+          //           </TouchableOpacity>
+          //         }
+          //         horizontal = {true}
+          //         showsHorizontalScrollIndicator = {false}
+          //         onEndReachedThreshold = {500}
+          //         />
+          //     </View>
+          //     </Content>
+          // </Container>
+        }
           <View style={{flex: 3, borderWidth: 1, borderLeftWidth: 0, borderRightWidth: 0, borderBottomWidth: 2, borderColor: 'white'}}>
                 <Text style={{backgroundColor:'white', textAlign:'left', color:'black',fontSize:12, fontWeight:'500', padding: 10}}>NEW MESSAGES</Text>
                 <ListView
