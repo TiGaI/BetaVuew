@@ -46,9 +46,9 @@ class ProfilePage extends Component{
   }
   addEvent(){
     console.log('TRYING TO GO TO CREATE EVENT PAGE', this.props)
-    // this.props.navigator.replace({
-    //   component: CreateEvent
-    // })
+    this.props.navigator.push({
+      component: CreateEvent
+    })
   }
   addFriend(){
     const {userObject} = this.props.profile;
