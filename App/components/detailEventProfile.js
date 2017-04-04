@@ -121,8 +121,8 @@ class DetailEvent extends Component{
               <Image source={{uri: 'https://iso.500px.com/wp-content/uploads/2016/04/STROHL__ST_1204-Edit-1500x1000.jpg'}}
                 resizeMode = "stretch"
                 style={{flex:1, width:null, height:null, justifyContent:'center', opacity: 0.9, padding: 0}}>
-                  <BlurView blurType="dark" blurAmount={1} style={{flex: 1}}>
-                  <View style={{flex: 1, justifyContent: 'flex-start', padding: 20, marginTop: 40}}>
+
+                  <View style={{flex: 1, justifyContent: 'flex-start', padding: 20, marginTop: 30}}>
                     <Text style={{fontSize: 15, fontWeight: '400', color: 'white', textAlign: 'left', letterSpacing:1}}>EVENTS</Text>
                     <Text style={{fontSize: 25, fontWeight: '600', color: '#BEBEBE', textAlign: 'left', marginTop: 10}}>San Francisco, CA</Text>
                   </View>
@@ -144,11 +144,18 @@ class DetailEvent extends Component{
                   horizontal = {true}
                   />
                   </View>
-                  <View style={{flex: 1, justifyContent: 'flex-end', marginBottom: 20}}>
-                    <Icon name="ios-arrow-down" style={{fontSize: 40, color: 'white', fontWeight: '800', textAlign: 'center'}}/>
-                    <Text style={{fontSize: 20, fontWeight: '700', color: 'white', textAlign: 'left', opacity: 1, textAlign: 'center', marginBottom: 50}}>Details</Text>
+                  <View style={{flex: 0, justifyContent: 'center', alignItems: 'center'}}>
+                  <TouchableOpacity >
+                   <View style={{flex: 0, backgroundColor: '#00A8BE', alignItems: 'center', padding: 10, borderRadius: 5, justifyContent: 'center'}}>
+                    <Text style={{color: 'white', fontWeight: '500', letterSpacing: 1}}>JOIN EVENT</Text>
+                   </View>
+                   </TouchableOpacity>
                   </View>
-                  </BlurView>
+                  <View style={{flex: 1, justifyContent: 'flex-end', marginBottom: 10 }}>
+                    <Icon name="ios-arrow-down" style={{fontSize: 40, color: 'white', fontWeight: '800', textAlign: 'center'}}/>
+                    <Text style={{fontSize: 20, fontWeight: '700', color: 'white', textAlign: 'left', opacity: 1, textAlign: 'center', marginBottom: 15}}>Details</Text>
+                  </View>
+
 
               </Image>
 

@@ -22,7 +22,11 @@ var activityRoute = require('./services/activityRoute');
 var messageRoute = require('./services/messageRoute');
 var actionRoute = require('./services/actionRoute');
 
+
 app.use(helmet());
+
+var s3Routes = require('./services/s3Routes.js')
+
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({ extended: true}));
@@ -33,6 +37,7 @@ app.use('/', authRoute);
 app.use('/', activityRoute);
 app.use('/', actionRoute);
 app.use('/', messageRoute);
+app.use('/', s3Routes);
 
 var userIDs = {};
 
