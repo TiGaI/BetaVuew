@@ -137,7 +137,7 @@ class ActivitiesPage extends Component {
                   dataSource = {dataSourcePrev}
                   renderRow={(val) =>
                     <TouchableOpacity onPress={this.press.bind(this, val)}>
-                    <Image source={{uri: 'https://iso.500px.com/wp-content/uploads/2016/04/STROHL__ST_1204-Edit-1500x1000.jpg'}} resizeMode="stretch" style={{width:350, height:400, marginRight: 10, justifyContent:'flex-end', alignItems:'flex-start', padding: 10}}>
+                    <Image source={{uri: 'https://img07.deviantart.net/a85d/i/2013/022/0/3/san_francisco_city_by_tt83x-d5seu41.jpg'}} resizeMode="stretch" style={{width:350, height:400, marginRight: 10, justifyContent:'flex-end', alignItems:'flex-start', padding: 10}}>
                     <Text style={{backgroundColor:'rgba(0,0,0,0)', textAlign:'center', color:'#fff', fontSize:25, fontWeight:'700', marginLeft: 10}}>{val.activityTitle}</Text>
                     <Text style={{backgroundColor:'rgba(0,0,0,0)', color:'#fff',fontSize:14, fontWeight:'600', marginLeft: 10}}>Hosted by {val.activityCreator[0].firstName} </Text>
                     </Image>
@@ -162,7 +162,7 @@ class ActivitiesPage extends Component {
                   dataSource = {dataSource}
                   renderRow={(val) =>
                     <TouchableOpacity onPress={this.press.bind(this, val)}>
-                    <Image source={{uri: 'https://iso.500px.com/wp-content/uploads/2016/04/STROHL__ST_1204-Edit-1500x1000.jpg'}} resizeMode="stretch" style={{width:350, height:400, marginRight: 10, justifyContent:'flex-end', alignItems:'flex-start', padding: 10}}>
+                    <Image source={{uri: 'https://az616578.vo.msecnd.net/files/2016/05/16/635989831137616837-380923038_san-francisco-real-estate-market-trends-3.jpg'}} resizeMode="stretch" style={{width:350, height:400, marginRight: 10, justifyContent:'flex-end', alignItems:'flex-start', padding: 10}}>
                     <Text style={{backgroundColor:'rgba(0,0,0,0)', textAlign:'center', color:'#fff', fontSize:25, fontWeight:'700', marginLeft: 10}}>{val.activityTitle}</Text>
                     <Text style={{backgroundColor:'rgba(0,0,0,0)', color:'#fff',fontSize:14, fontWeight:'600', marginLeft: 10}}>Hosted by {val.activityCreator[0].firstName} </Text>
                     </Image>
@@ -187,7 +187,7 @@ class ActivitiesPage extends Component {
                     dataSource = {dataSourceNext}
                     renderRow={(val) =>
                       <TouchableOpacity onPress={this.press.bind(this, val)}>
-                      <Image source={{uri: 'https://iso.500px.com/wp-content/uploads/2016/04/STROHL__ST_1204-Edit-1500x1000.jpg'}} resizeMode="stretch" style={{width:350, height:400, marginRight: 10,
+                      <Image source={{uri: 'https://cdn-image.travelandleisure.com/sites/default/files/styles/1600x1000/public/1444253482/DG2015-san-francisco.jpg?itok=MdRJm2Zo'}} resizeMode="stretch" style={{width:350, height:400, marginRight: 10,
                       justifyContent:'flex-end', alignItems:'flex-start', padding: 10}}>
                       <Text style={{backgroundColor:'rgba(0,0,0,0)', textAlign:'center', color:'#fff', fontSize:25, fontWeight:'700', marginLeft: 10}}>{val.activityTitle}</Text>
                       <Text style={{backgroundColor:'rgba(0,0,0,0)', color:'#fff',fontSize:14, fontWeight:'600', marginLeft: 10}}>Hosted by {val.activityCreator[0].firstName} </Text>

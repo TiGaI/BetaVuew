@@ -34,6 +34,7 @@ class DetailEvent extends Component{
   constructor(props){
     super(props);
     console.log('USERIDDDDDDDD',this.props.activityCreator[0]._id);
+    console.log('DETAILS THIS PROPS', this.props);
 
 
   }
@@ -45,7 +46,8 @@ class DetailEvent extends Component{
     }
   }
   joinActivity() {
-
+    this.props.actions.joinActivity(this.props.profile.userObject._id, this.props._id, this.props.activityCreator[0]._id)
+    console.log('JOINED activity', this.props.profile.userObject._id, this.props._id , this.props.activityCreator[0]._id)
       // var copy = Object.assign({}, value);
       // copy["activityCreator"] = this.props.profile.id
       // console.log("this is copy: ", copy)
@@ -118,7 +120,7 @@ class DetailEvent extends Component{
              <View style={{flex: 1, backgroundColor: 'transparent'}}>
 
 
-              <Image source={{uri: 'https://cdn.playbuzz.com/cdn/b19cddd2-1b79-4679-b6d3-1bf8d7235b89/93794aec-3f17-47a4-8801-a2716a9c4598_560_420.jpg'}}
+              <Image source={{uri: 'https://img07.deviantart.net/a85d/i/2013/022/0/3/san_francisco_city_by_tt83x-d5seu41.jpg'}}
                 resizeMode = "stretch"
                 style={{flex:1, width:null, height:null, justifyContent:'center', opacity: 0.9, padding: 0}}>
 
@@ -145,7 +147,7 @@ class DetailEvent extends Component{
                   />
                   </View>
                   <View style={{flex: 0, justifyContent: 'center', alignItems: 'center'}}>
-                  <TouchableOpacity >
+                  <TouchableOpacity onPress={this.joinActivity.bind(this)} >
                    <View style={{flex: 0, backgroundColor: '#00A8BE', alignItems: 'center', padding: 15, borderRadius: 5, justifyContent: 'center'}}>
                     <Text style={{color: 'white', fontWeight: '500', letterSpacing: 1}}>JOIN EVENT</Text>
                    </View>

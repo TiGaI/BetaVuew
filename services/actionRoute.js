@@ -129,6 +129,7 @@ router.post('/acceptFriendRequest', function(req, res){
 });
 
 router.post('/joinActivity', function(req, res){
+    console.log('inside joinActivity')
 
     ActivityAction.find({$and: [
         {toUser: req.body.toUserID},
