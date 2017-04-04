@@ -205,7 +205,7 @@ router.post('/acceptActivityRequest', function(req, res){
             if(activity){
                 if(req.body.accepted){
                   activityRequest.accepted = req.body.accepted
-                  activity.interestUser = [...activity.interestUser,...req.body.fromUser]
+                  activity.interestUser = [...activity.interestUser, ...[req.body.fromUser]]
                 }else{
                   activityRequest.accepted = req.body.accepted
                   res.send(activityRequest)

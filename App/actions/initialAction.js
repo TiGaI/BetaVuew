@@ -101,12 +101,8 @@ export function acceptFriendRequest(currentUserID, friendToAddID, accepted) {
             })
         }).then((response) => response.json())
           .then((responseJson) => {
-            console.log("I am here!");
-            console.log(getUserNotifications)
-            console.log(getUserNotifications(currentUserID))
             getUserNotifications(currentUserID)(dispatch);
             dispatch(doneFetching())
-            console.log('you accepted a friend')
           })
           .catch((err) => {
             console.log('error: ', err)
@@ -205,5 +201,36 @@ export function getJoinActivity(joinActivityRequest) {
     return {
         type: 'GET_JOINACTIVITY',
         joinActivityRequest
+    };
+}
+
+export function acceptActivityRequest(currentUserID, approvalUserID, activityID, accepted) {
+
+    return dispatch => {
+        dispatch(fetching());
+        console.log('currentUserID in getActivityRequest in initialAction: ', currentUserID);
+
+        fetch('http://localhost:8080//acceptActivityRequest', {
+              method: 'POST',
+              headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({
+                toUserID: currentUserID,
+                fromUserID: approvalUserID,
+                activityID: activityID,
+                accepted: accepted
+              })
+            }).then((response) => response.json())
+            .then((responseJson) => {
+
+
+                getActivityRequest(currentUserID)(dispatch);
+                dispatch(doneFetching())
+            })
+            .catch((err) => {
+              console.log('error: ', err)
+            });
     };
 }

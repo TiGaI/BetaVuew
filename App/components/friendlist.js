@@ -19,17 +19,12 @@ class FriendsList extends Component{
   }
   GetMessage(toUserObject){
     this.props.messagerActions.getMessage(this.props.profile.userObject._id, toUserObject)
-    // setTimeout(() => {
-
-    // }, 2000)
-  }
-  componentDidUpdate(){
-    if(this.props.message.message.length > 0){
-      this.props.navigator.push({
-          component: Message,
-          backButtonTitle: 'Chat'
-        });
-    }
+    setTimeout(() => {
+    this.props.navigator.push({
+        component: Message,
+        backButtonTitle: 'Chat'
+      });
+    }, 3000)
   }
   render(){
     // const dataSource2 = ds.cloneWithRows(favs);

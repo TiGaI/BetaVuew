@@ -15,7 +15,7 @@ router.post('/getMessage', function(req, res) {
             { $and: [{toUser: req.body.toUserID._id}, {fromUser: req.body.fromUserID}]},
             {$and: [{toUser: req.body.fromUserID}, {fromUser: req.body.toUserID._id}] } ]}
           )
-    .sort('-dateCreated')
+    .sort('-dateCreated').limit(20)
     .exec(
     function(err, messages) {
       console.log(messages, 'this is the message')

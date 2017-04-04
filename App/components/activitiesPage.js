@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { AppRegistry, ScrollView, StyleSheet, Text, View,
   TextInput, TouchableOpacity, NavigatorIOS, ListView, Alert, AsyncStorage, Image } from 'react-native';
 import { Item, Input, Tab, Tabs,Spinner } from 'native-base';
+
 import Swiper from 'react-native-swiper'
 import randomcolor from 'randomcolor'
 
@@ -71,6 +72,7 @@ class ActivitiesPage extends Component {
   endReached(){
     const {activitiesPageState, actions} = this.props
     var category = activitiesPageState.category;
+
     var prevCategory = events.prev(category);
     var nextCategory = events.next(category);
     var length = activitiesPageState.populatedActivities.length + 10
