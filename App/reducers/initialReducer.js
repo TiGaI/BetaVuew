@@ -7,7 +7,8 @@ export function populatedActivities(state = {
     nextCategory: []
   },
   category: "Sport",
-  notifications: []
+  notifications: [],
+  joinNotification: []
 }, action) {
     switch (action.type) {
     case 'POPULATED_ACTIVITIES':
@@ -16,18 +17,21 @@ export function populatedActivities(state = {
             category: action.category
         });
     case 'GET_NOTIFICATIONS':
-    console.log('i am here');
           return Object.assign({}, state, {
               notifications: action.notifications
+          });
+    case "GET_JOINACTIVITY":
+          return Object.assign({}, state, {
+            joinNotification: action.joinActivityRequest
           });
     case "FETCHING_DATA":
         return Object.assign({}, state, {
           fetchingData: true
         })
-        case "DONE_FETCHING":
-            return Object.assign({}, state, {
+    case "DONE_FETCHING":
+          return Object.assign({}, state, {
               fetchingData: false
-            })
+          })
     case "SELECT_ACTIVITY":
       return Object.assign({}, state, {
         selectedActivity: action.selectedActivity,

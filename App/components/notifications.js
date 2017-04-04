@@ -14,8 +14,9 @@ import { connect } from 'react-redux';
 class Notifications extends Component{
   constructor(props){
     super(props);
-    //setting loading and
+    //setting loading status
     this.props.actions.getUserNotifications(this.props.profile.userObject._id)
+    this.props.actions.getActivityRequest(this.props.profile.userObject._id)
   }
   onFriendRequest(friendToAddID, choice){
       this.props.actions.acceptFriendRequest(friendToAddID, this.props.profile.userObject._id, choice)
@@ -67,7 +68,19 @@ class Notifications extends Component{
         </View>
 )}
 }
-
+// { joinNotification.length > 0 ? (
+//   <Container>
+//       <Content>
+//           {notification}
+//       </Content>
+//   </Container>
+// ) : (
+//   <Container>
+//       <Content>
+//         <Text>You do not have any notifications</Text>
+//       </Content>
+//   </Container>
+// )}
 
 function mapStateToProps(state) {
 	return {

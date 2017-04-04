@@ -47,7 +47,6 @@ export function getActivities(populatedActivities, category) {
     };
 }
 
-
 export function getNotifications(notifications) {
     return {
         type: 'GET_NOTIFICATIONS',
@@ -141,5 +140,70 @@ export function getUserNotifications(currentUserID) {
             .catch((err) => {
               console.log('error: ', err)
             });
+    };
+}
+
+export function joinActivity(currentUserID, activityID, activityOwner) {
+
+    return dispatch => {
+        dispatch(fetching());
+        console.log('currentUserID in joinActivity in initialAction: ', currentUserID);
+        console.log('currentUserID in joinActivity in initialAction: ', activityID);
+
+        fetch('http://localhost:8080/joinActivity', {
+              method: 'POST',
+              headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({
+                fromUserID: currentUserID,
+                activityID: activityID,
+                toUserID: activityOwner
+              })
+            }).then((response) => response.json())
+            .then((responseJson) => {
+
+                dispatch(doneFetching())
+            })
+            .catch((err) => {
+              console.log('error: ', err)
+            });
+    };
+}
+
+export function getActivityRequest(currentUserID) {
+
+    return dispatch => {
+        dispatch(fetching());
+        console.log('currentUserID in getActivityRequest in initialAction: ', currentUserID);
+
+        fetch('http://localhost:8080/getActivityRequest', {
+              method: 'POST',
+              headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({
+                userID: currentUserID
+              })
+            }).then((response) => response.json())
+            .then((responseJson) => {
+
+                var activityJoinObject = [...responseJson];
+
+                dispatch(getJoinActivity(activityJoinObject));
+                dispatch(doneFetching())
+            })
+            .catch((err) => {
+              console.log('error: ', err)
+            });
+    };
+}
+
+export function getJoinActivity(joinActivityRequest) {
+    return {
+        type: 'GET_JOINACTIVITY',
+        joinActivityRequest
     };
 }

@@ -133,6 +133,11 @@ var friendRequestSchema = new mongoose.Schema({
 );
 
 var activityActionSchema = new mongoose.Schema({
+  fromUser: {
+    type: mongoose.Schema.Types.ObjectId,
+    required: true,
+    ref: 'User'
+  },
   toUser: {
     type: mongoose.Schema.Types.ObjectId,
     required: true,

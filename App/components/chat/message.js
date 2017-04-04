@@ -50,6 +50,8 @@ determineUser(){
 componentWillMount() {
   this._isMounted = true;
 
+this.props.messagerActions.
+
 var messagesForThisChat = this.props.message.message.map((x) => {
 if(x.fromUser == this.props.profile.userObject._id){
   return {_id: x._id, text: x.body,
