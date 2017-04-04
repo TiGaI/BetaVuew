@@ -20,13 +20,13 @@ class ApplicationTabs extends Component {
 
 		if (tab.key === 'notifications') {
 			return (
-				<MessageIndex />
+				<Notifications />
 			);
 		}
 
 		if (tab.key === 'chat') {
 			return (
-				<CreateEvent />
+				<MessageIndex />
 			);
 		}
 
