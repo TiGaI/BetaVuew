@@ -18,19 +18,25 @@ class FriendsList extends Component{
     this.props.messagerActions.getRecentlyAddedFriend(this.props.profile.userObject._id)
   }
   GetMessage(toUserObject){
-    console.log('inside friendlist of toUserObject: ', toUserObject)
     this.props.messagerActions.getMessage(this.props.profile.userObject._id, toUserObject)
+    // setTimeout(() => {
+
+    // }, 2000)
+  }
+  componentDidUpdate(){
+    if(this.props.message.message.length > 0){
+      this.props.navigator.push({
+          component: Message,
+          backButtonTitle: 'Chat'
+        });
+    }
   }
   render(){
     // const dataSource2 = ds.cloneWithRows(favs);
     const userconnection = this.props.message.userconnection;
-    console.log(this.props)
-    if(this.props.message.chatingUser){
-      this.props.navigator.push({
-        component: Message,
-        backButtonTitle: 'Chat'
-      });
-    }
+
+
+
     if(userconnection.length > 0){
       var ds = new ListView.DataSource({rowHasChanged: (r1,r2) => r1 !== r2});
       var dataSource = ds.cloneWithRows(userconnection);

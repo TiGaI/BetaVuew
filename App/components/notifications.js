@@ -21,7 +21,6 @@ class Notifications extends Component{
       this.props.actions.acceptFriendRequest(friendToAddID, this.props.profile.userObject._id, choice)
   }
   render(){
-    console.log("this is at swiperView.js and this is this.prop: ", this.props)
     const {notifications} = this.props.activityPageState
 
     if(notifications){
@@ -50,7 +49,6 @@ class Notifications extends Component{
 
     }
 
-
     return (
         <View style={{flex: 1}}>
         { notifications.length > 0 ? (
@@ -67,8 +65,7 @@ class Notifications extends Component{
           </Container>
         )}
         </View>
-)
-}
+)}
 }
 
 
@@ -85,6 +82,5 @@ function mapDispatchToProps(dispatch) {
 		actions: bindActionCreators(actionCreators, dispatch)
 	};
 }
-
 
 export default connect(mapStateToProps, mapDispatchToProps)(Notifications);

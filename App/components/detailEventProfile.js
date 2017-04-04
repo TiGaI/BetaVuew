@@ -32,9 +32,6 @@ var favs = [
 class DetailEvent extends Component{
   constructor(props){
     super(props);
-    console.log('USERIDDDDDDDD',this.props.activityCreator[0]._id);
-
-
   }
   viewStyle() {
     return {
@@ -59,11 +56,9 @@ class DetailEvent extends Component{
       //  })
   }
   addFriend(){
-
     const {userObject} = this.props.profile;
     const {activityCreator, actions} =this.props;
     actions.sendFriendRequest(userObject._id , activityCreator[0]._id);
-    console.log('ADDEDDDDDEDDDD FRIEND');
   }
   render(){
     const {userObject} = this.props.profile;
@@ -71,15 +66,8 @@ class DetailEvent extends Component{
     const {selectedActivityOwner} = activitiesPageState;
     const {selectedActivity} = activitiesPageState;
 
-
-    console.log("this is userObject in Profile: ", userObject)
-    console.log("THis is activitiesPageState: ", selectedActivityOwner)
-
-
     const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
     const dataSource = ds.cloneWithRows([]);
-
-   console.log('AYYYYYYYYYYYYEEEEEE', this.props.activitiesPageState )
 
    var activityObject = this.props
 
@@ -95,9 +83,6 @@ class DetailEvent extends Component{
      if(userObject._id === this.props.userObject.profile.id || connectionLength > 0){
        alreadyFriend = true
      }
-   }
-   if (selectedActivityOwner) {
-     console.log("Activities", selectedActivityOwner.activities)
    }
 
    return (
@@ -287,7 +272,6 @@ function mapStateToProps(state) {
        login: state.get('login'),
        profile: state.get('profile'),
        activitiesPageState: state.get('activityPageState')
-
    };
 }
 

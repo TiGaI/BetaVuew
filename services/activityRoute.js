@@ -28,7 +28,6 @@ var upload = multer({
 
 router.post('/getMyActivitiesInfo', function(req, res) {
     var profile = req.body.userID
-    console.log("Got in here", req.body)
     User.findById(profile)
     .populate('activities', 'activityTitle activityImages timeStart timeEnd')
     .exec(function(err, user) {
@@ -105,8 +104,6 @@ router.post('/createActivity', upload.fields([{name: 'file', maxCount: 4},
 //populate activities by category
 
 router.post('/populateActivities', function(req, res) {
-  console.log("INSIDE POPULATE ACTIVITIES")
-  console.log("CATEGORY", req.body.category)
 
   var currActivities;
   var prevActivities;

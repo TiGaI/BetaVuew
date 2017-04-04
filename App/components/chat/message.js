@@ -5,7 +5,7 @@ import {
   Text,
   View,
 } from 'react-native';
-
+import { Spinner } from 'native-base';
 import {GiftedChat, Actions, Bubble} from 'react-native-gifted-chat';
 import CustomActions from './CustomActions';
 import CustomView from './CustomView';
@@ -50,9 +50,6 @@ determineUser(){
 componentWillMount() {
   this._isMounted = true;
 
-
-  console.log('messagesForThisChat is ', this.props)
-
 var messagesForThisChat = this.props.message.message.map((x) => {
 if(x.fromUser == this.props.profile.userObject._id){
   return {_id: x._id, text: x.body,
@@ -80,25 +77,13 @@ if(x.fromUser == this.props.profile.userObject._id){
   this._isMounted = false;
 }
 
-//
-// {
-//   _id: Math.round(Math.random() * 1000000),
-//   text: 'Are you building a chat app?',
-//   createdAt: new Date(Date.UTC(2016, 7, 30, 17, 20, 0)),
-//   user: {
-//     _id: 2,
-//     name: 'React Native',
-//   },
-// },
 componentDidMount(){
 
-this.socket.on(this.props.profile.userObject._id, function(messageObject){
-console.log("receiving message: ", messageObject)
-
-    if(messageObject.fromUserID == this.props.message.chatingUser._id){
-        this.onReceive(messageObject);
+var self = this;
+this.socket.on(this.props.profile.userObject._id.toString(), function(messageObject){
+    if(messageObject.fromUserID == self.props.message.chatingUser._id){
+        self.onReceive(messageObject);
     }
-
   })
 }
 
@@ -106,13 +91,13 @@ onReceive(messageObject) {
   this.setState((previousState) => {
     return {
       messages: GiftedChat.append(previousState.messages, {
-        _id: messageObject._id,
-        text: messageObject.body,
+        _id: messageObject.body[0]._id,
+        text: messageObject.body[0].text,
         createdAt: new Date(),
         user: {
           _id: 2,
           name: this.props.message.chatingUser.firstName + ' ' + this.props.message.chatingUser.lastName,
-          avatar: this.props.message.chatingUser.profileImg,
+          avatar: this.props.message.chatingUser.profileImg
         },
       }),
     };
@@ -153,31 +138,7 @@ onSend(messages = []) {
                   body: messages}
   //emitting messages
   this.socket.emit('sendMessage', message)
-
-
 }
-
-// answerDemo(messages) {
-//   if (messages.length > 0) {
-//     if ((messages[0].image || messages[0].location) || !this._isAlright) {
-//       this.setState((previousState) => {
-//         return {
-//           typingText: 'React Native is typing'
-//         };
-//       });
-//     }
-//   }
-//
-//
-//     this.setState((previousState) => {
-//       return {
-//         typingText: null,
-//       };
-//     });
-//   }, 1000);
-// }
-
-
 renderCustomActions(props) {
   if (Platform.OS === 'ios') {
     return (
@@ -209,7 +170,10 @@ renderBubble(props) {
       {...props}
       wrapperStyle={{
         left: {
-          backgroundColor: '#f0f0f0',
+          backgroundColor: '#1bc1e2',
+        },
+        right: {
+          backgroundColor: '#ffb200',
         }
       }}
     />
@@ -236,23 +200,34 @@ renderFooter(props) {
   }
   return null;
 }
-
 render() {
+
   return (
-    <GiftedChat
-      messages={this.state.messages}
-      onSend={this.onSend}
-      loadEarlier={this.state.loadEarlier}
-      onLoadEarlier={this.onLoadEarlier}
-      isLoadingEarlier={this.state.isLoadingEarlier}
-      user={{
-        _id: 1,
-      }}
-      renderActions={this.renderCustomActions}
-      renderBubble={this.renderBubble}
-      renderCustomView={this.renderCustomView}
-      renderFooter={this.renderFooter}
-    />
+    <View style={{flex: 1, justifyContent: 'center'}}>
+    { this.state.messages && this.props.message.chatingUser ? (
+
+                <GiftedChat
+                   messages={this.state.messages}
+                   onSend={this.onSend}
+                   loadEarlier={this.state.loadEarlier}
+                   onLoadEarlier={this.onLoadEarlier}
+                   isLoadingEarlier={this.state.isLoadingEarlier}
+                   user={{
+                     _id: 1,
+                     avatar: this.props.profile.userObject.profileImg
+                   }}
+
+                   renderActions={this.renderCustomActions}
+                   renderBubble={this.renderBubble}
+                   renderCustomView={this.renderCustomView}
+                   renderFooter={this.renderFooter}
+                 />
+
+    ) : (
+        <Spinner color='green'/>
+    )}
+      </View>
+
   );
 }
 }

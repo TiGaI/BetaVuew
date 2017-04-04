@@ -22,12 +22,10 @@ var image1 = {uri: 'https://upload.wikimedia.org/wikipedia/commons/3/38/Two_danc
 var events = ['Sport' , 'Art' , 'Music' ]
 Array.prototype.next = function(item) {
   var length = this.length
-  console.log("NEXT >< LENGTH", length)
   if (item === null) {
     return this[0];
   }
   var i = this.indexOf(item);
-  console.log("NEXT <> this is i", i)
   if (i === this.length - 1){
     return this[0];
   } else {
@@ -48,10 +46,8 @@ Array.prototype.prev = function(item) {
 };
 
 class ActivitiesPage extends Component {
-
   constructor(props){
     var prevCategory = events.prev("Sport");
-    console.log("First Time")
     var nextCategory = events.next("Sport");
     super(props);
     this.props.actions.populatedActivities("Sport", prevCategory, nextCategory, 10 )
@@ -65,7 +61,6 @@ class ActivitiesPage extends Component {
     });
   }
   press(val) {
-    console.log("val", val)
     this.props.loginActions.getMyActivitiesInfor(val.activityCreator[0]._id, val);
     this.props.navigator.push({
       component: DetailEvent,
@@ -76,7 +71,6 @@ class ActivitiesPage extends Component {
   endReached(){
     const {activitiesPageState, actions} = this.props
     var category = activitiesPageState.category;
-    console.log('************', category)
     var prevCategory = events.prev(category);
     var nextCategory = events.next(category);
     var length = activitiesPageState.populatedActivities.length + 10
@@ -89,9 +83,7 @@ class ActivitiesPage extends Component {
     } else {
       var index = context.state.index - 1
     }
-    console.log("INDEXXXX: ", index)
     var category = events[index]
-    console.log("This is the category after swipe: ", category)
     var prevCategory = events.prev(category);
     var nextCategory = events.next(category);
     var length = activitiesPageState.populatedActivities.length + 10
@@ -100,7 +92,6 @@ class ActivitiesPage extends Component {
   }
   render() {
     const {activitiesPageState} = this.props
-    console.log('ACTIVITIES PAGE PROPSSSSSS', this.props);
 
     const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 

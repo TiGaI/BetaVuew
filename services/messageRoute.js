@@ -57,7 +57,6 @@ router.post('/sendMessage', function(req, res) {
 });
 
 router.post('/getNewlyAddedFriend', function(req, res) {
-    console.log('INSIDE GETNEWFRIEND ROUTE', req.body.toUserID);
     User.findById(req.body.toUserID)
     .populate('connections', 'firstName lastName profileImg').exec(
     function(err, user) {

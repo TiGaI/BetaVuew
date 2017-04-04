@@ -7,8 +7,7 @@ const User= require('../models/models').User;
 // TODO: message
 //Get User get the conversation of each connection.
 router.post('/facebookAuth', function(req, res) {
-    // req.body.id
-    console.log('EMAIL', req.body.result)
+
     var profile = req.body.result
     User.findOne({email: profile.email})
     .populate('activities', 'activityTitle activityImages timeStart timeEnd')
@@ -49,7 +48,6 @@ router.post('/linkedinAuth', function(req, res) {
 
 // TODO: return Current user
 router.get('/getCurrentUser', function(req, res) {
-  console.log('FINDING CURRENT USER')
     User.findOne({_id: req.body.userID}, function(err, user) {
             if (err) {
                 return {err, user}
@@ -74,6 +72,7 @@ router.post('/editUser', function(req, res) {
 });
 
 module.exports = router;
+
 //Facebook Login
 // passport.use(new FacebookStrategy({
 //     clientID: FACEBOOK_APP_ID,

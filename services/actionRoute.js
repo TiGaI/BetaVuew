@@ -13,7 +13,6 @@ router.use(bodyParser.urlencoded({ extended: true }));
 router.use(bodyParser.json())
 
 router.post('/sendFriendRequest', function(req, res){
-  console.log('req.body', req.body);
 
   FriendRequest.find({$and: [
           {toUser: req.body.toUser},
@@ -93,9 +92,6 @@ router.post('/acceptFriendRequest', function(req, res){
         {_id: req.body.toUserID},
         {_id: req.body.fromUserID}]},function(err, users){
         if(users){
-            console.log('users: ', users)
-
-
             if(req.body.accepted){
               friendRequest.accepted = req.body.accepted
 
@@ -131,9 +127,6 @@ router.post('/acceptFriendRequest', function(req, res){
       console.log('you have not send a friend request him yet.')
     }
   })
-
-
-
 });
 
 router.post('/joinActivity', function(req, res){

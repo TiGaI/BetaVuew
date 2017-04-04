@@ -36,8 +36,6 @@ var favs = [
 class ProfilePage extends Component{
   constructor(props){
     super(props)
-      // this.props.loginActions.getMyActivitiesInfor(val.activityCreator[0]._id);
-      // console.log('PROFILE PAGE THIS PROPS',this.props)
   }
   viewStyle() {
     return {
@@ -55,14 +53,9 @@ class ProfilePage extends Component{
   addFriend(){
     const {userObject} = this.props.profile;
     const {activitiesPageState, actions} =this.props;
-    console.log("TO USER: ", activitiesPageState.selectedActivityOwner)
-    console.log("FROM USER: ", userObject._id)
-    console.log("PROPS IN TEST", this.props)
     actions.sendFriendRequest(userObject._id , activitiesPageState.selectedActivityOwner)
-    console.log('ADDEDDDDDEDDDD FRIEND')
   }
   render(){
-    console.log("PROPS IN RENDER >>>> ", this.props)
     const {userObject} = this.props.profile;
     const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
     const dataSource = ds.cloneWithRows(userObject.activities);

@@ -5,7 +5,9 @@ const path = require('path');
 const app = express();
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
-const bodyParser = require('body-parser')
+const bodyParser = require('body-parser');
+
+var helmet = require('helmet');
 
 const mongoose = require('mongoose');
 var connect = process.env.MONGODB_URI;
@@ -20,6 +22,7 @@ var activityRoute = require('./services/activityRoute');
 var messageRoute = require('./services/messageRoute');
 var actionRoute = require('./services/actionRoute');
 
+app.use(helmet());
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({ extended: true}));
@@ -34,14 +37,10 @@ app.use('/', messageRoute);
 var userIDs = {};
 
 io.on('connection', function(socket) {
-  console.log('connected');
   var socketUser;
 
   socket.on('userJoined', function(userID) {
-    console.log(userID)
-
     try {
-      console.log('adding user', userID);
       socket.userID = userID;
       userIDs[userID] = userID;
     } catch ( e ) {
@@ -50,11 +49,8 @@ io.on('connection', function(socket) {
   });
 
   socket.on('sendMessage', function(messageObject){
-
-      console.log(messageObject);
-
-      socket.emit(messageObject.toUserID, messageObject)
-  })
+      socket.broadcast.emit(messageObject.toUserID.toString(), messageObject)
+  });
 
   socket.on('typing', function(){
 
