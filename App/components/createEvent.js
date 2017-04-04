@@ -10,8 +10,6 @@ import { AppRegistry, ScrollView, StyleSheet,
   import * as actionCreators from '../actions/initialAction';
   import * as loginAction from '../actions/loginAction';
 
-  import ImagePickerComp from './imagePicker'
-
   var t = require('tcomb-form-native');
   var Form = t.form.Form;
 
@@ -53,6 +51,7 @@ import { AppRegistry, ScrollView, StyleSheet,
     }
   };
 
+
   var CreateEvent = React.createClass({
 
     getInitialState() {
@@ -63,7 +62,7 @@ import { AppRegistry, ScrollView, StyleSheet,
           actvityLocation: "",
           activityCategory: "",
           typeofRoom: "",
-          actvityCapacity: 3
+          actvityCapacity: ""
         },
         photoData: null
       };
@@ -81,10 +80,7 @@ import { AppRegistry, ScrollView, StyleSheet,
             type: 'image/jpeg',
             name:  imgTitle
           });
-          var value = this.refs.form.getValue();
-          console.log(value);
-          this.setState({photoData: formData})
-
+          this.setState({photoData: formData});
           //    fetch('http://localhost:8080/postToS3', {
           //      method: 'POST',
           //      headers: {
@@ -105,27 +101,30 @@ import { AppRegistry, ScrollView, StyleSheet,
       },
 
       onChange(value) {
-        this.setState({value: this.refs.form.getValue()});
-        console.log(this.state.value);
+        this.setState({ value });
       },
+
       onPress: function (){
-        console.log("PHotoData", this.state.photoData)
-        var s3 = function(){
+        var self = this
+        console.log("PHotoData", self.state.photoData)
+        var s3 = function(self){
           console.log("IN S3")
           return fetch('http://localhost:8080/postToS3', {
               method: 'POST',
               headers: {
                 'Content-Type': 'multipart/form-data'
               },
-              body: this.state.photoData
+              body: photo
             })
             .then(resp => resp.json())
             .then(resp => {
               console.log('success upload', resp.file.location);
               copy["activityImages"] = [resp.file.location];
+              return copy;
             })
         }
         var createActivity = function() {
+          console.log("CreactActivity", copy)
           return fetch("http://localhost:8080/createActivity", {
             method: 'POST',
             headers: {
@@ -137,8 +136,9 @@ import { AppRegistry, ScrollView, StyleSheet,
           })
         }
         var doMyShit = function(photoAdded){
+          console.log("IS PHOTO ADDED", photoAdded)
           if (photoAdded){
-            return s3().then(createActivity()).catch((resp => console.log('err upload', resp)));
+            return s3(self).then(createActivity).catch((resp => console.log('err upload', resp)));
           } else {
             return createActivity().catch((resp => console.log('err upload', resp)));
           }
@@ -148,7 +148,11 @@ import { AppRegistry, ScrollView, StyleSheet,
           var copy = Object.assign({}, value);
           copy["activityCreator"] = this.props.profile.userObject._id
           var photoAdded = (!!this.state.photoData);
-          this.setState({value});
+          if (photoAdded) {
+            var photo = this.state.photoData;
+          }
+          this.setState({value: null, photoData: null});
+          console.log(photoAdded)
           doMyShit(photoAdded);
 
         }
@@ -191,7 +195,7 @@ import { AppRegistry, ScrollView, StyleSheet,
           type={Activity}
           options={options}
           value={this.state.value}
-          onChange ={this.onChange}
+          onChange ={this.onChange.bind(this)}
           />
           <TouchableHighlight style={styles.button} onPress={this.pickImage} underlayColor = '#99d9f4'>
           <Text style={styles.buttonText}>Upload Photo</Text>
