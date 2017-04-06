@@ -9,6 +9,7 @@ import ProfilePage from './myProfilePage';
 import CreateEvent from './createEvent';
 import Notifications from './notifications';
 import MessageIndex from './messageIndex';
+import CreatEventIndex from './createEventindex';
 
 class ApplicationTabs extends Component {
 	_renderTabContent(tab) {
@@ -33,7 +34,7 @@ class ApplicationTabs extends Component {
 		if (tab.key === 'profile') {
 
 			return (
-					<ProfilePage />
+					<CreatEventIndex />
 			);
 		}
 

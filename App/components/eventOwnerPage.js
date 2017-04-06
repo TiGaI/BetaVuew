@@ -33,15 +33,17 @@ var favs = [
 {name:"ART", homes : 18, image: image5}
 ]
 
-class ProfilePage extends Component{
+class EventOwner extends Component{
   constructor(props){
     super(props)
+    console.log('EVENT OWNER',this.props.activitiesPageState.selectedActivityOwner)
   }
   viewStyle() {
     return {
       flex: 2,
       backgroundColor: 'white',
-      justifyContent: 'center'
+      justifyContent: 'center',
+      paddingTop: 40
     }
   }
   addEvent(){
@@ -58,7 +60,7 @@ class ProfilePage extends Component{
   render(){
     const {userObject} = this.props.profile;
     const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
-    const dataSource = ds.cloneWithRows(userObject.activities);
+    const dataSource = ds.cloneWithRows(this.props.activitiesPageState.selectedActivityOwner.activities);
 
     if(userObject){
       const profileImg = userObject.profileImg;
@@ -83,17 +85,11 @@ class ProfilePage extends Component{
                 <Container>
                   <Content>
                     <View style={styles.profileBox}>
-                      <Thumbnail style={{marginTop: 10, height: 100, width: 100, borderRadius: 50}} source={{uri: userObject.profileImg }} />
-                      <Text style={{textAlign: 'center', fontWeight: '400', fontSize: 25, marginTop: 5}}>{userObject.firstName + " " + userObject.lastName}</Text>
+                      <Thumbnail style={{marginTop: 10, height: 100, width: 100, borderRadius: 50}} source={{uri: this.props.activitiesPageState.selectedActivityOwner.profileImg }} />
+                      <Text style={{textAlign: 'center', fontWeight: '400', fontSize: 25, marginTop: 5}}>{this.props.activitiesPageState.selectedActivityOwner.firstName + " " + this.props.activitiesPageState.selectedActivityOwner.lastName}</Text>
                       <View style={{flex: 1, flexDirection: 'row'}}>
-                        <TouchableOpacity style={{flex: 1}} onPress={this.addEvent.bind(this)}>
-                        <View style={{flex: 1, backgroundColor: '#00A8BE', alignItems: 'center', padding: 12,
-                         margin: 20, borderRadius: 35}}>
-                         <Text style={{color: 'white', fontWeight: '500', letterSpacing: 1}}>CREATE EVENT</Text>
-                         </View>
-                          </TouchableOpacity>
                       </View>
-                      <View style={{flex:1, flexDirection: 'row'}}>
+                      <View style={{flex:1, flexDirection: 'row', marginTop: 20}}>
                         <View style={{flex: 1, backgroundColor: 'white', alignItems: 'center', padding: 10,
                       borderColor: 'lightgrey', borderStyle: 'solid', borderWidth: 1, borderLeftWidth: 0, borderRightWidth: 0,marginLeft: 10}}>
                           <Text>{userObject.connections.length}</Text>
@@ -121,7 +117,7 @@ class ProfilePage extends Component{
                       dataSource = {dataSource}
                       renderRow={(rowData) =>
                         <TouchableOpacity >
-                        <Image source={{uri: 'https://iso.500px.com/wp-content/uploads/2016/04/STROHL__ST_1204-Edit-1500x1000.jpg'}} resizeMode="stretch" style={{width:150, height:150, marginRight: 10, justifyContent:'flex-end', alignItems:'center', padding: 15}}>
+                        <Image source={{uri: 'https://iso.500px.com/wp-content/uploads/2016/04/STROHL__ST_1204-Edit-1500x1000.jpg'}} resizeMode="stretch" style={{width:200, height:200, marginRight: 10, justifyContent:'flex-end', alignItems:'center', padding: 15}}>
                         </Image>
                         <Text style={{backgroundColor:'rgba(0,0,0,0)', textAlign:'left', color:'black', fontSize:17, fontWeight:'500'}}>{rowData.activityTitle}</Text>
 
@@ -164,4 +160,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ProfilePage);
+export default connect(mapStateToProps, mapDispatchToProps)(EventOwner);
