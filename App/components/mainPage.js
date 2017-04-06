@@ -80,7 +80,7 @@ class MainPage extends Component {
       <View style={{flex: 1, alignItems: 'center'}}>
       <TouchableOpacity onPress={this.category.bind(this)}>
       <Text
-      style={{borderColor: 'white', borderWidth: 1, borderRadius: 5, marginTop: 150, backgroundColor: 'white', width: 275, padding: 15, color: 'black', textAlign: 'center'}}
+      style={{borderColor: 'white', borderWidth: 1, marginTop: 150, backgroundColor: 'white', width: 275, padding: 15, color: 'grey', textAlign: 'center', fontSize: 18}}
       placeholder= 'Select a category'
       >Select a category</Text>
       </TouchableOpacity>
@@ -91,7 +91,7 @@ class MainPage extends Component {
     )
   }
 }
-var sports: [{name: 'Baseball'}, {name: 'Basketball'},{name: 'Beach Volleyball'},{name: 'Hiking'},{name: 'Running'},{name: 'Soccer'},{name: 'Tennis'}];
+var sports = [{name: 'Baseball'}, {name: 'Basketball'},{name: 'Beach Volleyball'},{name: 'Hiking'},{name: 'Running'},{name: 'Soccer'},{name: 'Tennis'}];
 class Categories extends Component {
   constructor(props){
     super(props);
@@ -104,15 +104,18 @@ class Categories extends Component {
   render(){
     return (
       <View style={{flex: 1}}>
+      <List>
       <ListView
         dataSource={this.state.dataSource}
-        renderRow={(rowData) => <List>
-
+        renderRow={(rowData) =>
+                <TouchableOpacity>
+                <ListItem>
                     <Text>{rowData.name}</Text>
                 </ListItem>
-          )
-        </List>}
+                </TouchableOpacity>
+        }
       />
+      </List>
 
       </View>
     )
